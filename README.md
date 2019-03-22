@@ -44,7 +44,7 @@ dep ensure
 ### Installation
 
 To use this tool, install it from code with `make install`, `go install` directly,
-or `go get github.com/infobloxopen/protoc-gen-gorm`.
+or `go get github.com/partitio/protoc-gen-gorm`.
 
 ### Usage
 
@@ -67,7 +67,7 @@ the field options `[(gorm.field).tag = {..., tag: value, ...}]`.
 - Interface hooks for before and after each conversion that can be implemented
   to add custom handling.
 
-Any services with the `option (gorm.server).autogen = true` will have basic grpc server generated:
+Any services with the `option (gorm.server).autogen = true` will have basic go-micro server generated:
 
 - For service methods with names starting with `Create|Read|Update|Delete`
 generated implementation will call basic CRUD handlers.
@@ -92,7 +92,7 @@ To leverage DB specific features, specify the DB engine during generation using
 the `--gorm_out="engine={postgres,...}:{path}"`. Currently only Postgres has
 special type support, any other choice will behave as default.
 
-The generated code can also integrate with the grpc server gorm transaction middleware provided
+The generated code can also integrate with the ~~go-micro server~~ gorm transaction middleware provided
 in the [atlas-app-toolkit](https://github.com/infobloxopen/atlas-app-toolkit#middlewares)
 using the service level option `option (gorm.server).txn_middleware = true`.
 
