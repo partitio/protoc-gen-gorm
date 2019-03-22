@@ -524,7 +524,7 @@ func (p *OrmPlugin) generateDBSetup(service autogenService) error {
 }
 
 func (p OrmPlugin) generateEmptyBody(outType generator.Object) {
-	p.P(`return &`, p.TypeName(outType), `{}, nil`)
+	p.P(`return nil`)
 	p.P(`}`)
 }
 
