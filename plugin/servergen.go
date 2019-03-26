@@ -18,6 +18,8 @@ const (
 	listService      = "List"
 )
 
+var crudMethods = []string{createService, readService, updateService, deleteService, deleteSetService, listService}
+
 type autogenService struct {
 	*descriptor.ServiceDescriptorProto
 	ccName            string
@@ -57,22 +59,22 @@ func (p *OrmPlugin) parseServices(file *generator.FileDescriptor) {
 			inType, outType, methodName := p.getMethodProps(method)
 			var verb, fmName, baseType string
 			var follows bool
-			if methodName == createService {
+			if strings.HasPrefix(methodName, createService) {
 				verb = createService
 				follows, baseType = p.followsCreateConventions(inType, outType, methodName)
-			} else if methodName == readService {
+			} else if strings.HasPrefix(methodName, readService) {
 				verb = readService
 				follows, baseType = p.followsReadConventions(inType, outType, methodName)
-			} else if methodName == updateService {
+			} else if strings.HasPrefix(methodName, updateService) {
 				verb = updateService
 				follows, baseType, fmName = p.followsUpdateConventions(inType, outType, methodName)
-			} else if methodName == deleteService {
+			} else if strings.HasPrefix(methodName, deleteService) {
 				verb = deleteService
 				follows, baseType = p.followsDeleteConventions(inType, outType, method)
-			} else if methodName == deleteSetService {
+			} else if strings.HasPrefix(methodName, deleteSetService) {
 				verb = deleteSetService
 				follows, baseType = p.followsDeleteSetConventions(inType, outType, method)
-			} else if methodName == listService {
+			} else if strings.HasPrefix(methodName, listService) {
 				verb = listService
 				follows, baseType = p.followsListConventions(inType, outType, methodName)
 			}

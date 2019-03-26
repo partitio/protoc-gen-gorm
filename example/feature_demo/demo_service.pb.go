@@ -3,17 +3,16 @@
 
 package example
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-import google_protobuf2 "github.com/golang/protobuf/ptypes/empty"
-import _ "github.com/partitio/protoc-gen-gorm/options"
-import google_protobuf4 "google.golang.org/genproto/protobuf/field_mask"
-import infoblox_api "github.com/infobloxopen/atlas-app-toolkit/query"
-
 import (
-	context "golang.org/x/net/context"
+	context "context"
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	empty "github.com/golang/protobuf/ptypes/empty"
+	query "github.com/infobloxopen/atlas-app-toolkit/query"
+	_ "github.com/partitio/protoc-gen-gorm/options"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
 	grpc "google.golang.org/grpc"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -21,18 +20,47 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+
 // IntPoint is a basic message type representing a single cartesian point
 // that we want to store in a database
 type IntPoint struct {
-	Id uint32 `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
-	X  int32  `protobuf:"varint,2,opt,name=x" json:"x,omitempty"`
-	Y  int32  `protobuf:"varint,3,opt,name=y" json:"y,omitempty"`
+	Id                   uint32   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	X                    int32    `protobuf:"varint,2,opt,name=x,proto3" json:"x,omitempty"`
+	Y                    int32    `protobuf:"varint,3,opt,name=y,proto3" json:"y,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *IntPoint) Reset()                    { *m = IntPoint{} }
-func (m *IntPoint) String() string            { return proto.CompactTextString(m) }
-func (*IntPoint) ProtoMessage()               {}
-func (*IntPoint) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{0} }
+func (m *IntPoint) Reset()         { *m = IntPoint{} }
+func (m *IntPoint) String() string { return proto.CompactTextString(m) }
+func (*IntPoint) ProtoMessage()    {}
+func (*IntPoint) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{0}
+}
+
+func (m *IntPoint) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_IntPoint.Unmarshal(m, b)
+}
+func (m *IntPoint) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_IntPoint.Marshal(b, m, deterministic)
+}
+func (m *IntPoint) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_IntPoint.Merge(m, src)
+}
+func (m *IntPoint) XXX_Size() int {
+	return xxx_messageInfo_IntPoint.Size(m)
+}
+func (m *IntPoint) XXX_DiscardUnknown() {
+	xxx_messageInfo_IntPoint.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_IntPoint proto.InternalMessageInfo
 
 func (m *IntPoint) GetId() uint32 {
 	if m != nil {
@@ -58,13 +86,36 @@ func (m *IntPoint) GetY() int32 {
 type CreateIntPointRequest struct {
 	// Convention dictates that this field be of the given type, and be
 	// named 'payload' in order to autogenerate the handler
-	Payload *IntPoint `protobuf:"bytes,1,opt,name=payload" json:"payload,omitempty"`
+	Payload              *IntPoint `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
 }
 
-func (m *CreateIntPointRequest) Reset()                    { *m = CreateIntPointRequest{} }
-func (m *CreateIntPointRequest) String() string            { return proto.CompactTextString(m) }
-func (*CreateIntPointRequest) ProtoMessage()               {}
-func (*CreateIntPointRequest) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{1} }
+func (m *CreateIntPointRequest) Reset()         { *m = CreateIntPointRequest{} }
+func (m *CreateIntPointRequest) String() string { return proto.CompactTextString(m) }
+func (*CreateIntPointRequest) ProtoMessage()    {}
+func (*CreateIntPointRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{1}
+}
+
+func (m *CreateIntPointRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateIntPointRequest.Unmarshal(m, b)
+}
+func (m *CreateIntPointRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateIntPointRequest.Marshal(b, m, deterministic)
+}
+func (m *CreateIntPointRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateIntPointRequest.Merge(m, src)
+}
+func (m *CreateIntPointRequest) XXX_Size() int {
+	return xxx_messageInfo_CreateIntPointRequest.Size(m)
+}
+func (m *CreateIntPointRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateIntPointRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateIntPointRequest proto.InternalMessageInfo
 
 func (m *CreateIntPointRequest) GetPayload() *IntPoint {
 	if m != nil {
@@ -75,13 +126,36 @@ func (m *CreateIntPointRequest) GetPayload() *IntPoint {
 
 type CreateIntPointResponse struct {
 	// Convention also requires that the return type be the same and named 'result'
-	Result *IntPoint `protobuf:"bytes,1,opt,name=result" json:"result,omitempty"`
+	Result               *IntPoint `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
 }
 
-func (m *CreateIntPointResponse) Reset()                    { *m = CreateIntPointResponse{} }
-func (m *CreateIntPointResponse) String() string            { return proto.CompactTextString(m) }
-func (*CreateIntPointResponse) ProtoMessage()               {}
-func (*CreateIntPointResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{2} }
+func (m *CreateIntPointResponse) Reset()         { *m = CreateIntPointResponse{} }
+func (m *CreateIntPointResponse) String() string { return proto.CompactTextString(m) }
+func (*CreateIntPointResponse) ProtoMessage()    {}
+func (*CreateIntPointResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{2}
+}
+
+func (m *CreateIntPointResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateIntPointResponse.Unmarshal(m, b)
+}
+func (m *CreateIntPointResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateIntPointResponse.Marshal(b, m, deterministic)
+}
+func (m *CreateIntPointResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateIntPointResponse.Merge(m, src)
+}
+func (m *CreateIntPointResponse) XXX_Size() int {
+	return xxx_messageInfo_CreateIntPointResponse.Size(m)
+}
+func (m *CreateIntPointResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateIntPointResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateIntPointResponse proto.InternalMessageInfo
 
 func (m *CreateIntPointResponse) GetResult() *IntPoint {
 	if m != nil {
@@ -92,14 +166,37 @@ func (m *CreateIntPointResponse) GetResult() *IntPoint {
 
 type ReadIntPointRequest struct {
 	// For a read request, the id field is the only to be specified
-	Id     uint32                       `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
-	Fields *infoblox_api.FieldSelection `protobuf:"bytes,2,opt,name=fields" json:"fields,omitempty"`
+	Id                   uint32                `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Fields               *query.FieldSelection `protobuf:"bytes,2,opt,name=fields,proto3" json:"fields,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
 }
 
-func (m *ReadIntPointRequest) Reset()                    { *m = ReadIntPointRequest{} }
-func (m *ReadIntPointRequest) String() string            { return proto.CompactTextString(m) }
-func (*ReadIntPointRequest) ProtoMessage()               {}
-func (*ReadIntPointRequest) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{3} }
+func (m *ReadIntPointRequest) Reset()         { *m = ReadIntPointRequest{} }
+func (m *ReadIntPointRequest) String() string { return proto.CompactTextString(m) }
+func (*ReadIntPointRequest) ProtoMessage()    {}
+func (*ReadIntPointRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{3}
+}
+
+func (m *ReadIntPointRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReadIntPointRequest.Unmarshal(m, b)
+}
+func (m *ReadIntPointRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReadIntPointRequest.Marshal(b, m, deterministic)
+}
+func (m *ReadIntPointRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReadIntPointRequest.Merge(m, src)
+}
+func (m *ReadIntPointRequest) XXX_Size() int {
+	return xxx_messageInfo_ReadIntPointRequest.Size(m)
+}
+func (m *ReadIntPointRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReadIntPointRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReadIntPointRequest proto.InternalMessageInfo
 
 func (m *ReadIntPointRequest) GetId() uint32 {
 	if m != nil {
@@ -108,7 +205,7 @@ func (m *ReadIntPointRequest) GetId() uint32 {
 	return 0
 }
 
-func (m *ReadIntPointRequest) GetFields() *infoblox_api.FieldSelection {
+func (m *ReadIntPointRequest) GetFields() *query.FieldSelection {
 	if m != nil {
 		return m.Fields
 	}
@@ -117,13 +214,36 @@ func (m *ReadIntPointRequest) GetFields() *infoblox_api.FieldSelection {
 
 type ReadIntPointResponse struct {
 	// Again the type with 'result' name
-	Result *IntPoint `protobuf:"bytes,1,opt,name=result" json:"result,omitempty"`
+	Result               *IntPoint `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
 }
 
-func (m *ReadIntPointResponse) Reset()                    { *m = ReadIntPointResponse{} }
-func (m *ReadIntPointResponse) String() string            { return proto.CompactTextString(m) }
-func (*ReadIntPointResponse) ProtoMessage()               {}
-func (*ReadIntPointResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{4} }
+func (m *ReadIntPointResponse) Reset()         { *m = ReadIntPointResponse{} }
+func (m *ReadIntPointResponse) String() string { return proto.CompactTextString(m) }
+func (*ReadIntPointResponse) ProtoMessage()    {}
+func (*ReadIntPointResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{4}
+}
+
+func (m *ReadIntPointResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReadIntPointResponse.Unmarshal(m, b)
+}
+func (m *ReadIntPointResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReadIntPointResponse.Marshal(b, m, deterministic)
+}
+func (m *ReadIntPointResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReadIntPointResponse.Merge(m, src)
+}
+func (m *ReadIntPointResponse) XXX_Size() int {
+	return xxx_messageInfo_ReadIntPointResponse.Size(m)
+}
+func (m *ReadIntPointResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReadIntPointResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReadIntPointResponse proto.InternalMessageInfo
 
 func (m *ReadIntPointResponse) GetResult() *IntPoint {
 	if m != nil {
@@ -133,14 +253,37 @@ func (m *ReadIntPointResponse) GetResult() *IntPoint {
 }
 
 type UpdateIntPointRequest struct {
-	Payload        *IntPoint                   `protobuf:"bytes,1,opt,name=payload" json:"payload,omitempty"`
-	GerogeriGegege *google_protobuf4.FieldMask `protobuf:"bytes,2,opt,name=gerogeri_gegege,json=gerogeriGegege" json:"gerogeri_gegege,omitempty"`
+	Payload              *IntPoint             `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
+	GerogeriGegege       *field_mask.FieldMask `protobuf:"bytes,2,opt,name=gerogeri_gegege,json=gerogeriGegege,proto3" json:"gerogeri_gegege,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
 }
 
-func (m *UpdateIntPointRequest) Reset()                    { *m = UpdateIntPointRequest{} }
-func (m *UpdateIntPointRequest) String() string            { return proto.CompactTextString(m) }
-func (*UpdateIntPointRequest) ProtoMessage()               {}
-func (*UpdateIntPointRequest) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{5} }
+func (m *UpdateIntPointRequest) Reset()         { *m = UpdateIntPointRequest{} }
+func (m *UpdateIntPointRequest) String() string { return proto.CompactTextString(m) }
+func (*UpdateIntPointRequest) ProtoMessage()    {}
+func (*UpdateIntPointRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{5}
+}
+
+func (m *UpdateIntPointRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateIntPointRequest.Unmarshal(m, b)
+}
+func (m *UpdateIntPointRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateIntPointRequest.Marshal(b, m, deterministic)
+}
+func (m *UpdateIntPointRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateIntPointRequest.Merge(m, src)
+}
+func (m *UpdateIntPointRequest) XXX_Size() int {
+	return xxx_messageInfo_UpdateIntPointRequest.Size(m)
+}
+func (m *UpdateIntPointRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateIntPointRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateIntPointRequest proto.InternalMessageInfo
 
 func (m *UpdateIntPointRequest) GetPayload() *IntPoint {
 	if m != nil {
@@ -149,7 +292,7 @@ func (m *UpdateIntPointRequest) GetPayload() *IntPoint {
 	return nil
 }
 
-func (m *UpdateIntPointRequest) GetGerogeriGegege() *google_protobuf4.FieldMask {
+func (m *UpdateIntPointRequest) GetGerogeriGegege() *field_mask.FieldMask {
 	if m != nil {
 		return m.GerogeriGegege
 	}
@@ -157,13 +300,36 @@ func (m *UpdateIntPointRequest) GetGerogeriGegege() *google_protobuf4.FieldMask 
 }
 
 type UpdateIntPointResponse struct {
-	Result *IntPoint `protobuf:"bytes,1,opt,name=result" json:"result,omitempty"`
+	Result               *IntPoint `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
 }
 
-func (m *UpdateIntPointResponse) Reset()                    { *m = UpdateIntPointResponse{} }
-func (m *UpdateIntPointResponse) String() string            { return proto.CompactTextString(m) }
-func (*UpdateIntPointResponse) ProtoMessage()               {}
-func (*UpdateIntPointResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{6} }
+func (m *UpdateIntPointResponse) Reset()         { *m = UpdateIntPointResponse{} }
+func (m *UpdateIntPointResponse) String() string { return proto.CompactTextString(m) }
+func (*UpdateIntPointResponse) ProtoMessage()    {}
+func (*UpdateIntPointResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{6}
+}
+
+func (m *UpdateIntPointResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateIntPointResponse.Unmarshal(m, b)
+}
+func (m *UpdateIntPointResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateIntPointResponse.Marshal(b, m, deterministic)
+}
+func (m *UpdateIntPointResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateIntPointResponse.Merge(m, src)
+}
+func (m *UpdateIntPointResponse) XXX_Size() int {
+	return xxx_messageInfo_UpdateIntPointResponse.Size(m)
+}
+func (m *UpdateIntPointResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateIntPointResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateIntPointResponse proto.InternalMessageInfo
 
 func (m *UpdateIntPointResponse) GetResult() *IntPoint {
 	if m != nil {
@@ -174,13 +340,36 @@ func (m *UpdateIntPointResponse) GetResult() *IntPoint {
 
 type DeleteIntPointRequest struct {
 	// Only the id is needed for a delete request
-	Id uint32 `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
+	Id                   uint32   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *DeleteIntPointRequest) Reset()                    { *m = DeleteIntPointRequest{} }
-func (m *DeleteIntPointRequest) String() string            { return proto.CompactTextString(m) }
-func (*DeleteIntPointRequest) ProtoMessage()               {}
-func (*DeleteIntPointRequest) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{7} }
+func (m *DeleteIntPointRequest) Reset()         { *m = DeleteIntPointRequest{} }
+func (m *DeleteIntPointRequest) String() string { return proto.CompactTextString(m) }
+func (*DeleteIntPointRequest) ProtoMessage()    {}
+func (*DeleteIntPointRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{7}
+}
+
+func (m *DeleteIntPointRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DeleteIntPointRequest.Unmarshal(m, b)
+}
+func (m *DeleteIntPointRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DeleteIntPointRequest.Marshal(b, m, deterministic)
+}
+func (m *DeleteIntPointRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteIntPointRequest.Merge(m, src)
+}
+func (m *DeleteIntPointRequest) XXX_Size() int {
+	return xxx_messageInfo_DeleteIntPointRequest.Size(m)
+}
+func (m *DeleteIntPointRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteIntPointRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteIntPointRequest proto.InternalMessageInfo
 
 func (m *DeleteIntPointRequest) GetId() uint32 {
 	if m != nil {
@@ -191,13 +380,36 @@ func (m *DeleteIntPointRequest) GetId() uint32 {
 
 type DeleteIntPointsRequest struct {
 	// Only the id is needed for a delete request
-	Ids []uint32 `protobuf:"varint,1,rep,packed,name=ids" json:"ids,omitempty"`
+	Ids                  []uint32 `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *DeleteIntPointsRequest) Reset()                    { *m = DeleteIntPointsRequest{} }
-func (m *DeleteIntPointsRequest) String() string            { return proto.CompactTextString(m) }
-func (*DeleteIntPointsRequest) ProtoMessage()               {}
-func (*DeleteIntPointsRequest) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{8} }
+func (m *DeleteIntPointsRequest) Reset()         { *m = DeleteIntPointsRequest{} }
+func (m *DeleteIntPointsRequest) String() string { return proto.CompactTextString(m) }
+func (*DeleteIntPointsRequest) ProtoMessage()    {}
+func (*DeleteIntPointsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{8}
+}
+
+func (m *DeleteIntPointsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DeleteIntPointsRequest.Unmarshal(m, b)
+}
+func (m *DeleteIntPointsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DeleteIntPointsRequest.Marshal(b, m, deterministic)
+}
+func (m *DeleteIntPointsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteIntPointsRequest.Merge(m, src)
+}
+func (m *DeleteIntPointsRequest) XXX_Size() int {
+	return xxx_messageInfo_DeleteIntPointsRequest.Size(m)
+}
+func (m *DeleteIntPointsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteIntPointsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteIntPointsRequest proto.InternalMessageInfo
 
 func (m *DeleteIntPointsRequest) GetIds() []uint32 {
 	if m != nil {
@@ -209,23 +421,69 @@ func (m *DeleteIntPointsRequest) GetIds() []uint32 {
 // By convention, on DELETE no response data is given, so either a
 // google.protobuf.empty, or an empty struct is sufficient
 type DeleteIntPointResponse struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *DeleteIntPointResponse) Reset()                    { *m = DeleteIntPointResponse{} }
-func (m *DeleteIntPointResponse) String() string            { return proto.CompactTextString(m) }
-func (*DeleteIntPointResponse) ProtoMessage()               {}
-func (*DeleteIntPointResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{9} }
+func (m *DeleteIntPointResponse) Reset()         { *m = DeleteIntPointResponse{} }
+func (m *DeleteIntPointResponse) String() string { return proto.CompactTextString(m) }
+func (*DeleteIntPointResponse) ProtoMessage()    {}
+func (*DeleteIntPointResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{9}
+}
+
+func (m *DeleteIntPointResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DeleteIntPointResponse.Unmarshal(m, b)
+}
+func (m *DeleteIntPointResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DeleteIntPointResponse.Marshal(b, m, deterministic)
+}
+func (m *DeleteIntPointResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteIntPointResponse.Merge(m, src)
+}
+func (m *DeleteIntPointResponse) XXX_Size() int {
+	return xxx_messageInfo_DeleteIntPointResponse.Size(m)
+}
+func (m *DeleteIntPointResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteIntPointResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteIntPointResponse proto.InternalMessageInfo
 
 type ListIntPointResponse struct {
 	// Note repeated field and plural name 'results'
-	Results  []*IntPoint            `protobuf:"bytes,1,rep,name=results" json:"results,omitempty"`
-	PageInfo *infoblox_api.PageInfo `protobuf:"bytes,2,opt,name=page_info,json=pageInfo" json:"page_info,omitempty"`
+	Results              []*IntPoint     `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
+	PageInfo             *query.PageInfo `protobuf:"bytes,2,opt,name=page_info,json=pageInfo,proto3" json:"page_info,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
 }
 
-func (m *ListIntPointResponse) Reset()                    { *m = ListIntPointResponse{} }
-func (m *ListIntPointResponse) String() string            { return proto.CompactTextString(m) }
-func (*ListIntPointResponse) ProtoMessage()               {}
-func (*ListIntPointResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{10} }
+func (m *ListIntPointResponse) Reset()         { *m = ListIntPointResponse{} }
+func (m *ListIntPointResponse) String() string { return proto.CompactTextString(m) }
+func (*ListIntPointResponse) ProtoMessage()    {}
+func (*ListIntPointResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{10}
+}
+
+func (m *ListIntPointResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListIntPointResponse.Unmarshal(m, b)
+}
+func (m *ListIntPointResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListIntPointResponse.Marshal(b, m, deterministic)
+}
+func (m *ListIntPointResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListIntPointResponse.Merge(m, src)
+}
+func (m *ListIntPointResponse) XXX_Size() int {
+	return xxx_messageInfo_ListIntPointResponse.Size(m)
+}
+func (m *ListIntPointResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListIntPointResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListIntPointResponse proto.InternalMessageInfo
 
 func (m *ListIntPointResponse) GetResults() []*IntPoint {
 	if m != nil {
@@ -234,7 +492,7 @@ func (m *ListIntPointResponse) GetResults() []*IntPoint {
 	return nil
 }
 
-func (m *ListIntPointResponse) GetPageInfo() *infoblox_api.PageInfo {
+func (m *ListIntPointResponse) GetPageInfo() *query.PageInfo {
 	if m != nil {
 		return m.PageInfo
 	}
@@ -243,14 +501,37 @@ func (m *ListIntPointResponse) GetPageInfo() *infoblox_api.PageInfo {
 
 type ListSomethingResponse struct {
 	// Note repeated field and plural name 'results'
-	Results  []*Something           `protobuf:"bytes,1,rep,name=results" json:"results,omitempty"`
-	PageInfo *infoblox_api.PageInfo `protobuf:"bytes,2,opt,name=page_info,json=pageInfo" json:"page_info,omitempty"`
+	Results              []*Something    `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
+	PageInfo             *query.PageInfo `protobuf:"bytes,2,opt,name=page_info,json=pageInfo,proto3" json:"page_info,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
 }
 
-func (m *ListSomethingResponse) Reset()                    { *m = ListSomethingResponse{} }
-func (m *ListSomethingResponse) String() string            { return proto.CompactTextString(m) }
-func (*ListSomethingResponse) ProtoMessage()               {}
-func (*ListSomethingResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{11} }
+func (m *ListSomethingResponse) Reset()         { *m = ListSomethingResponse{} }
+func (m *ListSomethingResponse) String() string { return proto.CompactTextString(m) }
+func (*ListSomethingResponse) ProtoMessage()    {}
+func (*ListSomethingResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{11}
+}
+
+func (m *ListSomethingResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListSomethingResponse.Unmarshal(m, b)
+}
+func (m *ListSomethingResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListSomethingResponse.Marshal(b, m, deterministic)
+}
+func (m *ListSomethingResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListSomethingResponse.Merge(m, src)
+}
+func (m *ListSomethingResponse) XXX_Size() int {
+	return xxx_messageInfo_ListSomethingResponse.Size(m)
+}
+func (m *ListSomethingResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListSomethingResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListSomethingResponse proto.InternalMessageInfo
 
 func (m *ListSomethingResponse) GetResults() []*Something {
 	if m != nil {
@@ -259,7 +540,7 @@ func (m *ListSomethingResponse) GetResults() []*Something {
 	return nil
 }
 
-func (m *ListSomethingResponse) GetPageInfo() *infoblox_api.PageInfo {
+func (m *ListSomethingResponse) GetPageInfo() *query.PageInfo {
 	if m != nil {
 		return m.PageInfo
 	}
@@ -268,13 +549,36 @@ func (m *ListSomethingResponse) GetPageInfo() *infoblox_api.PageInfo {
 
 // A dummy type to demo an rpc that can't be autogenerated
 type Something struct {
-	Field string `protobuf:"bytes,1,opt,name=field" json:"field,omitempty"`
+	Field                string   `protobuf:"bytes,1,opt,name=field,proto3" json:"field,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Something) Reset()                    { *m = Something{} }
-func (m *Something) String() string            { return proto.CompactTextString(m) }
-func (*Something) ProtoMessage()               {}
-func (*Something) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{12} }
+func (m *Something) Reset()         { *m = Something{} }
+func (m *Something) String() string { return proto.CompactTextString(m) }
+func (*Something) ProtoMessage()    {}
+func (*Something) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{12}
+}
+
+func (m *Something) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Something.Unmarshal(m, b)
+}
+func (m *Something) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Something.Marshal(b, m, deterministic)
+}
+func (m *Something) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Something.Merge(m, src)
+}
+func (m *Something) XXX_Size() int {
+	return xxx_messageInfo_Something.Size(m)
+}
+func (m *Something) XXX_DiscardUnknown() {
+	xxx_messageInfo_Something.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Something proto.InternalMessageInfo
 
 func (m *Something) GetField() string {
 	if m != nil {
@@ -284,39 +588,62 @@ func (m *Something) GetField() string {
 }
 
 type ListIntPointRequest struct {
-	Filter  *infoblox_api.Filtering      `protobuf:"bytes,1,opt,name=filter" json:"filter,omitempty"`
-	OrderBy *infoblox_api.Sorting        `protobuf:"bytes,2,opt,name=order_by,json=orderBy" json:"order_by,omitempty"`
-	Fields  *infoblox_api.FieldSelection `protobuf:"bytes,3,opt,name=fields" json:"fields,omitempty"`
-	Paging  *infoblox_api.Pagination     `protobuf:"bytes,4,opt,name=paging" json:"paging,omitempty"`
+	Filter               *query.Filtering      `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	OrderBy              *query.Sorting        `protobuf:"bytes,2,opt,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
+	Fields               *query.FieldSelection `protobuf:"bytes,3,opt,name=fields,proto3" json:"fields,omitempty"`
+	Paging               *query.Pagination     `protobuf:"bytes,4,opt,name=paging,proto3" json:"paging,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
 }
 
-func (m *ListIntPointRequest) Reset()                    { *m = ListIntPointRequest{} }
-func (m *ListIntPointRequest) String() string            { return proto.CompactTextString(m) }
-func (*ListIntPointRequest) ProtoMessage()               {}
-func (*ListIntPointRequest) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{13} }
+func (m *ListIntPointRequest) Reset()         { *m = ListIntPointRequest{} }
+func (m *ListIntPointRequest) String() string { return proto.CompactTextString(m) }
+func (*ListIntPointRequest) ProtoMessage()    {}
+func (*ListIntPointRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{13}
+}
 
-func (m *ListIntPointRequest) GetFilter() *infoblox_api.Filtering {
+func (m *ListIntPointRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListIntPointRequest.Unmarshal(m, b)
+}
+func (m *ListIntPointRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListIntPointRequest.Marshal(b, m, deterministic)
+}
+func (m *ListIntPointRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListIntPointRequest.Merge(m, src)
+}
+func (m *ListIntPointRequest) XXX_Size() int {
+	return xxx_messageInfo_ListIntPointRequest.Size(m)
+}
+func (m *ListIntPointRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListIntPointRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListIntPointRequest proto.InternalMessageInfo
+
+func (m *ListIntPointRequest) GetFilter() *query.Filtering {
 	if m != nil {
 		return m.Filter
 	}
 	return nil
 }
 
-func (m *ListIntPointRequest) GetOrderBy() *infoblox_api.Sorting {
+func (m *ListIntPointRequest) GetOrderBy() *query.Sorting {
 	if m != nil {
 		return m.OrderBy
 	}
 	return nil
 }
 
-func (m *ListIntPointRequest) GetFields() *infoblox_api.FieldSelection {
+func (m *ListIntPointRequest) GetFields() *query.FieldSelection {
 	if m != nil {
 		return m.Fields
 	}
 	return nil
 }
 
-func (m *ListIntPointRequest) GetPaging() *infoblox_api.Pagination {
+func (m *ListIntPointRequest) GetPaging() *query.Pagination {
 	if m != nil {
 		return m.Paging
 	}
@@ -324,13 +651,36 @@ func (m *ListIntPointRequest) GetPaging() *infoblox_api.Pagination {
 }
 
 type Circle struct {
-	R uint32 `protobuf:"varint,1,opt,name=r" json:"r,omitempty"`
+	R                    uint32   `protobuf:"varint,1,opt,name=r,proto3" json:"r,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Circle) Reset()                    { *m = Circle{} }
-func (m *Circle) String() string            { return proto.CompactTextString(m) }
-func (*Circle) ProtoMessage()               {}
-func (*Circle) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{14} }
+func (m *Circle) Reset()         { *m = Circle{} }
+func (m *Circle) String() string { return proto.CompactTextString(m) }
+func (*Circle) ProtoMessage()    {}
+func (*Circle) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{14}
+}
+
+func (m *Circle) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Circle.Unmarshal(m, b)
+}
+func (m *Circle) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Circle.Marshal(b, m, deterministic)
+}
+func (m *Circle) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Circle.Merge(m, src)
+}
+func (m *Circle) XXX_Size() int {
+	return xxx_messageInfo_Circle.Size(m)
+}
+func (m *Circle) XXX_DiscardUnknown() {
+	xxx_messageInfo_Circle.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Circle proto.InternalMessageInfo
 
 func (m *Circle) GetR() uint32 {
 	if m != nil {
@@ -340,21 +690,67 @@ func (m *Circle) GetR() uint32 {
 }
 
 type ListCircleRequest struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ListCircleRequest) Reset()                    { *m = ListCircleRequest{} }
-func (m *ListCircleRequest) String() string            { return proto.CompactTextString(m) }
-func (*ListCircleRequest) ProtoMessage()               {}
-func (*ListCircleRequest) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{15} }
+func (m *ListCircleRequest) Reset()         { *m = ListCircleRequest{} }
+func (m *ListCircleRequest) String() string { return proto.CompactTextString(m) }
+func (*ListCircleRequest) ProtoMessage()    {}
+func (*ListCircleRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{15}
+}
+
+func (m *ListCircleRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListCircleRequest.Unmarshal(m, b)
+}
+func (m *ListCircleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListCircleRequest.Marshal(b, m, deterministic)
+}
+func (m *ListCircleRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListCircleRequest.Merge(m, src)
+}
+func (m *ListCircleRequest) XXX_Size() int {
+	return xxx_messageInfo_ListCircleRequest.Size(m)
+}
+func (m *ListCircleRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListCircleRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListCircleRequest proto.InternalMessageInfo
 
 type ListCircleResponse struct {
-	Results []*Circle `protobuf:"bytes,1,rep,name=results" json:"results,omitempty"`
+	Results              []*Circle `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
 }
 
-func (m *ListCircleResponse) Reset()                    { *m = ListCircleResponse{} }
-func (m *ListCircleResponse) String() string            { return proto.CompactTextString(m) }
-func (*ListCircleResponse) ProtoMessage()               {}
-func (*ListCircleResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{16} }
+func (m *ListCircleResponse) Reset()         { *m = ListCircleResponse{} }
+func (m *ListCircleResponse) String() string { return proto.CompactTextString(m) }
+func (*ListCircleResponse) ProtoMessage()    {}
+func (*ListCircleResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_76556502a10778a5, []int{16}
+}
+
+func (m *ListCircleResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListCircleResponse.Unmarshal(m, b)
+}
+func (m *ListCircleResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListCircleResponse.Marshal(b, m, deterministic)
+}
+func (m *ListCircleResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListCircleResponse.Merge(m, src)
+}
+func (m *ListCircleResponse) XXX_Size() int {
+	return xxx_messageInfo_ListCircleResponse.Size(m)
+}
+func (m *ListCircleResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListCircleResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListCircleResponse proto.InternalMessageInfo
 
 func (m *ListCircleResponse) GetResults() []*Circle {
 	if m != nil {
@@ -383,6 +779,72 @@ func init() {
 	proto.RegisterType((*ListCircleResponse)(nil), "example.ListCircleResponse")
 }
 
+func init() {
+	proto.RegisterFile("example/feature_demo/demo_service.proto", fileDescriptor_76556502a10778a5)
+}
+
+var fileDescriptor_76556502a10778a5 = []byte{
+	// 925 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x56, 0xd1, 0x6e, 0xdb, 0x36,
+	0x14, 0xb5, 0x12, 0xd7, 0xb1, 0x6f, 0x9a, 0xb8, 0x65, 0xe2, 0xcc, 0x51, 0xbb, 0x2c, 0xd0, 0x4b,
+	0xd3, 0x75, 0xb1, 0x0a, 0x77, 0xd8, 0xc3, 0x0a, 0x6c, 0x6d, 0xdc, 0x6e, 0xc8, 0xba, 0x02, 0x85,
+	0xbd, 0x3d, 0x2c, 0x03, 0x66, 0xd0, 0xf6, 0xb5, 0x42, 0x44, 0x16, 0x55, 0x8a, 0x1e, 0xec, 0xfd,
+	0xc1, 0x3e, 0x29, 0xf9, 0x9a, 0x3d, 0xed, 0x23, 0xf6, 0x34, 0x50, 0xa4, 0x14, 0x59, 0x96, 0x81,
+	0x74, 0x19, 0xb0, 0x97, 0xc1, 0x80, 0x21, 0x92, 0xe7, 0x5e, 0xde, 0x7b, 0x78, 0x78, 0x24, 0x78,
+	0x84, 0x33, 0x3a, 0x09, 0x7d, 0x74, 0xc7, 0x48, 0xe5, 0x54, 0x60, 0x7f, 0x84, 0x13, 0xee, 0xaa,
+	0xbf, 0x7e, 0x84, 0xe2, 0x57, 0x36, 0xc4, 0x56, 0x28, 0xb8, 0xe4, 0x64, 0xc3, 0x00, 0xed, 0x07,
+	0x1e, 0xe7, 0x9e, 0x8f, 0x6e, 0x3c, 0x3d, 0x98, 0x8e, 0x5d, 0x9c, 0x84, 0x72, 0xae, 0x51, 0xf6,
+	0x17, 0x1e, 0x93, 0xe7, 0xd3, 0x41, 0x6b, 0xc8, 0x27, 0x6e, 0x48, 0x85, 0x64, 0x92, 0x71, 0x8d,
+	0x1c, 0x1e, 0x7b, 0x18, 0x1c, 0x7b, 0x5c, 0x4c, 0x5c, 0x1e, 0x4a, 0xc6, 0x83, 0xc8, 0x55, 0x03,
+	0x13, 0x77, 0x98, 0x4f, 0x3a, 0x66, 0xe8, 0x8f, 0xfa, 0x13, 0x1a, 0x5d, 0x18, 0xc4, 0x77, 0x99,
+	0xcc, 0x2c, 0x18, 0xf3, 0x81, 0xcf, 0x67, 0x3c, 0xc4, 0xc0, 0xa5, 0xd2, 0xa7, 0xd1, 0x31, 0x0d,
+	0xc3, 0x63, 0xc9, 0xb9, 0x7f, 0xc1, 0xa4, 0xfb, 0x7e, 0x8a, 0x62, 0xee, 0x0e, 0xb9, 0xef, 0xe3,
+	0x50, 0xed, 0xd4, 0xe7, 0x21, 0x0a, 0x2a, 0xb9, 0x88, 0x74, 0x2e, 0xe7, 0x2b, 0xa8, 0x9e, 0x06,
+	0xf2, 0x1d, 0x67, 0x81, 0x24, 0xdb, 0xb0, 0xc6, 0x46, 0x4d, 0xeb, 0xd0, 0x3a, 0xda, 0xea, 0xae,
+	0xb1, 0x11, 0xb9, 0x0b, 0xd6, 0xac, 0xb9, 0x76, 0x68, 0x1d, 0xdd, 0xe9, 0x5a, 0x33, 0x35, 0x9a,
+	0x37, 0xd7, 0xf5, 0x68, 0xfe, 0x65, 0xe5, 0xea, 0x72, 0x7f, 0xad, 0x6a, 0x39, 0xaf, 0xa0, 0xd1,
+	0x11, 0x48, 0x25, 0x26, 0x59, 0xba, 0xf8, 0x7e, 0x8a, 0x91, 0x24, 0x4f, 0x60, 0x23, 0xa4, 0x73,
+	0x9f, 0x53, 0x9d, 0x71, 0xb3, 0x7d, 0xbf, 0x65, 0x68, 0x6b, 0xa5, 0xd0, 0x04, 0xe1, 0x74, 0x60,
+	0x2f, 0x9f, 0x25, 0x0a, 0x79, 0x10, 0x21, 0x79, 0x0c, 0x15, 0x81, 0xd1, 0xd4, 0x97, 0xab, 0xb3,
+	0x18, 0x80, 0xf3, 0x33, 0xec, 0x74, 0x91, 0x8e, 0xf2, 0x85, 0xe4, 0xbb, 0xfa, 0x1c, 0x2a, 0x31,
+	0xa3, 0x51, 0xdc, 0xda, 0x66, 0xfb, 0x61, 0x2b, 0xe1, 0xb0, 0x45, 0x43, 0xd6, 0xfa, 0x46, 0xad,
+	0xf5, 0xd0, 0xf0, 0xd5, 0x35, 0x58, 0xe7, 0x25, 0xec, 0x2e, 0x26, 0xff, 0xf0, 0xfa, 0x7e, 0xb7,
+	0xa0, 0xf1, 0x63, 0x38, 0xba, 0x25, 0x57, 0xa4, 0x03, 0x75, 0x0f, 0x05, 0xf7, 0x50, 0xb0, 0xbe,
+	0x87, 0xea, 0x67, 0x1a, 0xb1, 0x5b, 0x5a, 0x39, 0xad, 0x44, 0x39, 0xba, 0x97, 0xb7, 0x34, 0xba,
+	0xe8, 0x6e, 0x27, 0x21, 0xdf, 0xc6, 0x11, 0x8a, 0xf0, 0x7c, 0x29, 0x1f, 0xde, 0xd0, 0x23, 0x68,
+	0xbc, 0x42, 0x1f, 0x97, 0xfb, 0xc9, 0x51, 0xee, 0x7c, 0x0a, 0x7b, 0x8b, 0xc0, 0x28, 0x41, 0xde,
+	0x83, 0x75, 0x36, 0x8a, 0x9a, 0xd6, 0xe1, 0xfa, 0xd1, 0x56, 0x57, 0x3d, 0x3a, 0xcd, 0x3c, 0x36,
+	0xa9, 0xcc, 0x99, 0xc1, 0xee, 0xf7, 0x2c, 0x92, 0x4b, 0x15, 0x3f, 0x81, 0x0d, 0x5d, 0x90, 0xce,
+	0x53, 0xcc, 0x9e, 0x41, 0x90, 0x67, 0x50, 0x0b, 0xa9, 0x87, 0x7d, 0x75, 0xe6, 0x86, 0xb7, 0xbd,
+	0x45, 0x01, 0xbc, 0xa3, 0x1e, 0x9e, 0x06, 0x63, 0xde, 0xad, 0x86, 0xe6, 0xc9, 0xf9, 0x0d, 0x1a,
+	0x6a, 0xe7, 0x1e, 0x9f, 0xa0, 0x3c, 0x67, 0x81, 0x97, 0x6e, 0xfd, 0x59, 0x7e, 0x6b, 0x92, 0x6e,
+	0x7d, 0x0d, 0xbe, 0xdd, 0xde, 0x8f, 0xa1, 0x96, 0xa6, 0x22, 0xbb, 0x70, 0x27, 0xd6, 0x63, 0xcc,
+	0x6d, 0xad, 0xab, 0x07, 0xe9, 0x5d, 0xfc, 0xc3, 0x82, 0x9d, 0x45, 0x86, 0x34, 0xc9, 0xae, 0x52,
+	0xbc, 0x2f, 0x51, 0x98, 0x23, 0xfd, 0x28, 0xaf, 0x78, 0xb5, 0xa6, 0x2a, 0x35, 0x30, 0xf2, 0x14,
+	0xaa, 0x5c, 0x8c, 0x50, 0xf4, 0x07, 0x73, 0x53, 0x67, 0x63, 0x31, 0xa4, 0xc7, 0x85, 0x8c, 0x5b,
+	0x8b, 0x61, 0x27, 0xf3, 0xcc, 0xa5, 0x5a, 0xbf, 0xf9, 0xa5, 0x22, 0x4f, 0xa1, 0x12, 0x52, 0x8f,
+	0x05, 0x5e, 0xb3, 0x1c, 0x47, 0x35, 0x97, 0xd8, 0x60, 0x01, 0xd5, 0x11, 0x1a, 0xe7, 0x1c, 0x40,
+	0xa5, 0xc3, 0xc4, 0xd0, 0x47, 0x65, 0x47, 0xc2, 0x48, 0xcc, 0x12, 0x29, 0x05, 0x3b, 0x70, 0x5f,
+	0x31, 0xa0, 0x31, 0xa6, 0x7f, 0xe7, 0x6b, 0x20, 0xd9, 0xc9, 0x54, 0xe8, 0xb9, 0xb3, 0xab, 0xa7,
+	0x67, 0x67, 0x90, 0xc9, 0x7a, 0xfb, 0xcf, 0x32, 0xd4, 0x13, 0x52, 0x7b, 0xfa, 0x55, 0x40, 0xde,
+	0x40, 0x45, 0x5b, 0x16, 0x39, 0xb8, 0x8e, 0x2b, 0x72, 0x42, 0xfb, 0x93, 0x95, 0xeb, 0x46, 0xd8,
+	0x25, 0xf2, 0x1a, 0xca, 0xca, 0x5d, 0xc8, 0xc3, 0x14, 0x5a, 0xe0, 0x64, 0xf6, 0xc7, 0x2b, 0x56,
+	0xd3, 0x34, 0x6f, 0xa0, 0xa2, 0x6f, 0x75, 0xa6, 0xa6, 0x42, 0xc7, 0xc9, 0xd4, 0x54, 0x6c, 0x03,
+	0xba, 0x26, 0xc5, 0x5a, 0xa6, 0xa6, 0x02, 0x6d, 0x65, 0x6a, 0x2a, 0xba, 0x9b, 0x4e, 0x89, 0x9c,
+	0xc2, 0xd6, 0xc2, 0xdd, 0x21, 0x7b, 0x4b, 0x36, 0xf5, 0x5a, 0xbd, 0x35, 0xed, 0x83, 0x85, 0x4c,
+	0x4b, 0x77, 0xcd, 0x29, 0x91, 0x9f, 0xa0, 0xa2, 0xad, 0x21, 0xd3, 0x5e, 0xa1, 0x01, 0x65, 0xda,
+	0x5b, 0xe1, 0x25, 0xdb, 0x57, 0x97, 0xfb, 0x90, 0x79, 0xf5, 0xbd, 0x80, 0xbb, 0x9d, 0x69, 0x24,
+	0xf9, 0xe4, 0x2d, 0xca, 0x73, 0x3e, 0x5a, 0x59, 0xe4, 0x8a, 0x79, 0xa7, 0x44, 0x9e, 0x43, 0x5d,
+	0x1f, 0xef, 0x75, 0xa7, 0x05, 0x66, 0x60, 0x17, 0xcc, 0x39, 0x25, 0xdb, 0xc8, 0xb7, 0xfd, 0x57,
+	0x19, 0x36, 0x93, 0x9a, 0x7e, 0x98, 0x05, 0xff, 0x8b, 0xec, 0x86, 0x22, 0x3b, 0xfb, 0xf7, 0x94,
+	0x51, 0xbf, 0xba, 0xdc, 0xdf, 0x84, 0x1a, 0x0b, 0x64, 0x3f, 0x8c, 0xa5, 0xf1, 0x0b, 0xd4, 0x34,
+	0xb4, 0x87, 0x92, 0xac, 0x0a, 0x8f, 0xfe, 0x79, 0xfe, 0xff, 0x58, 0x7a, 0xd5, 0xab, 0xcb, 0xfd,
+	0x72, 0xd5, 0xba, 0x67, 0xb5, 0xcf, 0x60, 0x4b, 0x1b, 0x5f, 0x62, 0x71, 0x2f, 0xcd, 0xe1, 0xd8,
+	0x0b, 0xf4, 0x2f, 0x78, 0xab, 0xfd, 0xa0, 0x70, 0x2d, 0x39, 0x98, 0x44, 0xd8, 0x27, 0x27, 0x67,
+	0x2f, 0x6e, 0xf2, 0x39, 0x5c, 0xf4, 0x05, 0xfe, 0xdc, 0x4c, 0x0e, 0x2a, 0x31, 0xfa, 0xd9, 0xdf,
+	0x01, 0x00, 0x00, 0xff, 0xff, 0x7a, 0x75, 0x40, 0x79, 0xa8, 0x0b, 0x00, 0x00,
+}
+
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
 var _ grpc.ClientConn
@@ -391,8 +853,9 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// Client API for IntPointService service
-
+// IntPointServiceClient is the client API for IntPointService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type IntPointServiceClient interface {
 	// The convention requires the rpc names have Create/Read/Update/List/Delete
 	// as a prefix. The type is inferred from the response (except for delete),
@@ -402,11 +865,11 @@ type IntPointServiceClient interface {
 	Read(ctx context.Context, in *ReadIntPointRequest, opts ...grpc.CallOption) (*ReadIntPointResponse, error)
 	Update(ctx context.Context, in *UpdateIntPointRequest, opts ...grpc.CallOption) (*UpdateIntPointResponse, error)
 	List(ctx context.Context, in *ListIntPointRequest, opts ...grpc.CallOption) (*ListIntPointResponse, error)
-	ListSomething(ctx context.Context, in *google_protobuf2.Empty, opts ...grpc.CallOption) (*ListSomethingResponse, error)
+	ListSomething(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*ListSomethingResponse, error)
 	Delete(ctx context.Context, in *DeleteIntPointRequest, opts ...grpc.CallOption) (*DeleteIntPointResponse, error)
 	// CustomMethod can't be autogenerated as it matches no conventions, it will
 	// become a stub
-	CustomMethod(ctx context.Context, in *google_protobuf2.Empty, opts ...grpc.CallOption) (*google_protobuf2.Empty, error)
+	CustomMethod(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error)
 	// CreateSomething also doesn't match conventions and will become a stub
 	CreateSomething(ctx context.Context, in *Something, opts ...grpc.CallOption) (*Something, error)
 }
@@ -421,7 +884,7 @@ func NewIntPointServiceClient(cc *grpc.ClientConn) IntPointServiceClient {
 
 func (c *intPointServiceClient) Create(ctx context.Context, in *CreateIntPointRequest, opts ...grpc.CallOption) (*CreateIntPointResponse, error) {
 	out := new(CreateIntPointResponse)
-	err := grpc.Invoke(ctx, "/example.IntPointService/Create", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointService/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -430,7 +893,7 @@ func (c *intPointServiceClient) Create(ctx context.Context, in *CreateIntPointRe
 
 func (c *intPointServiceClient) Read(ctx context.Context, in *ReadIntPointRequest, opts ...grpc.CallOption) (*ReadIntPointResponse, error) {
 	out := new(ReadIntPointResponse)
-	err := grpc.Invoke(ctx, "/example.IntPointService/Read", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointService/Read", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -439,7 +902,7 @@ func (c *intPointServiceClient) Read(ctx context.Context, in *ReadIntPointReques
 
 func (c *intPointServiceClient) Update(ctx context.Context, in *UpdateIntPointRequest, opts ...grpc.CallOption) (*UpdateIntPointResponse, error) {
 	out := new(UpdateIntPointResponse)
-	err := grpc.Invoke(ctx, "/example.IntPointService/Update", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointService/Update", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -448,16 +911,16 @@ func (c *intPointServiceClient) Update(ctx context.Context, in *UpdateIntPointRe
 
 func (c *intPointServiceClient) List(ctx context.Context, in *ListIntPointRequest, opts ...grpc.CallOption) (*ListIntPointResponse, error) {
 	out := new(ListIntPointResponse)
-	err := grpc.Invoke(ctx, "/example.IntPointService/List", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointService/List", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *intPointServiceClient) ListSomething(ctx context.Context, in *google_protobuf2.Empty, opts ...grpc.CallOption) (*ListSomethingResponse, error) {
+func (c *intPointServiceClient) ListSomething(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*ListSomethingResponse, error) {
 	out := new(ListSomethingResponse)
-	err := grpc.Invoke(ctx, "/example.IntPointService/ListSomething", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointService/ListSomething", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -466,16 +929,16 @@ func (c *intPointServiceClient) ListSomething(ctx context.Context, in *google_pr
 
 func (c *intPointServiceClient) Delete(ctx context.Context, in *DeleteIntPointRequest, opts ...grpc.CallOption) (*DeleteIntPointResponse, error) {
 	out := new(DeleteIntPointResponse)
-	err := grpc.Invoke(ctx, "/example.IntPointService/Delete", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointService/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *intPointServiceClient) CustomMethod(ctx context.Context, in *google_protobuf2.Empty, opts ...grpc.CallOption) (*google_protobuf2.Empty, error) {
-	out := new(google_protobuf2.Empty)
-	err := grpc.Invoke(ctx, "/example.IntPointService/CustomMethod", in, out, c.cc, opts...)
+func (c *intPointServiceClient) CustomMethod(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/example.IntPointService/CustomMethod", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -484,15 +947,14 @@ func (c *intPointServiceClient) CustomMethod(ctx context.Context, in *google_pro
 
 func (c *intPointServiceClient) CreateSomething(ctx context.Context, in *Something, opts ...grpc.CallOption) (*Something, error) {
 	out := new(Something)
-	err := grpc.Invoke(ctx, "/example.IntPointService/CreateSomething", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointService/CreateSomething", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// Server API for IntPointService service
-
+// IntPointServiceServer is the server API for IntPointService service.
 type IntPointServiceServer interface {
 	// The convention requires the rpc names have Create/Read/Update/List/Delete
 	// as a prefix. The type is inferred from the response (except for delete),
@@ -502,11 +964,11 @@ type IntPointServiceServer interface {
 	Read(context.Context, *ReadIntPointRequest) (*ReadIntPointResponse, error)
 	Update(context.Context, *UpdateIntPointRequest) (*UpdateIntPointResponse, error)
 	List(context.Context, *ListIntPointRequest) (*ListIntPointResponse, error)
-	ListSomething(context.Context, *google_protobuf2.Empty) (*ListSomethingResponse, error)
+	ListSomething(context.Context, *empty.Empty) (*ListSomethingResponse, error)
 	Delete(context.Context, *DeleteIntPointRequest) (*DeleteIntPointResponse, error)
 	// CustomMethod can't be autogenerated as it matches no conventions, it will
 	// become a stub
-	CustomMethod(context.Context, *google_protobuf2.Empty) (*google_protobuf2.Empty, error)
+	CustomMethod(context.Context, *empty.Empty) (*empty.Empty, error)
 	// CreateSomething also doesn't match conventions and will become a stub
 	CreateSomething(context.Context, *Something) (*Something, error)
 }
@@ -588,7 +1050,7 @@ func _IntPointService_List_Handler(srv interface{}, ctx context.Context, dec fun
 }
 
 func _IntPointService_ListSomething_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(google_protobuf2.Empty)
+	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -600,7 +1062,7 @@ func _IntPointService_ListSomething_Handler(srv interface{}, ctx context.Context
 		FullMethod: "/example.IntPointService/ListSomething",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IntPointServiceServer).ListSomething(ctx, req.(*google_protobuf2.Empty))
+		return srv.(IntPointServiceServer).ListSomething(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -624,7 +1086,7 @@ func _IntPointService_Delete_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _IntPointService_CustomMethod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(google_protobuf2.Empty)
+	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -636,7 +1098,7 @@ func _IntPointService_CustomMethod_Handler(srv interface{}, ctx context.Context,
 		FullMethod: "/example.IntPointService/CustomMethod",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IntPointServiceServer).CustomMethod(ctx, req.(*google_protobuf2.Empty))
+		return srv.(IntPointServiceServer).CustomMethod(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -700,8 +1162,9 @@ var _IntPointService_serviceDesc = grpc.ServiceDesc{
 	Metadata: "example/feature_demo/demo_service.proto",
 }
 
-// Client API for IntPointTxn service
-
+// IntPointTxnClient is the client API for IntPointTxn service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type IntPointTxnClient interface {
 	// The convention requires the rpc names have Create/Read/Update/List/Delete
 	// as a prefix. The type is inferred from the response (except for delete),
@@ -715,7 +1178,7 @@ type IntPointTxnClient interface {
 	DeleteSet(ctx context.Context, in *DeleteIntPointsRequest, opts ...grpc.CallOption) (*DeleteIntPointResponse, error)
 	// CustomMethod can't be autogenerated as it matches no conventions, it will
 	// become a stub
-	CustomMethod(ctx context.Context, in *google_protobuf2.Empty, opts ...grpc.CallOption) (*google_protobuf2.Empty, error)
+	CustomMethod(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error)
 	// CreateSomething also doesn't match conventions and will become a stub
 	CreateSomething(ctx context.Context, in *Something, opts ...grpc.CallOption) (*Something, error)
 }
@@ -730,7 +1193,7 @@ func NewIntPointTxnClient(cc *grpc.ClientConn) IntPointTxnClient {
 
 func (c *intPointTxnClient) Create(ctx context.Context, in *CreateIntPointRequest, opts ...grpc.CallOption) (*CreateIntPointResponse, error) {
 	out := new(CreateIntPointResponse)
-	err := grpc.Invoke(ctx, "/example.IntPointTxn/Create", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointTxn/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -739,7 +1202,7 @@ func (c *intPointTxnClient) Create(ctx context.Context, in *CreateIntPointReques
 
 func (c *intPointTxnClient) Read(ctx context.Context, in *ReadIntPointRequest, opts ...grpc.CallOption) (*ReadIntPointResponse, error) {
 	out := new(ReadIntPointResponse)
-	err := grpc.Invoke(ctx, "/example.IntPointTxn/Read", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointTxn/Read", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -748,7 +1211,7 @@ func (c *intPointTxnClient) Read(ctx context.Context, in *ReadIntPointRequest, o
 
 func (c *intPointTxnClient) Update(ctx context.Context, in *UpdateIntPointRequest, opts ...grpc.CallOption) (*UpdateIntPointResponse, error) {
 	out := new(UpdateIntPointResponse)
-	err := grpc.Invoke(ctx, "/example.IntPointTxn/Update", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointTxn/Update", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -757,7 +1220,7 @@ func (c *intPointTxnClient) Update(ctx context.Context, in *UpdateIntPointReques
 
 func (c *intPointTxnClient) List(ctx context.Context, in *ListIntPointRequest, opts ...grpc.CallOption) (*ListIntPointResponse, error) {
 	out := new(ListIntPointResponse)
-	err := grpc.Invoke(ctx, "/example.IntPointTxn/List", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointTxn/List", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -766,7 +1229,7 @@ func (c *intPointTxnClient) List(ctx context.Context, in *ListIntPointRequest, o
 
 func (c *intPointTxnClient) Delete(ctx context.Context, in *DeleteIntPointRequest, opts ...grpc.CallOption) (*DeleteIntPointResponse, error) {
 	out := new(DeleteIntPointResponse)
-	err := grpc.Invoke(ctx, "/example.IntPointTxn/Delete", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointTxn/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -775,16 +1238,16 @@ func (c *intPointTxnClient) Delete(ctx context.Context, in *DeleteIntPointReques
 
 func (c *intPointTxnClient) DeleteSet(ctx context.Context, in *DeleteIntPointsRequest, opts ...grpc.CallOption) (*DeleteIntPointResponse, error) {
 	out := new(DeleteIntPointResponse)
-	err := grpc.Invoke(ctx, "/example.IntPointTxn/DeleteSet", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointTxn/DeleteSet", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *intPointTxnClient) CustomMethod(ctx context.Context, in *google_protobuf2.Empty, opts ...grpc.CallOption) (*google_protobuf2.Empty, error) {
-	out := new(google_protobuf2.Empty)
-	err := grpc.Invoke(ctx, "/example.IntPointTxn/CustomMethod", in, out, c.cc, opts...)
+func (c *intPointTxnClient) CustomMethod(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/example.IntPointTxn/CustomMethod", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -793,15 +1256,14 @@ func (c *intPointTxnClient) CustomMethod(ctx context.Context, in *google_protobu
 
 func (c *intPointTxnClient) CreateSomething(ctx context.Context, in *Something, opts ...grpc.CallOption) (*Something, error) {
 	out := new(Something)
-	err := grpc.Invoke(ctx, "/example.IntPointTxn/CreateSomething", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.IntPointTxn/CreateSomething", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// Server API for IntPointTxn service
-
+// IntPointTxnServer is the server API for IntPointTxn service.
 type IntPointTxnServer interface {
 	// The convention requires the rpc names have Create/Read/Update/List/Delete
 	// as a prefix. The type is inferred from the response (except for delete),
@@ -815,7 +1277,7 @@ type IntPointTxnServer interface {
 	DeleteSet(context.Context, *DeleteIntPointsRequest) (*DeleteIntPointResponse, error)
 	// CustomMethod can't be autogenerated as it matches no conventions, it will
 	// become a stub
-	CustomMethod(context.Context, *google_protobuf2.Empty) (*google_protobuf2.Empty, error)
+	CustomMethod(context.Context, *empty.Empty) (*empty.Empty, error)
 	// CreateSomething also doesn't match conventions and will become a stub
 	CreateSomething(context.Context, *Something) (*Something, error)
 }
@@ -933,7 +1395,7 @@ func _IntPointTxn_DeleteSet_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _IntPointTxn_CustomMethod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(google_protobuf2.Empty)
+	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -945,7 +1407,7 @@ func _IntPointTxn_CustomMethod_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/example.IntPointTxn/CustomMethod",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IntPointTxnServer).CustomMethod(ctx, req.(*google_protobuf2.Empty))
+		return srv.(IntPointTxnServer).CustomMethod(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1009,8 +1471,9 @@ var _IntPointTxn_serviceDesc = grpc.ServiceDesc{
 	Metadata: "example/feature_demo/demo_service.proto",
 }
 
-// Client API for CircleService service
-
+// CircleServiceClient is the client API for CircleService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type CircleServiceClient interface {
 	List(ctx context.Context, in *ListCircleRequest, opts ...grpc.CallOption) (*ListCircleResponse, error)
 }
@@ -1025,15 +1488,14 @@ func NewCircleServiceClient(cc *grpc.ClientConn) CircleServiceClient {
 
 func (c *circleServiceClient) List(ctx context.Context, in *ListCircleRequest, opts ...grpc.CallOption) (*ListCircleResponse, error) {
 	out := new(ListCircleResponse)
-	err := grpc.Invoke(ctx, "/example.CircleService/List", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/example.CircleService/List", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// Server API for CircleService service
-
+// CircleServiceServer is the server API for CircleService service.
 type CircleServiceServer interface {
 	List(context.Context, *ListCircleRequest) (*ListCircleResponse, error)
 }
@@ -1071,68 +1533,4 @@ var _CircleService_serviceDesc = grpc.ServiceDesc{
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "example/feature_demo/demo_service.proto",
-}
-
-func init() { proto.RegisterFile("example/feature_demo/demo_service.proto", fileDescriptor2) }
-
-var fileDescriptor2 = []byte{
-	// 918 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x56, 0xd1, 0x6e, 0xdb, 0x36,
-	0x14, 0xb5, 0x12, 0xd7, 0xb1, 0x6f, 0x9a, 0xb8, 0x65, 0xe2, 0xcc, 0x51, 0xbb, 0x2c, 0xd0, 0x4b,
-	0xd3, 0x75, 0xb1, 0x0a, 0x77, 0x4f, 0x2d, 0xb0, 0xad, 0x75, 0xda, 0x21, 0xeb, 0x0a, 0x14, 0xf6,
-	0xf6, 0xb0, 0x0c, 0x98, 0x21, 0x5b, 0xd7, 0x0a, 0x11, 0x59, 0x54, 0x29, 0x7a, 0xb0, 0xf7, 0x07,
-	0xfb, 0xa4, 0xe4, 0x6b, 0xf6, 0xb4, 0x8f, 0xd8, 0xd3, 0x40, 0x91, 0x52, 0x24, 0x59, 0x06, 0xd2,
-	0x65, 0xc0, 0x5e, 0x06, 0x03, 0x86, 0x48, 0x9e, 0x7b, 0x79, 0xef, 0xe1, 0xe1, 0x91, 0xe0, 0x11,
-	0xce, 0x9d, 0x69, 0xe8, 0xa3, 0x3d, 0x41, 0x47, 0xcc, 0x38, 0x0e, 0x5d, 0x9c, 0x32, 0x5b, 0xfe,
-	0x0d, 0x23, 0xe4, 0xbf, 0xd2, 0x31, 0x76, 0x42, 0xce, 0x04, 0x23, 0x1b, 0x1a, 0x68, 0x3e, 0xf0,
-	0x18, 0xf3, 0x7c, 0xb4, 0xe3, 0xe9, 0xd1, 0x6c, 0x62, 0xe3, 0x34, 0x14, 0x0b, 0x85, 0x32, 0x9f,
-	0x7b, 0x54, 0x9c, 0xcf, 0x46, 0x9d, 0x31, 0x9b, 0xda, 0x34, 0x98, 0xb0, 0x91, 0xcf, 0xe6, 0x2c,
-	0xc4, 0x40, 0xa1, 0xc7, 0xc7, 0x1e, 0x06, 0xc7, 0x1e, 0xe3, 0x53, 0x9b, 0x85, 0x82, 0xb2, 0x20,
-	0xb2, 0xe5, 0x40, 0xc7, 0x1e, 0x16, 0x13, 0x4f, 0x28, 0xfa, 0xee, 0x70, 0xea, 0x44, 0x17, 0x1a,
-	0xf1, 0xdd, 0xaa, 0xec, 0x8e, 0xf0, 0x9d, 0xe8, 0xd8, 0x09, 0xc3, 0x63, 0xc1, 0x98, 0x7f, 0x41,
-	0x85, 0xfd, 0x61, 0x86, 0x7c, 0x61, 0x8f, 0x99, 0xef, 0xe3, 0x58, 0xee, 0x34, 0x64, 0x21, 0x72,
-	0x47, 0x30, 0x1e, 0xa9, 0x5c, 0xd6, 0x57, 0x50, 0x3f, 0x0d, 0xc4, 0x7b, 0x46, 0x03, 0x41, 0xb6,
-	0x61, 0x8d, 0xba, 0x6d, 0xe3, 0xd0, 0x38, 0xda, 0xea, 0xaf, 0x51, 0x97, 0xdc, 0x05, 0x63, 0xde,
-	0x5e, 0x3b, 0x34, 0x8e, 0xee, 0xf4, 0x8d, 0xb9, 0x1c, 0x2d, 0xda, 0xeb, 0x6a, 0xb4, 0x78, 0x5e,
-	0xbb, 0xba, 0xdc, 0x5f, 0xab, 0x1b, 0xd6, 0x09, 0xb4, 0x7a, 0x1c, 0x1d, 0x81, 0x49, 0x96, 0x3e,
-	0x7e, 0x98, 0x61, 0x24, 0xc8, 0x13, 0xd8, 0x08, 0x9d, 0x85, 0xcf, 0x1c, 0x95, 0x71, 0xb3, 0x7b,
-	0xbf, 0xa3, 0xa9, 0xeb, 0xa4, 0xd0, 0x04, 0x61, 0xf5, 0x60, 0xaf, 0x98, 0x25, 0x0a, 0x59, 0x10,
-	0x21, 0x79, 0x0c, 0x35, 0x8e, 0xd1, 0xcc, 0x17, 0xab, 0xb3, 0x68, 0x80, 0xf5, 0x33, 0xec, 0xf4,
-	0xd1, 0x71, 0x8b, 0x85, 0x14, 0xbb, 0xfa, 0x12, 0x6a, 0x31, 0xa3, 0x51, 0xdc, 0xda, 0x66, 0xf7,
-	0x61, 0x27, 0xe1, 0xb0, 0xe3, 0x84, 0xb4, 0xf3, 0x46, 0xae, 0x0d, 0x50, 0xf3, 0xd5, 0xd7, 0x58,
-	0xeb, 0x25, 0xec, 0xe6, 0x93, 0x7f, 0x7c, 0x7d, 0xbf, 0x1b, 0xd0, 0xfa, 0x31, 0x74, 0x6f, 0xc9,
-	0x15, 0xe9, 0x41, 0xd3, 0x43, 0xce, 0x3c, 0xe4, 0x74, 0xe8, 0xa1, 0xfc, 0xe9, 0x46, 0xcc, 0x8e,
-	0x52, 0x4e, 0x27, 0x51, 0x8e, 0xea, 0xe5, 0x9d, 0x13, 0x5d, 0xf4, 0xb7, 0x93, 0x90, 0x6f, 0xe3,
-	0x08, 0x49, 0x78, 0xb1, 0x94, 0x8f, 0x6f, 0xe8, 0x11, 0xb4, 0x4e, 0xd0, 0xc7, 0xe5, 0x7e, 0x0a,
-	0x94, 0x5b, 0x9f, 0xc3, 0x5e, 0x1e, 0x18, 0x25, 0xc8, 0x7b, 0xb0, 0x4e, 0xdd, 0xa8, 0x6d, 0x1c,
-	0xae, 0x1f, 0x6d, 0xf5, 0xe5, 0xa3, 0xd5, 0x2e, 0x62, 0x93, 0xca, 0xac, 0x39, 0xec, 0x7e, 0x4f,
-	0x23, 0xb1, 0x54, 0xf1, 0x13, 0xd8, 0x50, 0x05, 0xa9, 0x3c, 0xe5, 0xec, 0x69, 0x04, 0x79, 0x06,
-	0x8d, 0xd0, 0xf1, 0x70, 0x28, 0xcf, 0x5c, 0xf3, 0xb6, 0x97, 0x17, 0xc0, 0x7b, 0xc7, 0xc3, 0xd3,
-	0x60, 0xc2, 0xfa, 0xf5, 0x50, 0x3f, 0x59, 0xbf, 0x41, 0x4b, 0xee, 0x3c, 0x60, 0x53, 0x14, 0xe7,
-	0x34, 0xf0, 0xd2, 0xad, 0xbf, 0x28, 0x6e, 0x4d, 0xd2, 0xad, 0xaf, 0xc1, 0xb7, 0xdb, 0xfb, 0x31,
-	0x34, 0xd2, 0x54, 0x64, 0x17, 0xee, 0xc4, 0x7a, 0x8c, 0xb9, 0x6d, 0xf4, 0xd5, 0x20, 0xbd, 0x8b,
-	0x7f, 0x18, 0xb0, 0x93, 0x67, 0x48, 0x91, 0x6c, 0x4b, 0xc5, 0xfb, 0x02, 0xb9, 0x3e, 0xd2, 0x4f,
-	0x8a, 0x8a, 0x97, 0x6b, 0xb2, 0x52, 0x0d, 0x23, 0x4f, 0xa1, 0xce, 0xb8, 0x8b, 0x7c, 0x38, 0x5a,
-	0xe8, 0x3a, 0x5b, 0xf9, 0x90, 0x01, 0xe3, 0x22, 0x6e, 0x2d, 0x86, 0xbd, 0x5a, 0x64, 0x2e, 0xd5,
-	0xfa, 0xcd, 0x2f, 0x15, 0x79, 0x0a, 0xb5, 0xd0, 0xf1, 0x68, 0xe0, 0xb5, 0xab, 0x71, 0x54, 0x7b,
-	0x89, 0x0d, 0x1a, 0x38, 0x2a, 0x42, 0xe1, 0xac, 0x03, 0xa8, 0xf5, 0x28, 0x1f, 0xfb, 0x28, 0xed,
-	0x88, 0x6b, 0x89, 0x19, 0x3c, 0xa5, 0x60, 0x07, 0xee, 0x4b, 0x06, 0x14, 0x46, 0xf7, 0x6f, 0x7d,
-	0x0d, 0x24, 0x3b, 0x99, 0x0a, 0xbd, 0x70, 0x76, 0xcd, 0xf4, 0xec, 0x34, 0x32, 0x59, 0xef, 0xfe,
-	0x59, 0x85, 0x66, 0x42, 0xea, 0x40, 0xbd, 0x0e, 0xc8, 0x5b, 0xa8, 0x29, 0xcb, 0x22, 0x07, 0xd7,
-	0x71, 0x65, 0x4e, 0x68, 0x7e, 0xb6, 0x72, 0x5d, 0x0b, 0xbb, 0x42, 0x5e, 0x43, 0x55, 0xba, 0x0b,
-	0x79, 0x98, 0x42, 0x4b, 0x9c, 0xcc, 0xfc, 0x74, 0xc5, 0x6a, 0x9a, 0xe6, 0x2d, 0xd4, 0xd4, 0xad,
-	0xce, 0xd4, 0x54, 0xea, 0x38, 0x99, 0x9a, 0xca, 0x6d, 0x40, 0xd5, 0x24, 0x59, 0xcb, 0xd4, 0x54,
-	0xa2, 0xad, 0x4c, 0x4d, 0x65, 0x77, 0xd3, 0xaa, 0x90, 0x53, 0xd8, 0xca, 0xdd, 0x1d, 0xb2, 0xb7,
-	0x64, 0x53, 0xaf, 0xe5, 0x9b, 0xd3, 0x3c, 0xc8, 0x65, 0x5a, 0xba, 0x6b, 0x56, 0x85, 0xfc, 0x04,
-	0x35, 0x65, 0x0d, 0x99, 0xf6, 0x4a, 0x0d, 0x28, 0xd3, 0xde, 0x0a, 0x2f, 0xd9, 0xbe, 0xba, 0xdc,
-	0x87, 0xcc, 0xab, 0xef, 0x1b, 0xb8, 0xdb, 0x9b, 0x45, 0x82, 0x4d, 0xdf, 0xa1, 0x38, 0x67, 0xee,
-	0xca, 0x22, 0x57, 0xcc, 0x5b, 0x15, 0xf2, 0x02, 0x9a, 0xea, 0x78, 0xaf, 0x3b, 0x2d, 0x31, 0x03,
-	0xb3, 0x64, 0xce, 0xaa, 0x98, 0x5a, 0xbe, 0xdd, 0xbf, 0xaa, 0xb0, 0x99, 0xd4, 0xf4, 0xc3, 0x3c,
-	0xf8, 0x5f, 0x64, 0x37, 0x14, 0xd9, 0xd9, 0xbf, 0xa7, 0x8c, 0xe6, 0xd5, 0xe5, 0xfe, 0x26, 0x34,
-	0x68, 0x20, 0x86, 0x61, 0x2c, 0x8d, 0x5f, 0xa0, 0xa1, 0xa0, 0x03, 0x14, 0x64, 0x55, 0x78, 0xf4,
-	0xcf, 0xf3, 0xff, 0xc7, 0xd2, 0xab, 0x5f, 0x5d, 0xee, 0x57, 0xeb, 0xc6, 0x3d, 0xa3, 0x7b, 0x06,
-	0x5b, 0xca, 0xf8, 0x12, 0x8b, 0x7b, 0xa9, 0x0f, 0xc7, 0xcc, 0xd1, 0x9f, 0xf3, 0x56, 0xf3, 0x41,
-	0xe9, 0x5a, 0x72, 0x30, 0x89, 0xb0, 0x5f, 0xbd, 0x39, 0x3b, 0xb9, 0xe9, 0x27, 0x71, 0xd9, 0x97,
-	0xf8, 0x0b, 0x3d, 0x39, 0xaa, 0xc5, 0xe8, 0x67, 0x7f, 0x07, 0x00, 0x00, 0xff, 0xff, 0xad, 0x4d,
-	0xbe, 0x92, 0xb0, 0x0b, 0x00, 0x00,
 }

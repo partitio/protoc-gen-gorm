@@ -20,6 +20,6 @@ type BlogPostServiceDefaultServer struct {
 }
 
 // Read ...
-func (m *BlogPostServiceDefaultServer) Read(ctx context.Context, in *ReadAccountRequest) (*ReadBlogPostsResponse, error) {
-	return &ReadBlogPostsResponse{}, nil
+func (m *BlogPostServiceDefaultServer) Read(ctx context.Context, in *ReadAccountRequest, out *ReadBlogPostsResponse) error {
+	return nil
 }

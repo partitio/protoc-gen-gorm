@@ -1214,29 +1214,6 @@ func DefaultStrictUpdateTypeWithID(ctx context.Context, in *TypeWithID, db *gorm
 	var count int64
 	lockedRow := &TypeWithIDORM{}
 	count = db.Model(&ormObj).Set("gorm:query_option", "FOR UPDATE").Where("id=?", ormObj.Id).First(lockedRow).RowsAffected
-	if hook, ok := interface{}(&ormObj).(TypeWithIDORMWithBeforeStrictUpdateCleanup); ok {
-		if db, err = hook.BeforeStrictUpdateCleanup(ctx, db); err != nil {
-			return nil, err
-		}
-	}
-	filterANestedObject := TestTypesORM{}
-	if ormObj.Id == 0 {
-		return nil, errors1.EmptyIdError
-	}
-	filterANestedObject.ANestedObjectTypeWithIDId = new(uint32)
-	*filterANestedObject.ANestedObjectTypeWithIDId = ormObj.Id
-	if err = db.Where(filterANestedObject).Delete(TestTypesORM{}).Error; err != nil {
-		return nil, err
-	}
-	filterThings := TestTypesORM{}
-	if ormObj.Id == 0 {
-		return nil, errors1.EmptyIdError
-	}
-	filterThings.ThingsTypeWithIDId = new(uint32)
-	*filterThings.ThingsTypeWithIDId = ormObj.Id
-	if err = db.Where(filterThings).Delete(TestTypesORM{}).Error; err != nil {
-		return nil, err
-	}
 	if hook, ok := interface{}(&ormObj).(TypeWithIDORMWithBeforeStrictUpdateSave); ok {
 		if db, err = hook.BeforeStrictUpdateSave(ctx, db); err != nil {
 			return nil, err
@@ -1701,11 +1678,6 @@ func DefaultStrictUpdateMultiaccountTypeWithID(ctx context.Context, in *Multiacc
 	var count int64
 	lockedRow := &MultiaccountTypeWithIDORM{}
 	count = db.Model(&ormObj).Set("gorm:query_option", "FOR UPDATE").Where("id=?", ormObj.Id).First(lockedRow).RowsAffected
-	if hook, ok := interface{}(&ormObj).(MultiaccountTypeWithIDORMWithBeforeStrictUpdateCleanup); ok {
-		if db, err = hook.BeforeStrictUpdateCleanup(ctx, db); err != nil {
-			return nil, err
-		}
-	}
 	if hook, ok := interface{}(&ormObj).(MultiaccountTypeWithIDORMWithBeforeStrictUpdateSave); ok {
 		if db, err = hook.BeforeStrictUpdateSave(ctx, db); err != nil {
 			return nil, err
@@ -2140,20 +2112,6 @@ func DefaultStrictUpdatePrimaryUUIDType(ctx context.Context, in *PrimaryUUIDType
 	var count int64
 	lockedRow := &PrimaryUUIDTypeORM{}
 	count = db.Model(&ormObj).Set("gorm:query_option", "FOR UPDATE").Where("id=?", ormObj.Id).First(lockedRow).RowsAffected
-	if hook, ok := interface{}(&ormObj).(PrimaryUUIDTypeORMWithBeforeStrictUpdateCleanup); ok {
-		if db, err = hook.BeforeStrictUpdateCleanup(ctx, db); err != nil {
-			return nil, err
-		}
-	}
-	filterChild := ExternalChildORM{}
-	if ormObj.Id == nil || *ormObj.Id == go_uuid1.Nil {
-		return nil, errors1.EmptyIdError
-	}
-	filterChild.PrimaryUUIDTypeId = new(go_uuid1.UUID)
-	*filterChild.PrimaryUUIDTypeId = *ormObj.Id
-	if err = db.Where(filterChild).Delete(ExternalChildORM{}).Error; err != nil {
-		return nil, err
-	}
 	if hook, ok := interface{}(&ormObj).(PrimaryUUIDTypeORMWithBeforeStrictUpdateSave); ok {
 		if db, err = hook.BeforeStrictUpdateSave(ctx, db); err != nil {
 			return nil, err
@@ -2501,20 +2459,6 @@ func DefaultStrictUpdatePrimaryStringType(ctx context.Context, in *PrimaryString
 	var count int64
 	lockedRow := &PrimaryStringTypeORM{}
 	count = db.Model(&ormObj).Set("gorm:query_option", "FOR UPDATE").Where("id=?", ormObj.Id).First(lockedRow).RowsAffected
-	if hook, ok := interface{}(&ormObj).(PrimaryStringTypeORMWithBeforeStrictUpdateCleanup); ok {
-		if db, err = hook.BeforeStrictUpdateCleanup(ctx, db); err != nil {
-			return nil, err
-		}
-	}
-	filterChild := ExternalChildORM{}
-	if ormObj.Id == "" {
-		return nil, errors1.EmptyIdError
-	}
-	filterChild.PrimaryStringTypeId = new(string)
-	*filterChild.PrimaryStringTypeId = ormObj.Id
-	if err = db.Where(filterChild).Delete(ExternalChildORM{}).Error; err != nil {
-		return nil, err
-	}
 	if hook, ok := interface{}(&ormObj).(PrimaryStringTypeORMWithBeforeStrictUpdateSave); ok {
 		if db, err = hook.BeforeStrictUpdateSave(ctx, db); err != nil {
 			return nil, err
@@ -2862,20 +2806,6 @@ func DefaultStrictUpdateTestTag(ctx context.Context, in *TestTag, db *gorm1.DB) 
 	var count int64
 	lockedRow := &TestTagORM{}
 	count = db.Model(&ormObj).Set("gorm:query_option", "FOR UPDATE").Where("id=?", ormObj.Id).First(lockedRow).RowsAffected
-	if hook, ok := interface{}(&ormObj).(TestTagORMWithBeforeStrictUpdateCleanup); ok {
-		if db, err = hook.BeforeStrictUpdateCleanup(ctx, db); err != nil {
-			return nil, err
-		}
-	}
-	filterTestTagAssoc := TestTagAssociationORM{}
-	if ormObj.Id == "" {
-		return nil, errors1.EmptyIdError
-	}
-	filterTestTagAssoc.TestTagId = new(string)
-	*filterTestTagAssoc.TestTagId = ormObj.Id
-	if err = db.Where(filterTestTagAssoc).Delete(TestTagAssociationORM{}).Error; err != nil {
-		return nil, err
-	}
 	if hook, ok := interface{}(&ormObj).(TestTagORMWithBeforeStrictUpdateSave); ok {
 		if db, err = hook.BeforeStrictUpdateSave(ctx, db); err != nil {
 			return nil, err
