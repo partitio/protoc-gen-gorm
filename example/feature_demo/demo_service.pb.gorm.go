@@ -934,9 +934,9 @@ type IntPointServiceIntPointWithAfterList interface {
 // ListSomething ...
 func (m *IntPointServiceDefaultServer) ListSomething(ctx context.Context, in *google_protobuf2.Empty, out *ListSomethingResponse) error {
 	db := m.DB
-	if custom, ok := interface{}(in).(IntPointServiceSomethingWithBeforeListSomething); ok {
+	if custom, ok := interface{}(in).(IntPointServiceSomethingWithBeforeList); ok {
 		var err error
-		if db, err = custom.BeforeListSomething(ctx, db); err != nil {
+		if db, err = custom.BeforeList(ctx, db); err != nil {
 			return err
 		}
 	}
@@ -946,23 +946,23 @@ func (m *IntPointServiceDefaultServer) ListSomething(ctx context.Context, in *go
 	}
 	out.Results = res
 
-	if custom, ok := interface{}(in).(IntPointServiceSomethingWithAfterListSomething); ok {
+	if custom, ok := interface{}(in).(IntPointServiceSomethingWithAfterList); ok {
 		var err error
-		if err = custom.AfterListSomething(ctx, out, db); err != nil {
+		if err = custom.AfterList(ctx, out, db); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-// IntPointServiceSomethingWithBeforeListSomething called before DefaultListSomethingSomething in the default ListSomething handler
-type IntPointServiceSomethingWithBeforeListSomething interface {
-	BeforeListSomething(context.Context, *gorm1.DB) (*gorm1.DB, error)
+// IntPointServiceSomethingWithBeforeList called before DefaultListSomething in the default List handler
+type IntPointServiceSomethingWithBeforeList interface {
+	BeforeList(context.Context, *gorm1.DB) (*gorm1.DB, error)
 }
 
-// IntPointServiceSomethingWithAfterListSomething called before DefaultListSomethingSomething in the default ListSomething handler
-type IntPointServiceSomethingWithAfterListSomething interface {
-	AfterListSomething(context.Context, *ListSomethingResponse, *gorm1.DB) error
+// IntPointServiceSomethingWithAfterList called before DefaultListSomething in the default List handler
+type IntPointServiceSomethingWithAfterList interface {
+	AfterList(context.Context, *ListSomethingResponse, *gorm1.DB) error
 }
 
 // Delete ...
