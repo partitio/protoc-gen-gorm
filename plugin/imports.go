@@ -36,17 +36,17 @@ func CleanImports(pFileText *string) *string {
 
 var (
 	gormImport     = "github.com/jinzhu/gorm"
-	tkgormImport   = "github.com/infobloxopen/atlas-app-toolkit/gorm"
+	tkgormImport   = "github.com/partitio/atlas-app-toolkit/gorm"
 	uuidImport     = "github.com/satori/go.uuid"
-	authImport     = "github.com/infobloxopen/atlas-app-toolkit/auth"
+	authImport     = "github.com/partitio/atlas-app-toolkit/auth"
 	gormpqImport   = "github.com/jinzhu/gorm/dialects/postgres"
 	gtypesImport   = "github.com/partitio/protoc-gen-gorm/types"
 	ptypesImport   = "github.com/golang/protobuf/ptypes"
 	wktImport      = "github.com/golang/protobuf/ptypes/wrappers"
-	resourceImport = "github.com/infobloxopen/atlas-app-toolkit/gorm/resource"
+	resourceImport = "github.com/partitio/atlas-app-toolkit/gorm/resource"
 	fmImport       = "google.golang.org/genproto/protobuf/field_mask"
-	queryImport    = "github.com/infobloxopen/atlas-app-toolkit/query"
-	gatewayImport  = "github.com/infobloxopen/atlas-app-toolkit/gateway"
+	queryImport    = "github.com/partitio/atlas-app-toolkit/query"
+	gatewayImport  = "github.com/partitio/atlas-app-toolkit/gateway"
 	pqImport       = "github.com/lib/pq"
 	gerrorsImport  = "github.com/partitio/protoc-gen-gorm/errors"
 )

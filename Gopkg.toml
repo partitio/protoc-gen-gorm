@@ -1,7 +1,7 @@
-required = ["github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger"]
+required = ["github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger", "github.com/micro/protoc-gen-micro"]
 
 [[constraint]]
-  name = "github.com/infobloxopen/atlas-app-toolkit"
+  name = "github.com/partitio/atlas-app-toolkit"
   branch = "master"
 
 [[constraint]]

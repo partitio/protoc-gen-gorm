@@ -14,6 +14,15 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/go-log/log"
+  packages = [
+    ".",
+    "log"
+  ]
+  revision = "37e2e1f19306361e1fc152a1839f1236149cb4e4"
+  version = "v0.1.0"
+
+[[projects]]
   name = "github.com/gogo/protobuf"
   packages = [
     "gogoproto",
@@ -71,6 +80,12 @@
   revision = "1325a051a2753cd67556b182843b1b693d0854cd"
 
 [[projects]]
+  name = "github.com/google/uuid"
+  packages = ["."]
+  revision = "0cd6bf5da1e1c83f8b45653022c74f71af0538a4"
+  version = "v1.1.1"
+
+[[projects]]
   name = "github.com/grpc-ecosystem/go-grpc-middleware"
   packages = [
     ".",
@@ -98,23 +113,6 @@
   ]
   revision = "92583770e3f01b09a0d3e9bdf64321d8bebd48f2"
   version = "v1.4.1"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/infobloxopen/atlas-app-toolkit"
-  packages = [
-    "auth",
-    "errors",
-    "gateway",
-    "gorm",
-    "gorm/resource",
-    "query",
-    "rpc/errdetails",
-    "rpc/errfields",
-    "rpc/resource",
-    "util"
-  ]
-  revision = "534a084bf6faeb9f286df0ba98cd9ff73bbc8786"
 
 [[projects]]
   name = "github.com/jinzhu/gorm"
@@ -148,6 +146,103 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/micro/go-log"
+  packages = ["."]
+  revision = "5cb7bb4413f4ae8de0d7e826aa2854861d3a6c31"
+  version = "v0.1.0"
+
+[[projects]]
+  name = "github.com/micro/go-micro"
+  packages = [
+    "broker",
+    "client",
+    "codec",
+    "codec/bytes",
+    "codec/grpc",
+    "codec/json",
+    "codec/jsonrpc",
+    "codec/proto",
+    "codec/protorpc",
+    "errors",
+    "metadata",
+    "registry",
+    "selector",
+    "server",
+    "server/debug",
+    "server/debug/proto",
+    "transport"
+  ]
+  revision = "722a3682c854ba3fbd8b932228734f9dfe7bf887"
+  version = "v1.1.0"
+
+[[projects]]
+  name = "github.com/micro/go-rcache"
+  packages = ["."]
+  revision = "ec34c04e36ed57db53869799e7ca2c04b4db0dcc"
+  version = "v0.3.0"
+
+[[projects]]
+  name = "github.com/micro/mdns"
+  packages = ["."]
+  revision = "3a29b6675e7404722eed4d4dde532c2e103007a7"
+  version = "v0.1.0"
+
+[[projects]]
+  name = "github.com/micro/protoc-gen-micro"
+  packages = [
+    ".",
+    "generator",
+    "plugin/micro"
+  ]
+  revision = "87d2229ff80ceabaa8ff56aa136c47c270fd18be"
+  version = "v0.7.2"
+
+[[projects]]
+  name = "github.com/micro/util"
+  packages = [
+    "go/lib/addr",
+    "go/lib/net",
+    "go/lib/tls"
+  ]
+  revision = "c8377e47f70b8f319766d61b4ff12309ac3e044d"
+  version = "v0.2.0"
+
+[[projects]]
+  name = "github.com/miekg/dns"
+  packages = ["."]
+  revision = "cc8cd02140663157ce797c6650488d6c8563f31f"
+  version = "v1.1.6"
+
+[[projects]]
+  name = "github.com/mitchellh/hashstructure"
+  packages = ["."]
+  revision = "a38c50148365edc8df43c1580c48fb2b3a1e9cd7"
+  version = "v1.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/partitio/atlas-app-toolkit"
+  packages = [
+    "auth",
+    "errors",
+    "gateway",
+    "gorm",
+    "gorm/resource",
+    "query",
+    "rpc/errdetails",
+    "rpc/errfields",
+    "rpc/resource",
+    "util"
+  ]
+  revision = "c1fb12986e25335f7820c4769925eb07f254d94a"
+
+[[projects]]
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  revision = "ba968bfe8b2f7e042a574c888954fccecfa385b4"
+  version = "v0.8.1"
+
+[[projects]]
   name = "github.com/satori/go.uuid"
   packages = ["."]
   revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
@@ -162,19 +257,29 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
-  packages = ["ssh/terminal"]
+  packages = [
+    "ed25519",
+    "ed25519/internal/edwards25519",
+    "ssh/terminal"
+  ]
   revision = "74369b46fc6756741c016591724fd1cb8e26845f"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = [
+    "bpf",
     "context",
     "http/httpguts",
     "http2",
+    "http2/h2c",
     "http2/hpack",
     "idna",
+    "internal/iana",
+    "internal/socket",
     "internal/timeseries",
+    "ipv4",
+    "ipv6",
     "trace"
   ]
   revision = "3a22650c66bd7f4fb6d1e8072ffd7b75c8a27898"
@@ -267,6 +372,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "de209705e9c092fd3c4aa7a8b4d6f80f87dfca7808f685d860028d1956fbc3f1"
+  inputs-digest = "231cb0f28525778bf8fc6e5273baef4aa72f482afc9c0835887d6c80179772ac"
   solver-name = "gps-cdcl"
   solver-version = 1

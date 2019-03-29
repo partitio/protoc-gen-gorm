@@ -7,16 +7,16 @@ import context "context"
 
 import errors1 "github.com/partitio/protoc-gen-gorm/errors"
 import field_mask1 "google.golang.org/genproto/protobuf/field_mask"
-import gateway1 "github.com/infobloxopen/atlas-app-toolkit/gateway"
+import gateway1 "github.com/partitio/atlas-app-toolkit/gateway"
 import gorm1 "github.com/jinzhu/gorm"
-import gorm2 "github.com/infobloxopen/atlas-app-toolkit/gorm"
-import query1 "github.com/infobloxopen/atlas-app-toolkit/query"
+import gorm2 "github.com/partitio/atlas-app-toolkit/gorm"
+import query1 "github.com/partitio/atlas-app-toolkit/query"
 
 import fmt "fmt"
 import math "math"
 import google_protobuf2 "github.com/golang/protobuf/ptypes/empty"
 import _ "google.golang.org/genproto/protobuf/field_mask"
-import _ "github.com/infobloxopen/atlas-app-toolkit/query"
+import _ "github.com/partitio/atlas-app-toolkit/query"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = fmt.Errorf
@@ -538,13 +538,27 @@ func DefaultListIntPoint(ctx context.Context, db *gorm1.DB, f *query1.Filtering,
 			return nil, err
 		}
 	}
+	var fm *field_mask1.FieldMask
+	if fs != nil {
+		if fm, err = query1.FieldSelectionToFieldMask(fs); err != nil {
+			return nil, err
+		}
+	}
 	pbResponse := []*IntPoint{}
 	for _, responseEntry := range ormResponse {
 		temp, err := responseEntry.ToPB(ctx)
 		if err != nil {
 			return nil, err
 		}
-		pbResponse = append(pbResponse, &temp)
+		if fm == nil {
+			pbResponse = append(pbResponse, &temp)
+			continue
+		}
+		pb := IntPoint{}
+		if err := gorm2.MergeWithMask(&temp, &pb, fm); err != nil {
+			return nil, err
+		}
+		pbResponse = append(pbResponse, &pb)
 	}
 	return pbResponse, nil
 }
