@@ -48,14 +48,14 @@ install:
 .PHONY: example
 example: default
 	protoc -I. -I$(SRCPATH) -I./vendor -I./vendor/github.com/grpc-ecosystem/grpc-gateway \
-		--go_out=$(SRCPATH) --micro_out=$(SRCPATH) --gorm_out="engine=postgres,enums=string,gateway:$(SRCPATH)" \
+		--go_out=$(SRCPATH) --gorm_out="engine=postgres,enums=string,gateway:$(SRCPATH)" \
 		example/feature_demo/demo_multi_file.proto \
 		example/feature_demo/demo_types.proto \
 		example/feature_demo/demo_service.proto \
 		example/feature_demo/demo_multi_file_service.proto
 
 	protoc -I. -I$(SRCPATH) -I./vendor -I./vendor/github.com/grpc-ecosystem/grpc-gateway \
-		--go_out=$(SRCPATH) --micro_out=$(SRCPATH) --gorm_out="$(SRCPATH)" \
+		--go_out=$(SRCPATH) --gorm_out="$(SRCPATH)" \
 		example/user/user.proto
 
 .PHONY: run-tests

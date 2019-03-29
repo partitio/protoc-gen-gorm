@@ -188,16 +188,6 @@
   version = "v0.1.0"
 
 [[projects]]
-  name = "github.com/micro/protoc-gen-micro"
-  packages = [
-    ".",
-    "generator",
-    "plugin/micro"
-  ]
-  revision = "87d2229ff80ceabaa8ff56aa136c47c270fd18be"
-  version = "v0.7.2"
-
-[[projects]]
   name = "github.com/micro/util"
   packages = [
     "go/lib/addr",
@@ -372,6 +362,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "231cb0f28525778bf8fc6e5273baef4aa72f482afc9c0835887d6c80179772ac"
+  inputs-digest = "2d2a8bc5b295c643590358e7330bb4223447b756c8b09136bd758f2e45e26e0a"
   solver-name = "gps-cdcl"
   solver-version = 1
