@@ -1,7 +1,7 @@
 required = ["github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger"]
 
 [[constraint]]
-  name = "github.com/infobloxopen/atlas-app-toolkit"
+  name = "github.com/partitio/atlas-app-toolkit"
   branch = "master"
 
 [[constraint]]

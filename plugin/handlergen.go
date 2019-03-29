@@ -541,7 +541,8 @@ func (p *OrmPlugin) generateListHandler(message *generator.Descriptor) {
 	} else {
 		pg = "nil"
 	}
-	if p.listHasFieldSelection(ormable) {
+	selectFields := p.listHasFieldSelection(ormable)
+	if selectFields {
 		listSign += fmt.Sprint(`, fs `, `*`, p.Import(queryImport), `.FieldSelection`)
 		fs = "fs"
 	} else {
@@ -577,13 +578,33 @@ func (p *OrmPlugin) generateListHandler(message *generator.Descriptor) {
 	p.P(`return nil, err`)
 	p.P(`}`)
 	p.generateAfterListHookCall(ormable)
+	if selectFields {
+		p.P(`var fm *field_mask1.FieldMask`)
+		p.P(`if fs != nil {`)
+		p.P(`if fm, err = query1.FieldSelectionToFieldMask(fs); err != nil {`)
+		p.P(`return nil, err`)
+		p.P(`}`)
+		p.P(`}`)
+	}
 	p.P(`pbResponse := []*`, typeName, `{}`)
 	p.P(`for _, responseEntry := range ormResponse {`)
 	p.P(`temp, err := responseEntry.ToPB(ctx)`)
 	p.P(`if err != nil {`)
 	p.P(`return nil, err`)
 	p.P(`}`)
-	p.P(`pbResponse = append(pbResponse, &temp)`)
+	if selectFields {
+		p.P(`if fm == nil {`)
+		p.P(`pbResponse = append(pbResponse, &temp)`)
+		p.P(`continue`)
+		p.P(`}`)
+		p.P(`pb := `, typeName, `{}`)
+		p.P(`if err := gorm2.MergeWithMask(&temp, &pb, fm); err != nil {`)
+		p.P(`return nil, err`)
+		p.P(`}`)
+		p.P(`pbResponse = append(pbResponse, &pb)`)
+	} else {
+		p.P(`pbResponse = append(pbResponse, &temp)`)
+	}
 	p.P(`}`)
 	p.P(`return pbResponse, nil`)
 	p.P(`}`)

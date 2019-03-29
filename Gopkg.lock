@@ -100,23 +100,6 @@
   version = "v1.4.1"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/infobloxopen/atlas-app-toolkit"
-  packages = [
-    "auth",
-    "errors",
-    "gateway",
-    "gorm",
-    "gorm/resource",
-    "query",
-    "rpc/errdetails",
-    "rpc/errfields",
-    "rpc/resource",
-    "util"
-  ]
-  revision = "534a084bf6faeb9f286df0ba98cd9ff73bbc8786"
-
-[[projects]]
   name = "github.com/jinzhu/gorm"
   packages = [
     ".",
@@ -146,6 +129,23 @@
   ]
   revision = "4ded0e9383f75c197b3a2aaa6d590ac52df6fd79"
   version = "v1.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/partitio/atlas-app-toolkit"
+  packages = [
+    "auth",
+    "errors",
+    "gateway",
+    "gorm",
+    "gorm/resource",
+    "query",
+    "rpc/errdetails",
+    "rpc/errfields",
+    "rpc/resource",
+    "util"
+  ]
+  revision = "c1fb12986e25335f7820c4769925eb07f254d94a"
 
 [[projects]]
   name = "github.com/satori/go.uuid"
@@ -267,6 +267,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "de209705e9c092fd3c4aa7a8b4d6f80f87dfca7808f685d860028d1956fbc3f1"
+  inputs-digest = "7209e71580cce41b5f95964ca8ff7b587057ef99482d36e631f8426aab03f0a3"
   solver-name = "gps-cdcl"
   solver-version = 1
