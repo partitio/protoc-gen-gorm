@@ -1,7 +1,5 @@
 module github.com/partitio/protoc-gen-gorm
 
-go 1.12
-
 require (
 	github.com/dgrijalva/jwt-go v0.0.0-20180921172315-3af4c746e1c2 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
