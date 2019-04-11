@@ -440,6 +440,12 @@ func (p *OrmPlugin) generateOrmable(message *generator.Descriptor) {
 
 	}
 	p.P(`}`)
+	p.P(`var (`)
+	for _, fieldName := range p.getSortedFieldNames(ormable.Fields) {
+		name := generator.CamelCase(ormable.Name + "_" + fieldName)
+		p.P(strings.Replace(name, "ORM", "", -1), ` = "`, fieldName, `"`)
+	}
+	p.P(`)`)
 }
 
 func (p *OrmPlugin) renderGormTag(field *Field) string {
