@@ -137,7 +137,7 @@ func (p *OrmPlugin) generateCreateServerMethod(service autogenService, method au
 	if method.followsConvention {
 		p.generateDBSetup(service)
 		p.generatePreserviceCall(service.ccName, method.baseType, createService)
-		p.P(`res, err := DefaultCreate`, method.baseType, `(ctx, in.GetPayload(), db)`)
+		p.P(`res, err := DefaultCreate`, method.baseType, `(ctx, in.Payload, db)`)
 		p.P(`if err != nil {`)
 		p.P(`return err`)
 		p.P(`}`)
@@ -197,9 +197,9 @@ func (p *OrmPlugin) generateReadServerMethod(service autogenService, method auto
 		p.generatePreserviceCall(service.ccName, method.baseType, readService)
 		typeName := method.baseType
 		if fields := p.getFieldSelection(method.inType); fields != "" {
-			p.P(`res, err := DefaultRead`, typeName, `(ctx, &`, typeName, `{Id: in.GetId()}, db, in.`, fields, `)`)
+			p.P(`res, err := DefaultRead`, typeName, `(ctx, &`, typeName, `{Id: in.Id}, db, in.`, fields, `)`)
 		} else {
-			p.P(`res, err := DefaultRead`, typeName, `(ctx, &`, typeName, `{Id: in.GetId()}, db)`)
+			p.P(`res, err := DefaultRead`, typeName, `(ctx, &`, typeName, `{Id: in.Id}, db)`)
 		}
 		p.P(`if err != nil {`)
 		p.P(`return err`)
@@ -260,12 +260,12 @@ func (p *OrmPlugin) generateUpdateServerMethod(service autogenService, method au
 		p.generatePreserviceCall(service.ccName, method.baseType, updateService)
 		if method.fieldMaskName != "" {
 			p.P(`if in.Get`, method.fieldMaskName, `() == nil {`)
-			p.P(`res, err = DefaultStrictUpdate`, typeName, `(ctx, in.GetPayload(), db)`)
+			p.P(`res, err = DefaultStrictUpdate`, typeName, `(ctx, in.Payload, db)`)
 			p.P(`} else {`)
-			p.P(`res, err = DefaultPatch`, typeName, `(ctx, in.GetPayload(), in.Get`, method.fieldMaskName, `(), db)`)
+			p.P(`res, err = DefaultPatch`, typeName, `(ctx, in.Payload, in.Get`, method.fieldMaskName, `(), db)`)
 			p.P(`}`)
 		} else {
-			p.P(`res, err = DefaultStrictUpdate`, typeName, `(ctx, in.GetPayload(), db)`)
+			p.P(`res, err = DefaultStrictUpdate`, typeName, `(ctx, in.Payload, db)`)
 		}
 		p.P(`if err != nil {`)
 		p.P(`return err`)
@@ -334,7 +334,7 @@ func (p *OrmPlugin) generateDeleteServerMethod(service autogenService, method au
 		typeName := method.baseType
 		p.generateDBSetup(service)
 		p.generatePreserviceCall(service.ccName, method.baseType, deleteService)
-		p.P(`err := DefaultDelete`, typeName, `(ctx, &`, typeName, `{Id: in.GetId()}, db)`)
+		p.P(`err := DefaultDelete`, typeName, `(ctx, &`, typeName, `{Id: in.Id}, db)`)
 		p.P(`if err != nil {`)
 		p.P(`return err`)
 		p.P(`}`)
