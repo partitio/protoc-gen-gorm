@@ -549,7 +549,7 @@ func (p *OrmPlugin) generatePreserviceCall(svc, typeName, mthd string) {
 
 func (p *OrmPlugin) generatePagedRequestSetup(pg string) {
 	p.P(`pagedRequest := false`)
-	p.P(fmt.Sprintf(`if in.Get%s().GetLimit()>=1 {`, pg))
+	p.P(fmt.Sprintf(`if in.%s.Limit>=1 {`, pg))
 	p.P(fmt.Sprintf(`in.%s.Limit ++`, pg))
 	p.P(`pagedRequest=true`)
 	p.P(`}`)
@@ -560,10 +560,10 @@ func (p *OrmPlugin) generatePagedRequestHandling(pg string) {
 	p.P(`if pagedRequest {`)
 	p.P(`var offset int32`)
 	p.P(`var size int32 = int32(len(res))`)
-	p.P(fmt.Sprintf(`if size == in.Get%s().GetLimit(){`, pg))
+	p.P(fmt.Sprintf(`if size == in.%s.Limit{`, pg))
 	p.P(`size--`)
 	p.P(`res=res[:size]`)
-	p.P(fmt.Sprintf(`offset=in.Get%s().GetOffset()+size`, pg))
+	p.P(fmt.Sprintf(`offset=in.%s.Offset+size`, pg))
 	p.P(`}`)
 	p.P(fmt.Sprintf(`resPaging = &%s.PageInfo{Offset: offset}`, p.Import(queryImport)))
 	p.P(`}`)
