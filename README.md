@@ -38,7 +38,7 @@ go get -u github.com/golang/protobuf/protoc-gen-go
 Retrieve and install the vendored dependencies for this project with [dep](https://github.com/golang/dep):
 
 ```
-dep ensure
+make vendor
 ```
 
 ### Installation

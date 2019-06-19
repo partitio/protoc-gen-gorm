@@ -24,40 +24,40 @@ default: vendor install
 
 .PHONY: vendor
 vendor:
-	@go mod vendor
+	@GO111MODULE=on go mod vendor
 
 .PHONY: options
 options:
-	protoc -I. -I$(SRCPATH) -I./vendor \
+	@protoc -I. -I$(SRCPATH) -I./vendor \
 		--gogo_out="Mgoogle/protobuf/descriptor.proto=github.com/gogo/protobuf/protoc-gen-gogo/descriptor:$(SRCPATH)" \
 		options/gorm.proto
 
 .PHONY: types
 types:
-	protoc --go_out=$(SRCPATH) types/types.proto
+	@protoc --go_out=$(SRCPATH) types/types.proto
 
 .PHONY: install
 install:
-	go install
+	@go install
 
 .PHONY: example
 example: default
-	protoc -I. -I$(SRCPATH) -I./vendor -I./vendor/github.com/grpc-ecosystem/grpc-gateway \
+	@protoc -I. -I$(SRCPATH) -I./vendor -I./vendor/github.com/grpc-ecosystem/grpc-gateway \
 		--go_out="plugins=grpc:$(SRCPATH)" --gorm_out="engine=postgres,enums=string,gateway:$(SRCPATH)" \
 		example/feature_demo/demo_multi_file.proto \
 		example/feature_demo/demo_types.proto \
 		example/feature_demo/demo_service.proto \
 		example/feature_demo/demo_multi_file_service.proto
 
-	protoc -I. -I$(SRCPATH) -I./vendor -I./vendor -I./vendor/github.com/grpc-ecosystem/grpc-gateway \
+	@protoc -I. -I$(SRCPATH) -I./vendor -I./vendor -I./vendor/github.com/grpc-ecosystem/grpc-gateway \
 		--go_out="plugins=grpc:$(SRCPATH)" --gorm_out="$(SRCPATH)" \
 		example/user/user.proto
 
 .PHONY: run-tests
 run-tests:
-	go test -v ./...
-	go build ./example/user
-	go build ./example/feature_demo
+	@go test -v ./...
+	@go build ./example/user
+	@go build ./example/feature_demo
 
 .PHONY: test
 test: example run-tests
@@ -93,5 +93,5 @@ gentool-types:
 .PHONY: gentool-options
 gentool-options:
 	@$(GENERATOR) \
-                --gogo_out="Mgoogle/protobuf/descriptor.proto=github.com/gogo/protobuf/protoc-gen-gogo/descriptor:$(DOCKERPATH)" \
-                options/gorm.proto
+		--gogo_out="Mgoogle/protobuf/descriptor.proto=github.com/gogo/protobuf/protoc-gen-gogo/descriptor:$(DOCKERPATH)" \
+		options/gorm.proto
