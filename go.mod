@@ -2,9 +2,10 @@ module github.com/partitio/protoc-gen-gorm
 
 require (
 	github.com/dgrijalva/jwt-go v0.0.0-20180921172315-3af4c746e1c2 // indirect
+	github.com/envoyproxy/protoc-gen-validate v0.1.0
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/gogo/protobuf v1.0.0
-	github.com/golang/protobuf v1.2.0
+	github.com/golang/protobuf v1.3.2
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.4.1 // indirect
 	github.com/jinzhu/gorm v1.9.1
@@ -20,3 +21,5 @@ require (
 	google.golang.org/grpc v1.18.0
 	gopkg.in/yaml.v2 v2.2.1 // indirect
 )
+
+go 1.13
