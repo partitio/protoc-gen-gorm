@@ -210,10 +210,10 @@ func (p *OrmPlugin) generateApplyFieldMask(message *generator.Descriptor) {
 	hasNested := false
 	for _, field := range message.GetField() {
 		fieldType, _ := p.GoType(message, field)
-		if field.IsMessage() && !isSpecialType(fieldType) && !field.IsRepeated() {
+		if field.IsMessage() && !isSpecialType(fieldType) && !field.IsRepeated() && field.OneofIndex == nil {
 			p.P(`var updated`, generator.CamelCase(field.GetName()), ` bool`)
 			hasNested = true
-		} else if strings.HasSuffix(fieldType, protoTypeJSON) {
+		} else if strings.HasSuffix(fieldType, protoTypeJSON) && field.OneofIndex == nil {
 			p.P(`var updated`, generator.CamelCase(field.GetName()), ` bool`)
 		}
 	}
@@ -228,7 +228,7 @@ func (p *OrmPlugin) generateApplyFieldMask(message *generator.Descriptor) {
 		ccName := generator.CamelCase(field.GetName())
 		fieldType, _ := p.GoType(message, field)
 		//  for ormable message, do recursive patching
-		if field.IsMessage() && p.isOrmable(fieldType) && !field.IsRepeated() {
+		if field.IsMessage() && p.isOrmable(fieldType) && !field.IsRepeated() && field.OneofIndex == nil {
 			p.P(`if !updated`, ccName, ` && strings.HasPrefix(f, prefix+"`, ccName, `.") {`)
 			p.P(`updated`, ccName, ` = true`)
 			p.P(`if patcher.`, ccName, ` == nil {`)
@@ -258,7 +258,7 @@ func (p *OrmPlugin) generateApplyFieldMask(message *generator.Descriptor) {
 			p.P(`patchee.`, ccName, ` = patcher.`, ccName)
 			p.P(`continue`)
 			p.P(`}`)
-		} else if field.IsMessage() && !isSpecialType(fieldType) && !field.IsRepeated() {
+		} else if field.IsMessage() && !isSpecialType(fieldType) && !field.IsRepeated() && field.OneofIndex == nil {
 			p.P(`if !updated`, ccName, ` && strings.HasPrefix(f, prefix+"`, ccName, `.") {`)
 			p.P(`if patcher.`, ccName, ` == nil {`)
 			p.P(`patchee.`, ccName, ` = nil`)
@@ -282,13 +282,13 @@ func (p *OrmPlugin) generateApplyFieldMask(message *generator.Descriptor) {
 			p.P(`patchee.`, ccName, ` = patcher.`, ccName)
 			p.P(`continue`)
 			p.P(`}`)
-		} else if strings.HasSuffix(fieldType, protoTypeJSON) && !field.IsRepeated() {
+		} else if strings.HasSuffix(fieldType, protoTypeJSON) && !field.IsRepeated() && field.OneofIndex == nil {
 			p.P(`if !updated`, ccName, ` && strings.HasPrefix(f, prefix+"`, ccName, `") {`)
 			p.P(`patchee.`, ccName, ` = patcher.`, ccName)
 			p.P(`updated`, ccName, ` = true`)
 			p.P(`continue`)
 			p.P(`}`)
-		} else {
+		} else if field.OneofIndex == nil {
 			p.P(`if f == prefix+"`, ccName, `" {`)
 			p.P(`patchee.`, ccName, ` = patcher.`, ccName)
 			p.P(`continue`)

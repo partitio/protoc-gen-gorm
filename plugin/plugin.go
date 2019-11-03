@@ -911,16 +911,24 @@ func (p *OrmPlugin) generateFieldConversion(message *generator.Descriptor, field
 			}
 		} else if p.isOrmable(fieldType) {
 			// Not a WKT, but a type we're building converters for
-			p.P(`if m.`, fieldName, ` != nil {`)
 			if toORM {
-				p.P(`temp`, fieldName, `, err := m.`, fieldName, `.ToORM (ctx)`)
+				p.P(`if m.Get`, fieldName, `() != nil {`)
+				p.P(`temp`, fieldName, `, err := m.Get`, fieldName, `().ToORM (ctx)`)
 			} else {
+				p.P(`if m.`, fieldName, ` != nil {`)
 				p.P(`temp`, fieldName, `, err := m.`, fieldName, `.ToPB (ctx)`)
 			}
 			p.P(`if err != nil {`)
 			p.P(`return to, err`)
 			p.P(`}`)
-			p.P(`to.`, fieldName, ` = &temp`, fieldName)
+			if !toORM && field.OneofIndex != nil {
+				oneOfFieldName := generator.CamelCase(message.GetOneofDecl()[field.GetOneofIndex()].GetName())
+				p.P(`to.`, oneOfFieldName, ` = &`, message.GetName(), `_`, fieldName, `{`)
+				p.P(fieldName, `: &temp`, fieldName, `,`)
+				p.P(`}`)
+			} else {
+				p.P(`to.`, fieldName, ` = &temp`, fieldName)
+			}
 			p.P(`}`)
 		}
 	} else { // Singular raw ----------------------------------------------------
