@@ -6,6 +6,7 @@ package example
 import context "context"
 
 import errors1 "github.com/partitio/protoc-gen-gorm/errors"
+import errors2 "errors"
 import field_mask1 "google.golang.org/genproto/protobuf/field_mask"
 import gateway1 "github.com/partitio/atlas-app-toolkit/gateway"
 import gorm1 "github.com/jinzhu/gorm"
@@ -1315,4 +1316,110 @@ type CircleServiceCircleWithBeforeList interface {
 // CircleServiceCircleWithAfterList called before DefaultListCircle in the default List handler
 type CircleServiceCircleWithAfterList interface {
 	AfterList(context.Context, *ListCircleResponse, *gorm1.DB) error
+}
+
+// IntPointRepository is a default repository
+type IntPointRepository interface {
+	// CreateIntPoint executes a basic gorm create call
+	CreateIntPoint(ctx context.Context, in *IntPoint) (*IntPoint, error)
+	// ListIntPoint executes a gorm list call
+	ListIntPoint(ctx context.Context, f *query1.Filtering, s *query1.Sorting, p *query1.Pagination, fs *query1.FieldSelection) ([]*IntPoint, error)
+	// ReadIntPoint executes a basic gorm read call
+	ReadIntPoint(ctx context.Context, in *IntPoint, fs *query1.FieldSelection) (*IntPoint, error)
+	// DeleteIntPoint executes a basic gorm delete call
+	DeleteIntPoint(ctx context.Context, in *IntPoint) error
+	// DeleteIntPointSet executes a basic gorm delete set call
+	DeleteIntPointSet(ctx context.Context, in []*IntPoint) error
+	// StrictUpdateIntPoint clears first level 1:many children and then executes a gorm update call
+	StrictUpdateIntPoint(ctx context.Context, in *IntPoint) (*IntPoint, error)
+	// PatchIntPoint executes a basic gorm update call with patch behavior
+	PatchIntPoint(ctx context.Context, in *IntPoint, updateMask *field_mask1.FieldMask) (*IntPoint, error)
+}
+
+func NewIntPointRepository(db *gorm2.DB) (IntPointRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &IntPointRepository{db: db}, nil
+}
+
+// DefaultIntPointRepository implements IntPointRepository
+type DefaultIntPointRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultIntPointRepository) CreateIntPoint(ctx context.Context, in *IntPoint) (*IntPoint, error) {
+	return DefaultCreateIntPoint(ctx, in, r.db)
+}
+func (r *DefaultIntPointRepository) ReadIntPoint(ctx context.Context, in *IntPoint, fs *query1.FieldSelection) (*IntPoint, error) {
+	return DefaultReadIntPoint(ctx, in, r.db, fs)
+}
+func (r *DefaultIntPointRepository) DeleteIntPoint(ctx context.Context, in *IntPoint) (*IntPoint, error) {
+	return DefaultDeleteIntPoint(ctx, in, r.db)
+}
+func (r *DefaultIntPointRepository) DeleteIntPointSet(ctx context.Context, in []*IntPoint) (*IntPoint, error) {
+	return DefaultDeleteIntPointSet(ctx, in, r.db)
+}
+func (r *DefaultIntPointRepository) StrictUpdateIntPoint(ctx context.Context, in *IntPoint) (*IntPoint, error) {
+	return DefaultStrictUpdateIntPoint(ctx, in, r.db)
+}
+func (r *DefaultIntPointRepository) PatchIntPoint(ctx context.Context, in *IntPoint, updateMask *field_mask1.FieldMask) (*IntPoint, error) {
+	return DefaultPatchIntPoint(ctx, in, updateMask, r.db)
+}
+func (r *DefaultIntPointRepository) ListIntPoint(ctx context.Context, f *query1.Filtering, s *query1.Sorting, p *query1.Pagination, fs *query1.FieldSelection) ([]*IntPoint, error) {
+	return DefaultListIntPoint(ctx, r.db, f, s, p, fs)
+}
+
+// SomethingRepository is a default repository
+type SomethingRepository interface {
+	// CreateSomething executes a basic gorm create call
+	CreateSomething(ctx context.Context, in *Something) (*Something, error)
+	// ListSomething executes a gorm list call
+	ListSomething(ctx context.Context) ([]*Something, error)
+}
+
+func NewSomethingRepository(db *gorm2.DB) (SomethingRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &SomethingRepository{db: db}, nil
+}
+
+// DefaultSomethingRepository implements SomethingRepository
+type DefaultSomethingRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultSomethingRepository) CreateSomething(ctx context.Context, in *Something) (*Something, error) {
+	return DefaultCreateSomething(ctx, in, r.db)
+}
+func (r *DefaultSomethingRepository) ListSomething(ctx context.Context) ([]*Something, error) {
+	return DefaultListSomething(ctx, r.db, nil, nil, nil, nil)
+}
+
+// CircleRepository is a default repository
+type CircleRepository interface {
+	// CreateCircle executes a basic gorm create call
+	CreateCircle(ctx context.Context, in *Circle) (*Circle, error)
+	// ListCircle executes a gorm list call
+	ListCircle(ctx context.Context) ([]*Circle, error)
+}
+
+func NewCircleRepository(db *gorm2.DB) (CircleRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &CircleRepository{db: db}, nil
+}
+
+// DefaultCircleRepository implements CircleRepository
+type DefaultCircleRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultCircleRepository) CreateCircle(ctx context.Context, in *Circle) (*Circle, error) {
+	return DefaultCreateCircle(ctx, in, r.db)
+}
+func (r *DefaultCircleRepository) ListCircle(ctx context.Context) ([]*Circle, error) {
+	return DefaultListCircle(ctx, r.db, nil, nil, nil, nil)
 }

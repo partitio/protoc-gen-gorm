@@ -23,6 +23,7 @@ import time "time"
 
 import auth1 "github.com/partitio/atlas-app-toolkit/auth"
 import errors1 "github.com/partitio/protoc-gen-gorm/errors"
+import errors2 "errors"
 import field_mask1 "google.golang.org/genproto/protobuf/field_mask"
 import gorm1 "github.com/jinzhu/gorm"
 import gorm2 "github.com/partitio/atlas-app-toolkit/gorm"
@@ -118,8 +119,8 @@ func (m *User) ToORM(ctx context.Context) (UserORM, error) {
 		to.Birthday = t
 	}
 	to.Num = m.Num
-	if m.CreditCard != nil {
-		tempCreditCard, err := m.CreditCard.ToORM(ctx)
+	if m.GetCreditCard() != nil {
+		tempCreditCard, err := m.GetCreditCard().ToORM(ctx)
 		if err != nil {
 			return to, err
 		}
@@ -147,15 +148,15 @@ func (m *User) ToORM(ctx context.Context) (UserORM, error) {
 			to.Tasks = append(to.Tasks, nil)
 		}
 	}
-	if m.BillingAddress != nil {
-		tempBillingAddress, err := m.BillingAddress.ToORM(ctx)
+	if m.GetBillingAddress() != nil {
+		tempBillingAddress, err := m.GetBillingAddress().ToORM(ctx)
 		if err != nil {
 			return to, err
 		}
 		to.BillingAddress = &tempBillingAddress
 	}
-	if m.ShippingAddress != nil {
-		tempShippingAddress, err := m.ShippingAddress.ToORM(ctx)
+	if m.GetShippingAddress() != nil {
+		tempShippingAddress, err := m.GetShippingAddress().ToORM(ctx)
 		if err != nil {
 			return to, err
 		}
@@ -2854,4 +2855,291 @@ type TaskORMWithBeforeListFind interface {
 }
 type TaskORMWithAfterListFind interface {
 	AfterListFind(context.Context, *gorm1.DB, *[]TaskORM) error
+}
+
+// UserRepository is a default repository
+type UserRepository interface {
+	// CreateUser executes a basic gorm create call
+	CreateUser(ctx context.Context, in *User) (*User, error)
+	// ListUser executes a gorm list call
+	ListUser(ctx context.Context) ([]*User, error)
+	// ReadUser executes a basic gorm read call
+	ReadUser(ctx context.Context, in *User) (*User, error)
+	// DeleteUser executes a basic gorm delete call
+	DeleteUser(ctx context.Context, in *User) error
+	// DeleteUserSet executes a basic gorm delete set call
+	DeleteUserSet(ctx context.Context, in []*User) error
+	// StrictUpdateUser clears first level 1:many children and then executes a gorm update call
+	StrictUpdateUser(ctx context.Context, in *User) (*User, error)
+	// PatchUser executes a basic gorm update call with patch behavior
+	PatchUser(ctx context.Context, in *User, updateMask *field_mask1.FieldMask) (*User, error)
+}
+
+func NewUserRepository(db *gorm2.DB) (UserRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &UserRepository{db: db}, nil
+}
+
+// DefaultUserRepository implements UserRepository
+type DefaultUserRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultUserRepository) CreateUser(ctx context.Context, in *User) (*User, error) {
+	return DefaultCreateUser(ctx, in, r.db)
+}
+func (r *DefaultUserRepository) ReadUser(ctx context.Context, in *User) (*User, error) {
+	return DefaultReadUser(ctx, in, r.db)
+}
+func (r *DefaultUserRepository) DeleteUser(ctx context.Context, in *User) (*User, error) {
+	return DefaultDeleteUser(ctx, in, r.db)
+}
+func (r *DefaultUserRepository) DeleteUserSet(ctx context.Context, in []*User) (*User, error) {
+	return DefaultDeleteUserSet(ctx, in, r.db)
+}
+func (r *DefaultUserRepository) StrictUpdateUser(ctx context.Context, in *User) (*User, error) {
+	return DefaultStrictUpdateUser(ctx, in, r.db)
+}
+func (r *DefaultUserRepository) PatchUser(ctx context.Context, in *User, updateMask *field_mask1.FieldMask) (*User, error) {
+	return DefaultPatchUser(ctx, in, updateMask, r.db)
+}
+func (r *DefaultUserRepository) ListUser(ctx context.Context) ([]*User, error) {
+	return DefaultListUser(ctx, r.db, nil, nil, nil, nil)
+}
+
+// EmailRepository is a default repository
+type EmailRepository interface {
+	// CreateEmail executes a basic gorm create call
+	CreateEmail(ctx context.Context, in *Email) (*Email, error)
+	// ListEmail executes a gorm list call
+	ListEmail(ctx context.Context) ([]*Email, error)
+	// ReadEmail executes a basic gorm read call
+	ReadEmail(ctx context.Context, in *Email) (*Email, error)
+	// DeleteEmail executes a basic gorm delete call
+	DeleteEmail(ctx context.Context, in *Email) error
+	// DeleteEmailSet executes a basic gorm delete set call
+	DeleteEmailSet(ctx context.Context, in []*Email) error
+	// StrictUpdateEmail clears first level 1:many children and then executes a gorm update call
+	StrictUpdateEmail(ctx context.Context, in *Email) (*Email, error)
+	// PatchEmail executes a basic gorm update call with patch behavior
+	PatchEmail(ctx context.Context, in *Email, updateMask *field_mask1.FieldMask) (*Email, error)
+}
+
+func NewEmailRepository(db *gorm2.DB) (EmailRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &EmailRepository{db: db}, nil
+}
+
+// DefaultEmailRepository implements EmailRepository
+type DefaultEmailRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultEmailRepository) CreateEmail(ctx context.Context, in *Email) (*Email, error) {
+	return DefaultCreateEmail(ctx, in, r.db)
+}
+func (r *DefaultEmailRepository) ReadEmail(ctx context.Context, in *Email) (*Email, error) {
+	return DefaultReadEmail(ctx, in, r.db)
+}
+func (r *DefaultEmailRepository) DeleteEmail(ctx context.Context, in *Email) (*Email, error) {
+	return DefaultDeleteEmail(ctx, in, r.db)
+}
+func (r *DefaultEmailRepository) DeleteEmailSet(ctx context.Context, in []*Email) (*Email, error) {
+	return DefaultDeleteEmailSet(ctx, in, r.db)
+}
+func (r *DefaultEmailRepository) StrictUpdateEmail(ctx context.Context, in *Email) (*Email, error) {
+	return DefaultStrictUpdateEmail(ctx, in, r.db)
+}
+func (r *DefaultEmailRepository) PatchEmail(ctx context.Context, in *Email, updateMask *field_mask1.FieldMask) (*Email, error) {
+	return DefaultPatchEmail(ctx, in, updateMask, r.db)
+}
+func (r *DefaultEmailRepository) ListEmail(ctx context.Context) ([]*Email, error) {
+	return DefaultListEmail(ctx, r.db, nil, nil, nil, nil)
+}
+
+// AddressRepository is a default repository
+type AddressRepository interface {
+	// CreateAddress executes a basic gorm create call
+	CreateAddress(ctx context.Context, in *Address) (*Address, error)
+	// ListAddress executes a gorm list call
+	ListAddress(ctx context.Context) ([]*Address, error)
+	// ReadAddress executes a basic gorm read call
+	ReadAddress(ctx context.Context, in *Address) (*Address, error)
+	// DeleteAddress executes a basic gorm delete call
+	DeleteAddress(ctx context.Context, in *Address) error
+	// DeleteAddressSet executes a basic gorm delete set call
+	DeleteAddressSet(ctx context.Context, in []*Address) error
+	// StrictUpdateAddress clears first level 1:many children and then executes a gorm update call
+	StrictUpdateAddress(ctx context.Context, in *Address) (*Address, error)
+	// PatchAddress executes a basic gorm update call with patch behavior
+	PatchAddress(ctx context.Context, in *Address, updateMask *field_mask1.FieldMask) (*Address, error)
+}
+
+func NewAddressRepository(db *gorm2.DB) (AddressRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &AddressRepository{db: db}, nil
+}
+
+// DefaultAddressRepository implements AddressRepository
+type DefaultAddressRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultAddressRepository) CreateAddress(ctx context.Context, in *Address) (*Address, error) {
+	return DefaultCreateAddress(ctx, in, r.db)
+}
+func (r *DefaultAddressRepository) ReadAddress(ctx context.Context, in *Address) (*Address, error) {
+	return DefaultReadAddress(ctx, in, r.db)
+}
+func (r *DefaultAddressRepository) DeleteAddress(ctx context.Context, in *Address) (*Address, error) {
+	return DefaultDeleteAddress(ctx, in, r.db)
+}
+func (r *DefaultAddressRepository) DeleteAddressSet(ctx context.Context, in []*Address) (*Address, error) {
+	return DefaultDeleteAddressSet(ctx, in, r.db)
+}
+func (r *DefaultAddressRepository) StrictUpdateAddress(ctx context.Context, in *Address) (*Address, error) {
+	return DefaultStrictUpdateAddress(ctx, in, r.db)
+}
+func (r *DefaultAddressRepository) PatchAddress(ctx context.Context, in *Address, updateMask *field_mask1.FieldMask) (*Address, error) {
+	return DefaultPatchAddress(ctx, in, updateMask, r.db)
+}
+func (r *DefaultAddressRepository) ListAddress(ctx context.Context) ([]*Address, error) {
+	return DefaultListAddress(ctx, r.db, nil, nil, nil, nil)
+}
+
+// LanguageRepository is a default repository
+type LanguageRepository interface {
+	// CreateLanguage executes a basic gorm create call
+	CreateLanguage(ctx context.Context, in *Language) (*Language, error)
+	// ListLanguage executes a gorm list call
+	ListLanguage(ctx context.Context) ([]*Language, error)
+	// ReadLanguage executes a basic gorm read call
+	ReadLanguage(ctx context.Context, in *Language) (*Language, error)
+	// DeleteLanguage executes a basic gorm delete call
+	DeleteLanguage(ctx context.Context, in *Language) error
+	// DeleteLanguageSet executes a basic gorm delete set call
+	DeleteLanguageSet(ctx context.Context, in []*Language) error
+	// StrictUpdateLanguage clears first level 1:many children and then executes a gorm update call
+	StrictUpdateLanguage(ctx context.Context, in *Language) (*Language, error)
+	// PatchLanguage executes a basic gorm update call with patch behavior
+	PatchLanguage(ctx context.Context, in *Language, updateMask *field_mask1.FieldMask) (*Language, error)
+}
+
+func NewLanguageRepository(db *gorm2.DB) (LanguageRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &LanguageRepository{db: db}, nil
+}
+
+// DefaultLanguageRepository implements LanguageRepository
+type DefaultLanguageRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultLanguageRepository) CreateLanguage(ctx context.Context, in *Language) (*Language, error) {
+	return DefaultCreateLanguage(ctx, in, r.db)
+}
+func (r *DefaultLanguageRepository) ReadLanguage(ctx context.Context, in *Language) (*Language, error) {
+	return DefaultReadLanguage(ctx, in, r.db)
+}
+func (r *DefaultLanguageRepository) DeleteLanguage(ctx context.Context, in *Language) (*Language, error) {
+	return DefaultDeleteLanguage(ctx, in, r.db)
+}
+func (r *DefaultLanguageRepository) DeleteLanguageSet(ctx context.Context, in []*Language) (*Language, error) {
+	return DefaultDeleteLanguageSet(ctx, in, r.db)
+}
+func (r *DefaultLanguageRepository) StrictUpdateLanguage(ctx context.Context, in *Language) (*Language, error) {
+	return DefaultStrictUpdateLanguage(ctx, in, r.db)
+}
+func (r *DefaultLanguageRepository) PatchLanguage(ctx context.Context, in *Language, updateMask *field_mask1.FieldMask) (*Language, error) {
+	return DefaultPatchLanguage(ctx, in, updateMask, r.db)
+}
+func (r *DefaultLanguageRepository) ListLanguage(ctx context.Context) ([]*Language, error) {
+	return DefaultListLanguage(ctx, r.db, nil, nil, nil, nil)
+}
+
+// CreditCardRepository is a default repository
+type CreditCardRepository interface {
+	// CreateCreditCard executes a basic gorm create call
+	CreateCreditCard(ctx context.Context, in *CreditCard) (*CreditCard, error)
+	// ListCreditCard executes a gorm list call
+	ListCreditCard(ctx context.Context) ([]*CreditCard, error)
+	// ReadCreditCard executes a basic gorm read call
+	ReadCreditCard(ctx context.Context, in *CreditCard) (*CreditCard, error)
+	// DeleteCreditCard executes a basic gorm delete call
+	DeleteCreditCard(ctx context.Context, in *CreditCard) error
+	// DeleteCreditCardSet executes a basic gorm delete set call
+	DeleteCreditCardSet(ctx context.Context, in []*CreditCard) error
+	// StrictUpdateCreditCard clears first level 1:many children and then executes a gorm update call
+	StrictUpdateCreditCard(ctx context.Context, in *CreditCard) (*CreditCard, error)
+	// PatchCreditCard executes a basic gorm update call with patch behavior
+	PatchCreditCard(ctx context.Context, in *CreditCard, updateMask *field_mask1.FieldMask) (*CreditCard, error)
+}
+
+func NewCreditCardRepository(db *gorm2.DB) (CreditCardRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &CreditCardRepository{db: db}, nil
+}
+
+// DefaultCreditCardRepository implements CreditCardRepository
+type DefaultCreditCardRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultCreditCardRepository) CreateCreditCard(ctx context.Context, in *CreditCard) (*CreditCard, error) {
+	return DefaultCreateCreditCard(ctx, in, r.db)
+}
+func (r *DefaultCreditCardRepository) ReadCreditCard(ctx context.Context, in *CreditCard) (*CreditCard, error) {
+	return DefaultReadCreditCard(ctx, in, r.db)
+}
+func (r *DefaultCreditCardRepository) DeleteCreditCard(ctx context.Context, in *CreditCard) (*CreditCard, error) {
+	return DefaultDeleteCreditCard(ctx, in, r.db)
+}
+func (r *DefaultCreditCardRepository) DeleteCreditCardSet(ctx context.Context, in []*CreditCard) (*CreditCard, error) {
+	return DefaultDeleteCreditCardSet(ctx, in, r.db)
+}
+func (r *DefaultCreditCardRepository) StrictUpdateCreditCard(ctx context.Context, in *CreditCard) (*CreditCard, error) {
+	return DefaultStrictUpdateCreditCard(ctx, in, r.db)
+}
+func (r *DefaultCreditCardRepository) PatchCreditCard(ctx context.Context, in *CreditCard, updateMask *field_mask1.FieldMask) (*CreditCard, error) {
+	return DefaultPatchCreditCard(ctx, in, updateMask, r.db)
+}
+func (r *DefaultCreditCardRepository) ListCreditCard(ctx context.Context) ([]*CreditCard, error) {
+	return DefaultListCreditCard(ctx, r.db, nil, nil, nil, nil)
+}
+
+// TaskRepository is a default repository
+type TaskRepository interface {
+	// CreateTask executes a basic gorm create call
+	CreateTask(ctx context.Context, in *Task) (*Task, error)
+	// ListTask executes a gorm list call
+	ListTask(ctx context.Context) ([]*Task, error)
+}
+
+func NewTaskRepository(db *gorm2.DB) (TaskRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &TaskRepository{db: db}, nil
+}
+
+// DefaultTaskRepository implements TaskRepository
+type DefaultTaskRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultTaskRepository) CreateTask(ctx context.Context, in *Task) (*Task, error) {
+	return DefaultCreateTask(ctx, in, r.db)
+}
+func (r *DefaultTaskRepository) ListTask(ctx context.Context) ([]*Task, error) {
+	return DefaultListTask(ctx, r.db, nil, nil, nil, nil)
 }

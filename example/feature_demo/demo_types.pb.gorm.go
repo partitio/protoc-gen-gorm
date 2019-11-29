@@ -9,6 +9,7 @@ import time "time"
 
 import auth1 "github.com/partitio/atlas-app-toolkit/auth"
 import errors1 "github.com/partitio/protoc-gen-gorm/errors"
+import errors2 "errors"
 import field_mask1 "google.golang.org/genproto/protobuf/field_mask"
 import gateway1 "github.com/partitio/atlas-app-toolkit/gateway"
 import go_uuid1 "github.com/satori/go.uuid"
@@ -246,22 +247,22 @@ func (m *TypeWithID) ToORM(ctx context.Context) (TypeWithIDORM, error) {
 			to.Things = append(to.Things, nil)
 		}
 	}
-	if m.ANestedObject != nil {
-		tempANestedObject, err := m.ANestedObject.ToORM(ctx)
+	if m.GetANestedObject() != nil {
+		tempANestedObject, err := m.GetANestedObject().ToORM(ctx)
 		if err != nil {
 			return to, err
 		}
 		to.ANestedObject = &tempANestedObject
 	}
-	if m.Point != nil {
-		tempPoint, err := m.Point.ToORM(ctx)
+	if m.GetPoint() != nil {
+		tempPoint, err := m.GetPoint().ToORM(ctx)
 		if err != nil {
 			return to, err
 		}
 		to.Point = &tempPoint
 	}
-	if m.User != nil {
-		tempUser, err := m.User.ToORM(ctx)
+	if m.GetUser() != nil {
+		tempUser, err := m.GetUser().ToORM(ctx)
 		if err != nil {
 			return to, err
 		}
@@ -584,8 +585,8 @@ func (m *PrimaryUUIDType) ToORM(ctx context.Context) (PrimaryUUIDTypeORM, error)
 		}
 		to.Id = &tempUUID
 	}
-	if m.Child != nil {
-		tempChild, err := m.Child.ToORM(ctx)
+	if m.GetChild() != nil {
+		tempChild, err := m.GetChild().ToORM(ctx)
 		if err != nil {
 			return to, err
 		}
@@ -672,8 +673,8 @@ func (m *PrimaryStringType) ToORM(ctx context.Context) (PrimaryStringTypeORM, er
 		}
 	}
 	to.Id = m.Id
-	if m.Child != nil {
-		tempChild, err := m.Child.ToORM(ctx)
+	if m.GetChild() != nil {
+		tempChild, err := m.GetChild().ToORM(ctx)
 		if err != nil {
 			return to, err
 		}
@@ -758,8 +759,8 @@ func (m *TestTag) ToORM(ctx context.Context) (TestTagORM, error) {
 		}
 	}
 	to.Id = m.Id
-	if m.TestTagAssoc != nil {
-		tempTestTagAssoc, err := m.TestTagAssoc.ToORM(ctx)
+	if m.GetTestTagAssoc() != nil {
+		tempTestTagAssoc, err := m.GetTestTagAssoc().ToORM(ctx)
 		if err != nil {
 			return to, err
 		}
@@ -915,8 +916,8 @@ func (m *PrimaryIncluded) ToORM(ctx context.Context) (PrimaryIncludedORM, error)
 			return to, err
 		}
 	}
-	if m.Child != nil {
-		tempChild, err := m.Child.ToORM(ctx)
+	if m.GetChild() != nil {
+		tempChild, err := m.GetChild().ToORM(ctx)
 		if err != nil {
 			return to, err
 		}
@@ -3287,4 +3288,372 @@ type PrimaryIncludedORMWithBeforeListFind interface {
 }
 type PrimaryIncludedORMWithAfterListFind interface {
 	AfterListFind(context.Context, *gorm1.DB, *[]PrimaryIncludedORM) error
+}
+
+// TestTypesRepository is a default repository
+type TestTypesRepository interface {
+	// CreateTestTypes executes a basic gorm create call
+	CreateTestTypes(ctx context.Context, in *TestTypes) (*TestTypes, error)
+	// ListTestTypes executes a gorm list call
+	ListTestTypes(ctx context.Context) ([]*TestTypes, error)
+}
+
+func NewTestTypesRepository(db *gorm2.DB) (TestTypesRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &TestTypesRepository{db: db}, nil
+}
+
+// DefaultTestTypesRepository implements TestTypesRepository
+type DefaultTestTypesRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultTestTypesRepository) CreateTestTypes(ctx context.Context, in *TestTypes) (*TestTypes, error) {
+	return DefaultCreateTestTypes(ctx, in, r.db)
+}
+func (r *DefaultTestTypesRepository) ListTestTypes(ctx context.Context) ([]*TestTypes, error) {
+	return DefaultListTestTypes(ctx, r.db, nil, nil, nil, nil)
+}
+
+// TypeWithIDRepository is a default repository
+type TypeWithIDRepository interface {
+	// CreateTypeWithID executes a basic gorm create call
+	CreateTypeWithID(ctx context.Context, in *TypeWithID) (*TypeWithID, error)
+	// ListTypeWithID executes a gorm list call
+	ListTypeWithID(ctx context.Context) ([]*TypeWithID, error)
+	// ReadTypeWithID executes a basic gorm read call
+	ReadTypeWithID(ctx context.Context, in *TypeWithID) (*TypeWithID, error)
+	// DeleteTypeWithID executes a basic gorm delete call
+	DeleteTypeWithID(ctx context.Context, in *TypeWithID) error
+	// DeleteTypeWithIDSet executes a basic gorm delete set call
+	DeleteTypeWithIDSet(ctx context.Context, in []*TypeWithID) error
+	// StrictUpdateTypeWithID clears first level 1:many children and then executes a gorm update call
+	StrictUpdateTypeWithID(ctx context.Context, in *TypeWithID) (*TypeWithID, error)
+	// PatchTypeWithID executes a basic gorm update call with patch behavior
+	PatchTypeWithID(ctx context.Context, in *TypeWithID, updateMask *field_mask1.FieldMask) (*TypeWithID, error)
+}
+
+func NewTypeWithIDRepository(db *gorm2.DB) (TypeWithIDRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &TypeWithIDRepository{db: db}, nil
+}
+
+// DefaultTypeWithIDRepository implements TypeWithIDRepository
+type DefaultTypeWithIDRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultTypeWithIDRepository) CreateTypeWithID(ctx context.Context, in *TypeWithID) (*TypeWithID, error) {
+	return DefaultCreateTypeWithID(ctx, in, r.db)
+}
+func (r *DefaultTypeWithIDRepository) ReadTypeWithID(ctx context.Context, in *TypeWithID) (*TypeWithID, error) {
+	return DefaultReadTypeWithID(ctx, in, r.db)
+}
+func (r *DefaultTypeWithIDRepository) DeleteTypeWithID(ctx context.Context, in *TypeWithID) (*TypeWithID, error) {
+	return DefaultDeleteTypeWithID(ctx, in, r.db)
+}
+func (r *DefaultTypeWithIDRepository) DeleteTypeWithIDSet(ctx context.Context, in []*TypeWithID) (*TypeWithID, error) {
+	return DefaultDeleteTypeWithIDSet(ctx, in, r.db)
+}
+func (r *DefaultTypeWithIDRepository) StrictUpdateTypeWithID(ctx context.Context, in *TypeWithID) (*TypeWithID, error) {
+	return DefaultStrictUpdateTypeWithID(ctx, in, r.db)
+}
+func (r *DefaultTypeWithIDRepository) PatchTypeWithID(ctx context.Context, in *TypeWithID, updateMask *field_mask1.FieldMask) (*TypeWithID, error) {
+	return DefaultPatchTypeWithID(ctx, in, updateMask, r.db)
+}
+func (r *DefaultTypeWithIDRepository) ListTypeWithID(ctx context.Context) ([]*TypeWithID, error) {
+	return DefaultListTypeWithID(ctx, r.db, nil, nil, nil, nil)
+}
+
+// MultiaccountTypeWithIDRepository is a default repository
+type MultiaccountTypeWithIDRepository interface {
+	// CreateMultiaccountTypeWithID executes a basic gorm create call
+	CreateMultiaccountTypeWithID(ctx context.Context, in *MultiaccountTypeWithID) (*MultiaccountTypeWithID, error)
+	// ListMultiaccountTypeWithID executes a gorm list call
+	ListMultiaccountTypeWithID(ctx context.Context) ([]*MultiaccountTypeWithID, error)
+	// ReadMultiaccountTypeWithID executes a basic gorm read call
+	ReadMultiaccountTypeWithID(ctx context.Context, in *MultiaccountTypeWithID) (*MultiaccountTypeWithID, error)
+	// DeleteMultiaccountTypeWithID executes a basic gorm delete call
+	DeleteMultiaccountTypeWithID(ctx context.Context, in *MultiaccountTypeWithID) error
+	// DeleteMultiaccountTypeWithIDSet executes a basic gorm delete set call
+	DeleteMultiaccountTypeWithIDSet(ctx context.Context, in []*MultiaccountTypeWithID) error
+	// StrictUpdateMultiaccountTypeWithID clears first level 1:many children and then executes a gorm update call
+	StrictUpdateMultiaccountTypeWithID(ctx context.Context, in *MultiaccountTypeWithID) (*MultiaccountTypeWithID, error)
+	// PatchMultiaccountTypeWithID executes a basic gorm update call with patch behavior
+	PatchMultiaccountTypeWithID(ctx context.Context, in *MultiaccountTypeWithID, updateMask *field_mask1.FieldMask) (*MultiaccountTypeWithID, error)
+}
+
+func NewMultiaccountTypeWithIDRepository(db *gorm2.DB) (MultiaccountTypeWithIDRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &MultiaccountTypeWithIDRepository{db: db}, nil
+}
+
+// DefaultMultiaccountTypeWithIDRepository implements MultiaccountTypeWithIDRepository
+type DefaultMultiaccountTypeWithIDRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultMultiaccountTypeWithIDRepository) CreateMultiaccountTypeWithID(ctx context.Context, in *MultiaccountTypeWithID) (*MultiaccountTypeWithID, error) {
+	return DefaultCreateMultiaccountTypeWithID(ctx, in, r.db)
+}
+func (r *DefaultMultiaccountTypeWithIDRepository) ReadMultiaccountTypeWithID(ctx context.Context, in *MultiaccountTypeWithID) (*MultiaccountTypeWithID, error) {
+	return DefaultReadMultiaccountTypeWithID(ctx, in, r.db)
+}
+func (r *DefaultMultiaccountTypeWithIDRepository) DeleteMultiaccountTypeWithID(ctx context.Context, in *MultiaccountTypeWithID) (*MultiaccountTypeWithID, error) {
+	return DefaultDeleteMultiaccountTypeWithID(ctx, in, r.db)
+}
+func (r *DefaultMultiaccountTypeWithIDRepository) DeleteMultiaccountTypeWithIDSet(ctx context.Context, in []*MultiaccountTypeWithID) (*MultiaccountTypeWithID, error) {
+	return DefaultDeleteMultiaccountTypeWithIDSet(ctx, in, r.db)
+}
+func (r *DefaultMultiaccountTypeWithIDRepository) StrictUpdateMultiaccountTypeWithID(ctx context.Context, in *MultiaccountTypeWithID) (*MultiaccountTypeWithID, error) {
+	return DefaultStrictUpdateMultiaccountTypeWithID(ctx, in, r.db)
+}
+func (r *DefaultMultiaccountTypeWithIDRepository) PatchMultiaccountTypeWithID(ctx context.Context, in *MultiaccountTypeWithID, updateMask *field_mask1.FieldMask) (*MultiaccountTypeWithID, error) {
+	return DefaultPatchMultiaccountTypeWithID(ctx, in, updateMask, r.db)
+}
+func (r *DefaultMultiaccountTypeWithIDRepository) ListMultiaccountTypeWithID(ctx context.Context) ([]*MultiaccountTypeWithID, error) {
+	return DefaultListMultiaccountTypeWithID(ctx, r.db, nil, nil, nil, nil)
+}
+
+// MultiaccountTypeWithoutIDRepository is a default repository
+type MultiaccountTypeWithoutIDRepository interface {
+	// CreateMultiaccountTypeWithoutID executes a basic gorm create call
+	CreateMultiaccountTypeWithoutID(ctx context.Context, in *MultiaccountTypeWithoutID) (*MultiaccountTypeWithoutID, error)
+	// ListMultiaccountTypeWithoutID executes a gorm list call
+	ListMultiaccountTypeWithoutID(ctx context.Context) ([]*MultiaccountTypeWithoutID, error)
+}
+
+func NewMultiaccountTypeWithoutIDRepository(db *gorm2.DB) (MultiaccountTypeWithoutIDRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &MultiaccountTypeWithoutIDRepository{db: db}, nil
+}
+
+// DefaultMultiaccountTypeWithoutIDRepository implements MultiaccountTypeWithoutIDRepository
+type DefaultMultiaccountTypeWithoutIDRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultMultiaccountTypeWithoutIDRepository) CreateMultiaccountTypeWithoutID(ctx context.Context, in *MultiaccountTypeWithoutID) (*MultiaccountTypeWithoutID, error) {
+	return DefaultCreateMultiaccountTypeWithoutID(ctx, in, r.db)
+}
+func (r *DefaultMultiaccountTypeWithoutIDRepository) ListMultiaccountTypeWithoutID(ctx context.Context) ([]*MultiaccountTypeWithoutID, error) {
+	return DefaultListMultiaccountTypeWithoutID(ctx, r.db, nil, nil, nil, nil)
+}
+
+// PrimaryUUIDTypeRepository is a default repository
+type PrimaryUUIDTypeRepository interface {
+	// CreatePrimaryUUIDType executes a basic gorm create call
+	CreatePrimaryUUIDType(ctx context.Context, in *PrimaryUUIDType) (*PrimaryUUIDType, error)
+	// ListPrimaryUUIDType executes a gorm list call
+	ListPrimaryUUIDType(ctx context.Context) ([]*PrimaryUUIDType, error)
+	// ReadPrimaryUUIDType executes a basic gorm read call
+	ReadPrimaryUUIDType(ctx context.Context, in *PrimaryUUIDType) (*PrimaryUUIDType, error)
+	// DeletePrimaryUUIDType executes a basic gorm delete call
+	DeletePrimaryUUIDType(ctx context.Context, in *PrimaryUUIDType) error
+	// DeletePrimaryUUIDTypeSet executes a basic gorm delete set call
+	DeletePrimaryUUIDTypeSet(ctx context.Context, in []*PrimaryUUIDType) error
+	// StrictUpdatePrimaryUUIDType clears first level 1:many children and then executes a gorm update call
+	StrictUpdatePrimaryUUIDType(ctx context.Context, in *PrimaryUUIDType) (*PrimaryUUIDType, error)
+	// PatchPrimaryUUIDType executes a basic gorm update call with patch behavior
+	PatchPrimaryUUIDType(ctx context.Context, in *PrimaryUUIDType, updateMask *field_mask1.FieldMask) (*PrimaryUUIDType, error)
+}
+
+func NewPrimaryUUIDTypeRepository(db *gorm2.DB) (PrimaryUUIDTypeRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &PrimaryUUIDTypeRepository{db: db}, nil
+}
+
+// DefaultPrimaryUUIDTypeRepository implements PrimaryUUIDTypeRepository
+type DefaultPrimaryUUIDTypeRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultPrimaryUUIDTypeRepository) CreatePrimaryUUIDType(ctx context.Context, in *PrimaryUUIDType) (*PrimaryUUIDType, error) {
+	return DefaultCreatePrimaryUUIDType(ctx, in, r.db)
+}
+func (r *DefaultPrimaryUUIDTypeRepository) ReadPrimaryUUIDType(ctx context.Context, in *PrimaryUUIDType) (*PrimaryUUIDType, error) {
+	return DefaultReadPrimaryUUIDType(ctx, in, r.db)
+}
+func (r *DefaultPrimaryUUIDTypeRepository) DeletePrimaryUUIDType(ctx context.Context, in *PrimaryUUIDType) (*PrimaryUUIDType, error) {
+	return DefaultDeletePrimaryUUIDType(ctx, in, r.db)
+}
+func (r *DefaultPrimaryUUIDTypeRepository) DeletePrimaryUUIDTypeSet(ctx context.Context, in []*PrimaryUUIDType) (*PrimaryUUIDType, error) {
+	return DefaultDeletePrimaryUUIDTypeSet(ctx, in, r.db)
+}
+func (r *DefaultPrimaryUUIDTypeRepository) StrictUpdatePrimaryUUIDType(ctx context.Context, in *PrimaryUUIDType) (*PrimaryUUIDType, error) {
+	return DefaultStrictUpdatePrimaryUUIDType(ctx, in, r.db)
+}
+func (r *DefaultPrimaryUUIDTypeRepository) PatchPrimaryUUIDType(ctx context.Context, in *PrimaryUUIDType, updateMask *field_mask1.FieldMask) (*PrimaryUUIDType, error) {
+	return DefaultPatchPrimaryUUIDType(ctx, in, updateMask, r.db)
+}
+func (r *DefaultPrimaryUUIDTypeRepository) ListPrimaryUUIDType(ctx context.Context) ([]*PrimaryUUIDType, error) {
+	return DefaultListPrimaryUUIDType(ctx, r.db, nil, nil, nil, nil)
+}
+
+// PrimaryStringTypeRepository is a default repository
+type PrimaryStringTypeRepository interface {
+	// CreatePrimaryStringType executes a basic gorm create call
+	CreatePrimaryStringType(ctx context.Context, in *PrimaryStringType) (*PrimaryStringType, error)
+	// ListPrimaryStringType executes a gorm list call
+	ListPrimaryStringType(ctx context.Context) ([]*PrimaryStringType, error)
+	// ReadPrimaryStringType executes a basic gorm read call
+	ReadPrimaryStringType(ctx context.Context, in *PrimaryStringType) (*PrimaryStringType, error)
+	// DeletePrimaryStringType executes a basic gorm delete call
+	DeletePrimaryStringType(ctx context.Context, in *PrimaryStringType) error
+	// DeletePrimaryStringTypeSet executes a basic gorm delete set call
+	DeletePrimaryStringTypeSet(ctx context.Context, in []*PrimaryStringType) error
+	// StrictUpdatePrimaryStringType clears first level 1:many children and then executes a gorm update call
+	StrictUpdatePrimaryStringType(ctx context.Context, in *PrimaryStringType) (*PrimaryStringType, error)
+	// PatchPrimaryStringType executes a basic gorm update call with patch behavior
+	PatchPrimaryStringType(ctx context.Context, in *PrimaryStringType, updateMask *field_mask1.FieldMask) (*PrimaryStringType, error)
+}
+
+func NewPrimaryStringTypeRepository(db *gorm2.DB) (PrimaryStringTypeRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &PrimaryStringTypeRepository{db: db}, nil
+}
+
+// DefaultPrimaryStringTypeRepository implements PrimaryStringTypeRepository
+type DefaultPrimaryStringTypeRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultPrimaryStringTypeRepository) CreatePrimaryStringType(ctx context.Context, in *PrimaryStringType) (*PrimaryStringType, error) {
+	return DefaultCreatePrimaryStringType(ctx, in, r.db)
+}
+func (r *DefaultPrimaryStringTypeRepository) ReadPrimaryStringType(ctx context.Context, in *PrimaryStringType) (*PrimaryStringType, error) {
+	return DefaultReadPrimaryStringType(ctx, in, r.db)
+}
+func (r *DefaultPrimaryStringTypeRepository) DeletePrimaryStringType(ctx context.Context, in *PrimaryStringType) (*PrimaryStringType, error) {
+	return DefaultDeletePrimaryStringType(ctx, in, r.db)
+}
+func (r *DefaultPrimaryStringTypeRepository) DeletePrimaryStringTypeSet(ctx context.Context, in []*PrimaryStringType) (*PrimaryStringType, error) {
+	return DefaultDeletePrimaryStringTypeSet(ctx, in, r.db)
+}
+func (r *DefaultPrimaryStringTypeRepository) StrictUpdatePrimaryStringType(ctx context.Context, in *PrimaryStringType) (*PrimaryStringType, error) {
+	return DefaultStrictUpdatePrimaryStringType(ctx, in, r.db)
+}
+func (r *DefaultPrimaryStringTypeRepository) PatchPrimaryStringType(ctx context.Context, in *PrimaryStringType, updateMask *field_mask1.FieldMask) (*PrimaryStringType, error) {
+	return DefaultPatchPrimaryStringType(ctx, in, updateMask, r.db)
+}
+func (r *DefaultPrimaryStringTypeRepository) ListPrimaryStringType(ctx context.Context) ([]*PrimaryStringType, error) {
+	return DefaultListPrimaryStringType(ctx, r.db, nil, nil, nil, nil)
+}
+
+// TestTagRepository is a default repository
+type TestTagRepository interface {
+	// CreateTestTag executes a basic gorm create call
+	CreateTestTag(ctx context.Context, in *TestTag) (*TestTag, error)
+	// ListTestTag executes a gorm list call
+	ListTestTag(ctx context.Context) ([]*TestTag, error)
+	// ReadTestTag executes a basic gorm read call
+	ReadTestTag(ctx context.Context, in *TestTag) (*TestTag, error)
+	// DeleteTestTag executes a basic gorm delete call
+	DeleteTestTag(ctx context.Context, in *TestTag) error
+	// DeleteTestTagSet executes a basic gorm delete set call
+	DeleteTestTagSet(ctx context.Context, in []*TestTag) error
+	// StrictUpdateTestTag clears first level 1:many children and then executes a gorm update call
+	StrictUpdateTestTag(ctx context.Context, in *TestTag) (*TestTag, error)
+	// PatchTestTag executes a basic gorm update call with patch behavior
+	PatchTestTag(ctx context.Context, in *TestTag, updateMask *field_mask1.FieldMask) (*TestTag, error)
+}
+
+func NewTestTagRepository(db *gorm2.DB) (TestTagRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &TestTagRepository{db: db}, nil
+}
+
+// DefaultTestTagRepository implements TestTagRepository
+type DefaultTestTagRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultTestTagRepository) CreateTestTag(ctx context.Context, in *TestTag) (*TestTag, error) {
+	return DefaultCreateTestTag(ctx, in, r.db)
+}
+func (r *DefaultTestTagRepository) ReadTestTag(ctx context.Context, in *TestTag) (*TestTag, error) {
+	return DefaultReadTestTag(ctx, in, r.db)
+}
+func (r *DefaultTestTagRepository) DeleteTestTag(ctx context.Context, in *TestTag) (*TestTag, error) {
+	return DefaultDeleteTestTag(ctx, in, r.db)
+}
+func (r *DefaultTestTagRepository) DeleteTestTagSet(ctx context.Context, in []*TestTag) (*TestTag, error) {
+	return DefaultDeleteTestTagSet(ctx, in, r.db)
+}
+func (r *DefaultTestTagRepository) StrictUpdateTestTag(ctx context.Context, in *TestTag) (*TestTag, error) {
+	return DefaultStrictUpdateTestTag(ctx, in, r.db)
+}
+func (r *DefaultTestTagRepository) PatchTestTag(ctx context.Context, in *TestTag, updateMask *field_mask1.FieldMask) (*TestTag, error) {
+	return DefaultPatchTestTag(ctx, in, updateMask, r.db)
+}
+func (r *DefaultTestTagRepository) ListTestTag(ctx context.Context) ([]*TestTag, error) {
+	return DefaultListTestTag(ctx, r.db, nil, nil, nil, nil)
+}
+
+// TestTagAssociationRepository is a default repository
+type TestTagAssociationRepository interface {
+	// CreateTestTagAssociation executes a basic gorm create call
+	CreateTestTagAssociation(ctx context.Context, in *TestTagAssociation) (*TestTagAssociation, error)
+	// ListTestTagAssociation executes a gorm list call
+	ListTestTagAssociation(ctx context.Context) ([]*TestTagAssociation, error)
+}
+
+func NewTestTagAssociationRepository(db *gorm2.DB) (TestTagAssociationRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &TestTagAssociationRepository{db: db}, nil
+}
+
+// DefaultTestTagAssociationRepository implements TestTagAssociationRepository
+type DefaultTestTagAssociationRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultTestTagAssociationRepository) CreateTestTagAssociation(ctx context.Context, in *TestTagAssociation) (*TestTagAssociation, error) {
+	return DefaultCreateTestTagAssociation(ctx, in, r.db)
+}
+func (r *DefaultTestTagAssociationRepository) ListTestTagAssociation(ctx context.Context) ([]*TestTagAssociation, error) {
+	return DefaultListTestTagAssociation(ctx, r.db, nil, nil, nil, nil)
+}
+
+// PrimaryIncludedRepository is a default repository
+type PrimaryIncludedRepository interface {
+	// CreatePrimaryIncluded executes a basic gorm create call
+	CreatePrimaryIncluded(ctx context.Context, in *PrimaryIncluded) (*PrimaryIncluded, error)
+	// ListPrimaryIncluded executes a gorm list call
+	ListPrimaryIncluded(ctx context.Context) ([]*PrimaryIncluded, error)
+}
+
+func NewPrimaryIncludedRepository(db *gorm2.DB) (PrimaryIncludedRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &PrimaryIncludedRepository{db: db}, nil
+}
+
+// DefaultPrimaryIncludedRepository implements PrimaryIncludedRepository
+type DefaultPrimaryIncludedRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultPrimaryIncludedRepository) CreatePrimaryIncluded(ctx context.Context, in *PrimaryIncluded) (*PrimaryIncluded, error) {
+	return DefaultCreatePrimaryIncluded(ctx, in, r.db)
+}
+func (r *DefaultPrimaryIncludedRepository) ListPrimaryIncluded(ctx context.Context) ([]*PrimaryIncluded, error) {
+	return DefaultListPrimaryIncluded(ctx, r.db, nil, nil, nil, nil)
 }

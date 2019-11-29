@@ -48,6 +48,7 @@ package example
 import context "context"
 
 import errors1 "github.com/partitio/protoc-gen-gorm/errors"
+import errors2 "errors"
 import field_mask1 "google.golang.org/genproto/protobuf/field_mask"
 import gateway1 "github.com/partitio/atlas-app-toolkit/gateway"
 import go_uuid1 "github.com/satori/go.uuid"
@@ -871,4 +872,108 @@ type BlogPostORMWithBeforeListFind interface {
 }
 type BlogPostORMWithAfterListFind interface {
 	AfterListFind(context.Context, *gorm1.DB, *[]BlogPostORM) error
+}
+
+// ExternalChildRepository is a default repository
+type ExternalChildRepository interface {
+	// CreateExternalChild executes a basic gorm create call
+	CreateExternalChild(ctx context.Context, in *ExternalChild) (*ExternalChild, error)
+	// ListExternalChild executes a gorm list call
+	ListExternalChild(ctx context.Context) ([]*ExternalChild, error)
+	// ReadExternalChild executes a basic gorm read call
+	ReadExternalChild(ctx context.Context, in *ExternalChild) (*ExternalChild, error)
+	// DeleteExternalChild executes a basic gorm delete call
+	DeleteExternalChild(ctx context.Context, in *ExternalChild) error
+	// DeleteExternalChildSet executes a basic gorm delete set call
+	DeleteExternalChildSet(ctx context.Context, in []*ExternalChild) error
+	// StrictUpdateExternalChild clears first level 1:many children and then executes a gorm update call
+	StrictUpdateExternalChild(ctx context.Context, in *ExternalChild) (*ExternalChild, error)
+	// PatchExternalChild executes a basic gorm update call with patch behavior
+	PatchExternalChild(ctx context.Context, in *ExternalChild, updateMask *field_mask1.FieldMask) (*ExternalChild, error)
+}
+
+func NewExternalChildRepository(db *gorm2.DB) (ExternalChildRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &ExternalChildRepository{db: db}, nil
+}
+
+// DefaultExternalChildRepository implements ExternalChildRepository
+type DefaultExternalChildRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultExternalChildRepository) CreateExternalChild(ctx context.Context, in *ExternalChild) (*ExternalChild, error) {
+	return DefaultCreateExternalChild(ctx, in, r.db)
+}
+func (r *DefaultExternalChildRepository) ReadExternalChild(ctx context.Context, in *ExternalChild) (*ExternalChild, error) {
+	return DefaultReadExternalChild(ctx, in, r.db)
+}
+func (r *DefaultExternalChildRepository) DeleteExternalChild(ctx context.Context, in *ExternalChild) (*ExternalChild, error) {
+	return DefaultDeleteExternalChild(ctx, in, r.db)
+}
+func (r *DefaultExternalChildRepository) DeleteExternalChildSet(ctx context.Context, in []*ExternalChild) (*ExternalChild, error) {
+	return DefaultDeleteExternalChildSet(ctx, in, r.db)
+}
+func (r *DefaultExternalChildRepository) StrictUpdateExternalChild(ctx context.Context, in *ExternalChild) (*ExternalChild, error) {
+	return DefaultStrictUpdateExternalChild(ctx, in, r.db)
+}
+func (r *DefaultExternalChildRepository) PatchExternalChild(ctx context.Context, in *ExternalChild, updateMask *field_mask1.FieldMask) (*ExternalChild, error) {
+	return DefaultPatchExternalChild(ctx, in, updateMask, r.db)
+}
+func (r *DefaultExternalChildRepository) ListExternalChild(ctx context.Context) ([]*ExternalChild, error) {
+	return DefaultListExternalChild(ctx, r.db, nil, nil, nil, nil)
+}
+
+// BlogPostRepository is a default repository
+type BlogPostRepository interface {
+	// CreateBlogPost executes a basic gorm create call
+	CreateBlogPost(ctx context.Context, in *BlogPost) (*BlogPost, error)
+	// ListBlogPost executes a gorm list call
+	ListBlogPost(ctx context.Context) ([]*BlogPost, error)
+	// ReadBlogPost executes a basic gorm read call
+	ReadBlogPost(ctx context.Context, in *BlogPost) (*BlogPost, error)
+	// DeleteBlogPost executes a basic gorm delete call
+	DeleteBlogPost(ctx context.Context, in *BlogPost) error
+	// DeleteBlogPostSet executes a basic gorm delete set call
+	DeleteBlogPostSet(ctx context.Context, in []*BlogPost) error
+	// StrictUpdateBlogPost clears first level 1:many children and then executes a gorm update call
+	StrictUpdateBlogPost(ctx context.Context, in *BlogPost) (*BlogPost, error)
+	// PatchBlogPost executes a basic gorm update call with patch behavior
+	PatchBlogPost(ctx context.Context, in *BlogPost, updateMask *field_mask1.FieldMask) (*BlogPost, error)
+}
+
+func NewBlogPostRepository(db *gorm2.DB) (BlogPostRepository, error) {
+	if db == nil {
+		return nil, errors2.New("db cannot be nil")
+	}
+	return &BlogPostRepository{db: db}, nil
+}
+
+// DefaultBlogPostRepository implements BlogPostRepository
+type DefaultBlogPostRepository struct {
+	db *gorm1.DB
+}
+
+func (r *DefaultBlogPostRepository) CreateBlogPost(ctx context.Context, in *BlogPost) (*BlogPost, error) {
+	return DefaultCreateBlogPost(ctx, in, r.db)
+}
+func (r *DefaultBlogPostRepository) ReadBlogPost(ctx context.Context, in *BlogPost) (*BlogPost, error) {
+	return DefaultReadBlogPost(ctx, in, r.db)
+}
+func (r *DefaultBlogPostRepository) DeleteBlogPost(ctx context.Context, in *BlogPost) (*BlogPost, error) {
+	return DefaultDeleteBlogPost(ctx, in, r.db)
+}
+func (r *DefaultBlogPostRepository) DeleteBlogPostSet(ctx context.Context, in []*BlogPost) (*BlogPost, error) {
+	return DefaultDeleteBlogPostSet(ctx, in, r.db)
+}
+func (r *DefaultBlogPostRepository) StrictUpdateBlogPost(ctx context.Context, in *BlogPost) (*BlogPost, error) {
+	return DefaultStrictUpdateBlogPost(ctx, in, r.db)
+}
+func (r *DefaultBlogPostRepository) PatchBlogPost(ctx context.Context, in *BlogPost, updateMask *field_mask1.FieldMask) (*BlogPost, error) {
+	return DefaultPatchBlogPost(ctx, in, updateMask, r.db)
+}
+func (r *DefaultBlogPostRepository) ListBlogPost(ctx context.Context) ([]*BlogPost, error) {
+	return DefaultListBlogPost(ctx, r.db, nil, nil, nil, nil)
 }

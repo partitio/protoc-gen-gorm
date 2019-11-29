@@ -103,6 +103,7 @@ type OrmPlugin struct {
 	messages        map[string]struct{}
 	ormableServices []autogenService
 	suppressWarn    bool
+	repository      bool
 }
 
 func (p *OrmPlugin) setFile(file *generator.FileDescriptor) {
@@ -129,6 +130,9 @@ func (p *OrmPlugin) Init(g *generator.Generator) {
 	}
 	if strings.EqualFold(g.Param["enums"], "string") {
 		p.stringEnums = true
+	}
+	if _, ok := g.Param["repository"]; ok {
+		p.repository = true
 	}
 	if _, ok := g.Param["gateway"]; ok {
 		p.gateway = true
@@ -204,6 +208,9 @@ func (p *OrmPlugin) Generate(file *generator.FileDescriptor) {
 	}
 	p.generateDefaultHandlers(file)
 	p.generateDefaultServer(file)
+	if p.repository {
+		p.generateDefaultRepository(file)
+	}
 	// no ormable objects, and no imports (means no services generated)
 	if empty && len(p.GetFileImports().packages) == 0 {
 		p.EmptyFiles = append(p.EmptyFiles, file.GetName())
