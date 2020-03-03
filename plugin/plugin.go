@@ -207,7 +207,8 @@ func (p *OrmPlugin) Generate(file *generator.FileDescriptor) {
 		}
 	}
 	p.generateDefaultHandlers(file)
-	p.generateDefaultServer(file)
+	p.generateDefaultMicroServer(file)
+	p.generateDefaultGRPCServer(file)
 	if p.repository {
 		p.generateDefaultRepository(file)
 	}

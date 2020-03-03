@@ -100,7 +100,7 @@ func (p *OrmPlugin) parseServices(file *generator.FileDescriptor) {
 	}
 }
 
-func (p *OrmPlugin) generateDefaultServer(file *generator.FileDescriptor) {
+func (p *OrmPlugin) generateDefaultMicroServer(file *generator.FileDescriptor) {
 	for _, service := range p.ormableServices {
 		if service.file != file || !service.autogen {
 			continue
@@ -131,6 +131,34 @@ func (p *OrmPlugin) generateDefaultServer(file *generator.FileDescriptor) {
 		}
 	}
 }
+
+func (p *OrmPlugin) generateDefaultGRPCServer(file *generator.FileDescriptor) {
+	for _, service := range p.ormableServices {
+		if service.file != file || !service.autogen {
+			continue
+		}
+		p.P(`type `, service.ccName, `DefaultGRPCServer struct {`)
+		p.P(`s *`, service.ccName, `DefaultServer`)
+		p.P(`}`)
+		p.P(`func New`, service.ccName, `DefaultGRPCServer(db *`, p.Import(gormImport), `.DB) *`, service.ccName, `DefaultGRPCServer {`)
+		p.P(`return &`, service.ccName, `DefaultGRPCServer{s: &`, service.ccName, `DefaultServer{DB: db}}`)
+		p.P(`}`)
+		for _, method := range service.methods {
+			p.UsingGoImports("context")
+			p.P(`// `, method.ccName, ` ...`)
+			p.P(`func (m *`, service.GetName(), `DefaultGRPCServer) `, method.ccName, ` (ctx context.Context, in *`,
+				p.TypeName(method.inType), `) (*`, p.TypeName(method.outType), `, error) {`)
+
+			p.P(`out := &`, p.TypeName(method.outType), `{}`)
+			p.P(`if err := m.s.`, method.ccName, `(ctx, in, out); err != nil {`)
+			p.P(`return nil, err`)
+			p.P(`}`)
+			p.P(`return out, nil`)
+			p.P(`}`)
+		}
+	}
+}
+
 
 func (p *OrmPlugin) generateCreateServerMethod(service autogenService, method autogenMethod) {
 	p.generateMethodSignature(service, method)
