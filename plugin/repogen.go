@@ -84,11 +84,14 @@ func (p *OrmPlugin) generateRepositoryInterface(typeName string, all bool) {
 	p.P(`}`)
 }
 func (p *OrmPlugin) generateRepositoryConstructor(typeName string) {
-	p.P(`func New`, typeName, `Repository(db *`, p.Import(tkgormImport), `.DB) (`, typeName, `Repository, error) {`)
+	p.P(`func New`, typeName, `Repository(db *`, p.Import(gormImport), `.DB) (`, typeName, `Repository, error) {`)
 	p.P(`if db == nil {`)
 	p.P(`return nil, `, p.Import("errors"), `.New("db cannot be nil")`)
 	p.P(`}`)
-	p.P(`return &`, typeName, `Repository{db: db}, nil`)
+	p.P(`if err := db.AutoMigrate(&`, typeName, `ORM{}).Error; err != nil {`)
+	p.P(`return nil, err`)
+	p.P(`}`)
+	p.P(`return &Default`, typeName, `Repository{db: db}, nil`)
 	p.P(`}`)
 }
 func (p *OrmPlugin) generateDefaultRepositoryStruct(typeName string) {
@@ -120,13 +123,13 @@ func (p *OrmPlugin) generateRepoReadHandler(typeName string) {
 }
 
 func (p *OrmPlugin) generateRepoDeleteHandler(typeName string) {
-	p.P(`func (r *Default`, typeName, `Repository) Delete`, typeName, `(ctx context.Context, in *`, typeName, `) (*`, typeName, `, error) {`)
+	p.P(`func (r *Default`, typeName, `Repository) Delete`, typeName, `(ctx context.Context, in *`, typeName, `) error {`)
 	p.P(`return DefaultDelete`, typeName, `(ctx, in, r.db)`)
 	p.P(`}`)
 }
 
 func (p *OrmPlugin) generateRepoDeleteSetHandler(typeName string) {
-	p.P(`func (r *Default`, typeName, `Repository) Delete`, typeName, `Set(ctx context.Context, in []*`, typeName, `) (*`, typeName, `, error) {`)
+	p.P(`func (r *Default`, typeName, `Repository) Delete`, typeName, `Set(ctx context.Context, in []*`, typeName, `) error {`)
 	p.P(`return DefaultDelete`, typeName, `Set(ctx, in, r.db)`)
 	p.P(`}`)
 }
@@ -147,34 +150,26 @@ func (p *OrmPlugin) generateRepoPatchHandler(typeName string) {
 func (p *OrmPlugin) generateRepoListHandler(typeName string) {
 	ormable := p.getOrmable(typeName)
 	listSign := fmt.Sprint(`func (r *Default`, typeName, `Repository) List`, typeName, `(ctx context.Context`)
-	var f, s, pg, fs string
+	var args string
 	if p.listHasFiltering(ormable) {
 		listSign += fmt.Sprint(`, f `, `*`, p.Import(queryImport), `.Filtering`)
-		f = "f"
-	} else {
-		f = "nil"
+		args += "f"
 	}
 	if p.listHasSorting(ormable) {
 		listSign += fmt.Sprint(`, s `, `*`, p.Import(queryImport), `.Sorting`)
-		s = "s"
-	} else {
-		s = "nil"
+		args += ", s"
 	}
 	if p.listHasPagination(ormable) {
 		listSign += fmt.Sprint(`, p `, `*`, p.Import(queryImport), `.Pagination`)
-		pg = "p"
-	} else {
-		pg = "nil"
+		args += ", p"
 	}
 	selectFields := p.listHasFieldSelection(ormable)
 	if selectFields {
 		listSign += fmt.Sprint(`, fs `, `*`, p.Import(queryImport), `.FieldSelection`)
-		fs = "fs"
-	} else {
-		fs = "nil"
+		args += ", fs"
 	}
 	listSign += fmt.Sprint(`) ([]*`, typeName, `, error) {`)
 	p.P(listSign)
-	p.P(`return DefaultList`, typeName, `(ctx, r.db, `, f, `, `, s, `, `, pg, `, `, fs, `)`)
+	p.P(`return DefaultList`, typeName, `(ctx, r.db, `, args,`)`)
 	p.P(`}`)
 }
