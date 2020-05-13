@@ -892,11 +892,14 @@ type ExternalChildRepository interface {
 	PatchExternalChild(ctx context.Context, in *ExternalChild, updateMask *field_mask1.FieldMask) (*ExternalChild, error)
 }
 
-func NewExternalChildRepository(db *gorm2.DB) (ExternalChildRepository, error) {
+func NewExternalChildRepository(db *gorm1.DB) (ExternalChildRepository, error) {
 	if db == nil {
 		return nil, errors2.New("db cannot be nil")
 	}
-	return &ExternalChildRepository{db: db}, nil
+	if err := db.AutoMigrate(&ExternalChildORM{}).Error; err != nil {
+		return nil, err
+	}
+	return &DefaultExternalChildRepository{db: db}, nil
 }
 
 // DefaultExternalChildRepository implements ExternalChildRepository
@@ -910,10 +913,10 @@ func (r *DefaultExternalChildRepository) CreateExternalChild(ctx context.Context
 func (r *DefaultExternalChildRepository) ReadExternalChild(ctx context.Context, in *ExternalChild) (*ExternalChild, error) {
 	return DefaultReadExternalChild(ctx, in, r.db)
 }
-func (r *DefaultExternalChildRepository) DeleteExternalChild(ctx context.Context, in *ExternalChild) (*ExternalChild, error) {
+func (r *DefaultExternalChildRepository) DeleteExternalChild(ctx context.Context, in *ExternalChild) error {
 	return DefaultDeleteExternalChild(ctx, in, r.db)
 }
-func (r *DefaultExternalChildRepository) DeleteExternalChildSet(ctx context.Context, in []*ExternalChild) (*ExternalChild, error) {
+func (r *DefaultExternalChildRepository) DeleteExternalChildSet(ctx context.Context, in []*ExternalChild) error {
 	return DefaultDeleteExternalChildSet(ctx, in, r.db)
 }
 func (r *DefaultExternalChildRepository) StrictUpdateExternalChild(ctx context.Context, in *ExternalChild) (*ExternalChild, error) {
@@ -923,7 +926,7 @@ func (r *DefaultExternalChildRepository) PatchExternalChild(ctx context.Context,
 	return DefaultPatchExternalChild(ctx, in, updateMask, r.db)
 }
 func (r *DefaultExternalChildRepository) ListExternalChild(ctx context.Context) ([]*ExternalChild, error) {
-	return DefaultListExternalChild(ctx, r.db, nil, nil, nil, nil)
+	return DefaultListExternalChild(ctx, r.db)
 }
 
 // BlogPostRepository is a default repository
@@ -944,11 +947,14 @@ type BlogPostRepository interface {
 	PatchBlogPost(ctx context.Context, in *BlogPost, updateMask *field_mask1.FieldMask) (*BlogPost, error)
 }
 
-func NewBlogPostRepository(db *gorm2.DB) (BlogPostRepository, error) {
+func NewBlogPostRepository(db *gorm1.DB) (BlogPostRepository, error) {
 	if db == nil {
 		return nil, errors2.New("db cannot be nil")
 	}
-	return &BlogPostRepository{db: db}, nil
+	if err := db.AutoMigrate(&BlogPostORM{}).Error; err != nil {
+		return nil, err
+	}
+	return &DefaultBlogPostRepository{db: db}, nil
 }
 
 // DefaultBlogPostRepository implements BlogPostRepository
@@ -962,10 +968,10 @@ func (r *DefaultBlogPostRepository) CreateBlogPost(ctx context.Context, in *Blog
 func (r *DefaultBlogPostRepository) ReadBlogPost(ctx context.Context, in *BlogPost) (*BlogPost, error) {
 	return DefaultReadBlogPost(ctx, in, r.db)
 }
-func (r *DefaultBlogPostRepository) DeleteBlogPost(ctx context.Context, in *BlogPost) (*BlogPost, error) {
+func (r *DefaultBlogPostRepository) DeleteBlogPost(ctx context.Context, in *BlogPost) error {
 	return DefaultDeleteBlogPost(ctx, in, r.db)
 }
-func (r *DefaultBlogPostRepository) DeleteBlogPostSet(ctx context.Context, in []*BlogPost) (*BlogPost, error) {
+func (r *DefaultBlogPostRepository) DeleteBlogPostSet(ctx context.Context, in []*BlogPost) error {
 	return DefaultDeleteBlogPostSet(ctx, in, r.db)
 }
 func (r *DefaultBlogPostRepository) StrictUpdateBlogPost(ctx context.Context, in *BlogPost) (*BlogPost, error) {
@@ -975,5 +981,5 @@ func (r *DefaultBlogPostRepository) PatchBlogPost(ctx context.Context, in *BlogP
 	return DefaultPatchBlogPost(ctx, in, updateMask, r.db)
 }
 func (r *DefaultBlogPostRepository) ListBlogPost(ctx context.Context) ([]*BlogPost, error) {
-	return DefaultListBlogPost(ctx, r.db, nil, nil, nil, nil)
+	return DefaultListBlogPost(ctx, r.db)
 }

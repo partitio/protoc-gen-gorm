@@ -92,18 +92,19 @@ func NewOrmableType(oname, pkg string, file *generator.FileDescriptor) *OrmableT
 // OrmPlugin implements the plugin interface and creates GORM code from .protos
 type OrmPlugin struct {
 	*generator.Generator
-	dbEngine        int
-	stringEnums     bool
-	gateway         bool
-	ormableTypes    map[string]*OrmableType
-	EmptyFiles      []string
-	currentPackage  string
-	currentFile     *generator.FileDescriptor
-	fileImports     map[*generator.FileDescriptor]*fileImports
-	messages        map[string]struct{}
-	ormableServices []autogenService
-	suppressWarn    bool
-	repository      bool
+	dbEngine              int
+	stringEnums           bool
+	stringEnumsIgnoreZero bool
+	gateway               bool
+	ormableTypes          map[string]*OrmableType
+	EmptyFiles            []string
+	currentPackage        string
+	currentFile           *generator.FileDescriptor
+	fileImports           map[*generator.FileDescriptor]*fileImports
+	messages              map[string]struct{}
+	ormableServices       []autogenService
+	suppressWarn          bool
+	repository            bool
 }
 
 func (p *OrmPlugin) setFile(file *generator.FileDescriptor) {
@@ -130,6 +131,9 @@ func (p *OrmPlugin) Init(g *generator.Generator) {
 	}
 	if strings.EqualFold(g.Param["enums"], "string") {
 		p.stringEnums = true
+	}
+	if strings.EqualFold(g.Param["enums"], "string_ignore_zero") {
+		p.stringEnumsIgnoreZero = true
 	}
 	if _, ok := g.Param["repository"]; ok {
 		p.repository = true
@@ -255,11 +259,11 @@ func (p *OrmPlugin) parseBasicFields(msg *generator.Descriptor) {
 			continue
 		} else if *(field.Type) == typeEnum {
 			fieldType = "int32"
-			if p.stringEnums {
+			if p.stringEnums || p.stringEnumsIgnoreZero {
 				fieldType = "string"
 			}
 		} else if *(field.Type) == typeMessage {
-			//Check for WKTs or fields of nonormable types
+			// Check for WKTs or fields of nonormable types
 			parts := strings.Split(fieldType, ".")
 			rawType := parts[len(parts)-1]
 			if v, exists := wellKnownTypes[rawType]; exists {
@@ -630,7 +634,7 @@ func (p *OrmPlugin) generateConvertFunctions(message *generator.Descriptor) {
 	typeName := p.TypeName(message)
 	ormable := p.getOrmable(generator.CamelCaseSlice(message.TypeName()))
 
-	///// To Orm
+	// /// To Orm
 	p.P(`// ToORM runs the BeforeToORM hook if present, converts the fields of this`)
 	p.P(`// object to ORM format, runs the AfterToORM hook, then returns the ORM object`)
 	p.P(`func (m *`, typeName, `) ToORM (ctx context.Context) (`, typeName, `ORM, error) {`)
@@ -664,7 +668,7 @@ func (p *OrmPlugin) generateConvertFunctions(message *generator.Descriptor) {
 	p.P(`}`)
 
 	p.P()
-	///// To Pb
+	// /// To Pb
 	p.P(`// ToPB runs the BeforeToPB hook if present, converts the fields of this`)
 	p.P(`// object to PB format, runs the AfterToPB hook, then returns the PB object`)
 	p.P(`func (m *`, typeName, `ORM) ToPB (ctx context.Context) (`,
@@ -712,7 +716,7 @@ func (p *OrmPlugin) generateFieldConversion(message *generator.Descriptor, field
 			p.P(`copy(to.`, fieldName, `, m.`, fieldName, `)`)
 			p.P(`}`)
 		} else if p.isOrmable(fieldType) { // Repeated ORMable type
-			//fieldType = strings.Trim(fieldType, "[]*")
+			// fieldType = strings.Trim(fieldType, "[]*")
 
 			p.P(`for _, v := range m.`, fieldName, ` {`)
 			p.P(`if v != nil {`)
@@ -736,18 +740,22 @@ func (p *OrmPlugin) generateFieldConversion(message *generator.Descriptor, field
 		if toORM {
 			if p.stringEnums {
 				p.P(`to.`, fieldName, ` = `, fieldType, `_name[int32(m.`, fieldName, `)]`)
+			} else if p.stringEnumsIgnoreZero {
+				p.P(`if m.`, fieldName, `!= 0 {`)
+				p.P(`to.`, fieldName, ` = `, fieldType, `_name[int32(m.`, fieldName, `)]`)
+				p.P(`}`)
 			} else {
 				p.P(`to.`, fieldName, ` = int32(m.`, fieldName, `)`)
 			}
 		} else {
-			if p.stringEnums {
+			if p.stringEnums || p.stringEnumsIgnoreZero {
 				p.P(`to.`, fieldName, ` = `, fieldType, `(`, fieldType, `_value[m.`, fieldName, `])`)
 			} else {
 				p.P(`to.`, fieldName, ` = `, fieldType, `(m.`, fieldName, `)`)
 			}
 		}
 	} else if *(field.Type) == typeMessage { // Singular Object -------------
-		//Check for WKTs
+		// Check for WKTs
 		parts := strings.Split(fieldType, ".")
 		coreType := parts[len(parts)-1]
 		// Type is a WKT, convert to/from as ptr to base type
