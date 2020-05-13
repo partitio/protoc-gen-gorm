@@ -1317,6 +1317,182 @@ type CircleServiceCircleWithBeforeList interface {
 type CircleServiceCircleWithAfterList interface {
 	AfterList(context.Context, *ListCircleResponse, *gorm1.DB) error
 }
+type IntPointServiceDefaultGRPCServer struct {
+	s *IntPointServiceDefaultServer
+}
+
+func NewIntPointServiceDefaultGRPCServer(db *gorm1.DB) *IntPointServiceDefaultGRPCServer {
+	return &IntPointServiceDefaultGRPCServer{s: &IntPointServiceDefaultServer{DB: db}}
+}
+
+// Create ...
+func (m *IntPointServiceDefaultGRPCServer) Create(ctx context.Context, in *CreateIntPointRequest) (*CreateIntPointResponse, error) {
+	out := &CreateIntPointResponse{}
+	if err := m.s.Create(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Read ...
+func (m *IntPointServiceDefaultGRPCServer) Read(ctx context.Context, in *ReadIntPointRequest) (*ReadIntPointResponse, error) {
+	out := &ReadIntPointResponse{}
+	if err := m.s.Read(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Update ...
+func (m *IntPointServiceDefaultGRPCServer) Update(ctx context.Context, in *UpdateIntPointRequest) (*UpdateIntPointResponse, error) {
+	out := &UpdateIntPointResponse{}
+	if err := m.s.Update(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// List ...
+func (m *IntPointServiceDefaultGRPCServer) List(ctx context.Context, in *ListIntPointRequest) (*ListIntPointResponse, error) {
+	out := &ListIntPointResponse{}
+	if err := m.s.List(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ListSomething ...
+func (m *IntPointServiceDefaultGRPCServer) ListSomething(ctx context.Context, in *google_protobuf2.Empty) (*ListSomethingResponse, error) {
+	out := &ListSomethingResponse{}
+	if err := m.s.ListSomething(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Delete ...
+func (m *IntPointServiceDefaultGRPCServer) Delete(ctx context.Context, in *DeleteIntPointRequest) (*DeleteIntPointResponse, error) {
+	out := &DeleteIntPointResponse{}
+	if err := m.s.Delete(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CustomMethod ...
+func (m *IntPointServiceDefaultGRPCServer) CustomMethod(ctx context.Context, in *google_protobuf2.Empty) (*google_protobuf2.Empty, error) {
+	out := &google_protobuf2.Empty{}
+	if err := m.s.CustomMethod(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CreateSomething ...
+func (m *IntPointServiceDefaultGRPCServer) CreateSomething(ctx context.Context, in *Something) (*Something, error) {
+	out := &Something{}
+	if err := m.s.CreateSomething(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+type IntPointTxnDefaultGRPCServer struct {
+	s *IntPointTxnDefaultServer
+}
+
+func NewIntPointTxnDefaultGRPCServer(db *gorm1.DB) *IntPointTxnDefaultGRPCServer {
+	return &IntPointTxnDefaultGRPCServer{s: &IntPointTxnDefaultServer{DB: db}}
+}
+
+// Create ...
+func (m *IntPointTxnDefaultGRPCServer) Create(ctx context.Context, in *CreateIntPointRequest) (*CreateIntPointResponse, error) {
+	out := &CreateIntPointResponse{}
+	if err := m.s.Create(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Read ...
+func (m *IntPointTxnDefaultGRPCServer) Read(ctx context.Context, in *ReadIntPointRequest) (*ReadIntPointResponse, error) {
+	out := &ReadIntPointResponse{}
+	if err := m.s.Read(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Update ...
+func (m *IntPointTxnDefaultGRPCServer) Update(ctx context.Context, in *UpdateIntPointRequest) (*UpdateIntPointResponse, error) {
+	out := &UpdateIntPointResponse{}
+	if err := m.s.Update(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// List ...
+func (m *IntPointTxnDefaultGRPCServer) List(ctx context.Context, in *ListIntPointRequest) (*ListIntPointResponse, error) {
+	out := &ListIntPointResponse{}
+	if err := m.s.List(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Delete ...
+func (m *IntPointTxnDefaultGRPCServer) Delete(ctx context.Context, in *DeleteIntPointRequest) (*DeleteIntPointResponse, error) {
+	out := &DeleteIntPointResponse{}
+	if err := m.s.Delete(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// DeleteSet ...
+func (m *IntPointTxnDefaultGRPCServer) DeleteSet(ctx context.Context, in *DeleteIntPointsRequest) (*DeleteIntPointResponse, error) {
+	out := &DeleteIntPointResponse{}
+	if err := m.s.DeleteSet(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CustomMethod ...
+func (m *IntPointTxnDefaultGRPCServer) CustomMethod(ctx context.Context, in *google_protobuf2.Empty) (*google_protobuf2.Empty, error) {
+	out := &google_protobuf2.Empty{}
+	if err := m.s.CustomMethod(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CreateSomething ...
+func (m *IntPointTxnDefaultGRPCServer) CreateSomething(ctx context.Context, in *Something) (*Something, error) {
+	out := &Something{}
+	if err := m.s.CreateSomething(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+type CircleServiceDefaultGRPCServer struct {
+	s *CircleServiceDefaultServer
+}
+
+func NewCircleServiceDefaultGRPCServer(db *gorm1.DB) *CircleServiceDefaultGRPCServer {
+	return &CircleServiceDefaultGRPCServer{s: &CircleServiceDefaultServer{DB: db}}
+}
+
+// List ...
+func (m *CircleServiceDefaultGRPCServer) List(ctx context.Context, in *ListCircleRequest) (*ListCircleResponse, error) {
+	out := &ListCircleResponse{}
+	if err := m.s.List(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
 
 // IntPointRepository is a default repository
 type IntPointRepository interface {
@@ -1336,11 +1512,14 @@ type IntPointRepository interface {
 	PatchIntPoint(ctx context.Context, in *IntPoint, updateMask *field_mask1.FieldMask) (*IntPoint, error)
 }
 
-func NewIntPointRepository(db *gorm2.DB) (IntPointRepository, error) {
+func NewIntPointRepository(db *gorm1.DB) (IntPointRepository, error) {
 	if db == nil {
 		return nil, errors2.New("db cannot be nil")
 	}
-	return &IntPointRepository{db: db}, nil
+	if err := db.AutoMigrate(&IntPointORM{}).Error; err != nil {
+		return nil, err
+	}
+	return &DefaultIntPointRepository{db: db}, nil
 }
 
 // DefaultIntPointRepository implements IntPointRepository
@@ -1354,10 +1533,10 @@ func (r *DefaultIntPointRepository) CreateIntPoint(ctx context.Context, in *IntP
 func (r *DefaultIntPointRepository) ReadIntPoint(ctx context.Context, in *IntPoint, fs *query1.FieldSelection) (*IntPoint, error) {
 	return DefaultReadIntPoint(ctx, in, r.db, fs)
 }
-func (r *DefaultIntPointRepository) DeleteIntPoint(ctx context.Context, in *IntPoint) (*IntPoint, error) {
+func (r *DefaultIntPointRepository) DeleteIntPoint(ctx context.Context, in *IntPoint) error {
 	return DefaultDeleteIntPoint(ctx, in, r.db)
 }
-func (r *DefaultIntPointRepository) DeleteIntPointSet(ctx context.Context, in []*IntPoint) (*IntPoint, error) {
+func (r *DefaultIntPointRepository) DeleteIntPointSet(ctx context.Context, in []*IntPoint) error {
 	return DefaultDeleteIntPointSet(ctx, in, r.db)
 }
 func (r *DefaultIntPointRepository) StrictUpdateIntPoint(ctx context.Context, in *IntPoint) (*IntPoint, error) {
@@ -1378,11 +1557,14 @@ type SomethingRepository interface {
 	ListSomething(ctx context.Context) ([]*Something, error)
 }
 
-func NewSomethingRepository(db *gorm2.DB) (SomethingRepository, error) {
+func NewSomethingRepository(db *gorm1.DB) (SomethingRepository, error) {
 	if db == nil {
 		return nil, errors2.New("db cannot be nil")
 	}
-	return &SomethingRepository{db: db}, nil
+	if err := db.AutoMigrate(&SomethingORM{}).Error; err != nil {
+		return nil, err
+	}
+	return &DefaultSomethingRepository{db: db}, nil
 }
 
 // DefaultSomethingRepository implements SomethingRepository
@@ -1394,7 +1576,7 @@ func (r *DefaultSomethingRepository) CreateSomething(ctx context.Context, in *So
 	return DefaultCreateSomething(ctx, in, r.db)
 }
 func (r *DefaultSomethingRepository) ListSomething(ctx context.Context) ([]*Something, error) {
-	return DefaultListSomething(ctx, r.db, nil, nil, nil, nil)
+	return DefaultListSomething(ctx, r.db)
 }
 
 // CircleRepository is a default repository
@@ -1405,11 +1587,14 @@ type CircleRepository interface {
 	ListCircle(ctx context.Context) ([]*Circle, error)
 }
 
-func NewCircleRepository(db *gorm2.DB) (CircleRepository, error) {
+func NewCircleRepository(db *gorm1.DB) (CircleRepository, error) {
 	if db == nil {
 		return nil, errors2.New("db cannot be nil")
 	}
-	return &CircleRepository{db: db}, nil
+	if err := db.AutoMigrate(&CircleORM{}).Error; err != nil {
+		return nil, err
+	}
+	return &DefaultCircleRepository{db: db}, nil
 }
 
 // DefaultCircleRepository implements CircleRepository
@@ -1421,5 +1606,5 @@ func (r *DefaultCircleRepository) CreateCircle(ctx context.Context, in *Circle) 
 	return DefaultCreateCircle(ctx, in, r.db)
 }
 func (r *DefaultCircleRepository) ListCircle(ctx context.Context) ([]*Circle, error) {
-	return DefaultListCircle(ctx, r.db, nil, nil, nil, nil)
+	return DefaultListCircle(ctx, r.db)
 }

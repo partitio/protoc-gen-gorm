@@ -23,3 +23,20 @@ type BlogPostServiceDefaultServer struct {
 func (m *BlogPostServiceDefaultServer) Read(ctx context.Context, in *ReadAccountRequest, out *ReadBlogPostsResponse) error {
 	return nil
 }
+
+type BlogPostServiceDefaultGRPCServer struct {
+	s *BlogPostServiceDefaultServer
+}
+
+func NewBlogPostServiceDefaultGRPCServer(db *gorm1.DB) *BlogPostServiceDefaultGRPCServer {
+	return &BlogPostServiceDefaultGRPCServer{s: &BlogPostServiceDefaultServer{DB: db}}
+}
+
+// Read ...
+func (m *BlogPostServiceDefaultGRPCServer) Read(ctx context.Context, in *ReadAccountRequest) (*ReadBlogPostsResponse, error) {
+	out := &ReadBlogPostsResponse{}
+	if err := m.s.Read(ctx, in, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}

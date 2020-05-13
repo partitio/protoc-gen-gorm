@@ -2875,11 +2875,14 @@ type UserRepository interface {
 	PatchUser(ctx context.Context, in *User, updateMask *field_mask1.FieldMask) (*User, error)
 }
 
-func NewUserRepository(db *gorm2.DB) (UserRepository, error) {
+func NewUserRepository(db *gorm1.DB) (UserRepository, error) {
 	if db == nil {
 		return nil, errors2.New("db cannot be nil")
 	}
-	return &UserRepository{db: db}, nil
+	if err := db.AutoMigrate(&UserORM{}).Error; err != nil {
+		return nil, err
+	}
+	return &DefaultUserRepository{db: db}, nil
 }
 
 // DefaultUserRepository implements UserRepository
@@ -2893,10 +2896,10 @@ func (r *DefaultUserRepository) CreateUser(ctx context.Context, in *User) (*User
 func (r *DefaultUserRepository) ReadUser(ctx context.Context, in *User) (*User, error) {
 	return DefaultReadUser(ctx, in, r.db)
 }
-func (r *DefaultUserRepository) DeleteUser(ctx context.Context, in *User) (*User, error) {
+func (r *DefaultUserRepository) DeleteUser(ctx context.Context, in *User) error {
 	return DefaultDeleteUser(ctx, in, r.db)
 }
-func (r *DefaultUserRepository) DeleteUserSet(ctx context.Context, in []*User) (*User, error) {
+func (r *DefaultUserRepository) DeleteUserSet(ctx context.Context, in []*User) error {
 	return DefaultDeleteUserSet(ctx, in, r.db)
 }
 func (r *DefaultUserRepository) StrictUpdateUser(ctx context.Context, in *User) (*User, error) {
@@ -2906,7 +2909,7 @@ func (r *DefaultUserRepository) PatchUser(ctx context.Context, in *User, updateM
 	return DefaultPatchUser(ctx, in, updateMask, r.db)
 }
 func (r *DefaultUserRepository) ListUser(ctx context.Context) ([]*User, error) {
-	return DefaultListUser(ctx, r.db, nil, nil, nil, nil)
+	return DefaultListUser(ctx, r.db)
 }
 
 // EmailRepository is a default repository
@@ -2927,11 +2930,14 @@ type EmailRepository interface {
 	PatchEmail(ctx context.Context, in *Email, updateMask *field_mask1.FieldMask) (*Email, error)
 }
 
-func NewEmailRepository(db *gorm2.DB) (EmailRepository, error) {
+func NewEmailRepository(db *gorm1.DB) (EmailRepository, error) {
 	if db == nil {
 		return nil, errors2.New("db cannot be nil")
 	}
-	return &EmailRepository{db: db}, nil
+	if err := db.AutoMigrate(&EmailORM{}).Error; err != nil {
+		return nil, err
+	}
+	return &DefaultEmailRepository{db: db}, nil
 }
 
 // DefaultEmailRepository implements EmailRepository
@@ -2945,10 +2951,10 @@ func (r *DefaultEmailRepository) CreateEmail(ctx context.Context, in *Email) (*E
 func (r *DefaultEmailRepository) ReadEmail(ctx context.Context, in *Email) (*Email, error) {
 	return DefaultReadEmail(ctx, in, r.db)
 }
-func (r *DefaultEmailRepository) DeleteEmail(ctx context.Context, in *Email) (*Email, error) {
+func (r *DefaultEmailRepository) DeleteEmail(ctx context.Context, in *Email) error {
 	return DefaultDeleteEmail(ctx, in, r.db)
 }
-func (r *DefaultEmailRepository) DeleteEmailSet(ctx context.Context, in []*Email) (*Email, error) {
+func (r *DefaultEmailRepository) DeleteEmailSet(ctx context.Context, in []*Email) error {
 	return DefaultDeleteEmailSet(ctx, in, r.db)
 }
 func (r *DefaultEmailRepository) StrictUpdateEmail(ctx context.Context, in *Email) (*Email, error) {
@@ -2958,7 +2964,7 @@ func (r *DefaultEmailRepository) PatchEmail(ctx context.Context, in *Email, upda
 	return DefaultPatchEmail(ctx, in, updateMask, r.db)
 }
 func (r *DefaultEmailRepository) ListEmail(ctx context.Context) ([]*Email, error) {
-	return DefaultListEmail(ctx, r.db, nil, nil, nil, nil)
+	return DefaultListEmail(ctx, r.db)
 }
 
 // AddressRepository is a default repository
@@ -2979,11 +2985,14 @@ type AddressRepository interface {
 	PatchAddress(ctx context.Context, in *Address, updateMask *field_mask1.FieldMask) (*Address, error)
 }
 
-func NewAddressRepository(db *gorm2.DB) (AddressRepository, error) {
+func NewAddressRepository(db *gorm1.DB) (AddressRepository, error) {
 	if db == nil {
 		return nil, errors2.New("db cannot be nil")
 	}
-	return &AddressRepository{db: db}, nil
+	if err := db.AutoMigrate(&AddressORM{}).Error; err != nil {
+		return nil, err
+	}
+	return &DefaultAddressRepository{db: db}, nil
 }
 
 // DefaultAddressRepository implements AddressRepository
@@ -2997,10 +3006,10 @@ func (r *DefaultAddressRepository) CreateAddress(ctx context.Context, in *Addres
 func (r *DefaultAddressRepository) ReadAddress(ctx context.Context, in *Address) (*Address, error) {
 	return DefaultReadAddress(ctx, in, r.db)
 }
-func (r *DefaultAddressRepository) DeleteAddress(ctx context.Context, in *Address) (*Address, error) {
+func (r *DefaultAddressRepository) DeleteAddress(ctx context.Context, in *Address) error {
 	return DefaultDeleteAddress(ctx, in, r.db)
 }
-func (r *DefaultAddressRepository) DeleteAddressSet(ctx context.Context, in []*Address) (*Address, error) {
+func (r *DefaultAddressRepository) DeleteAddressSet(ctx context.Context, in []*Address) error {
 	return DefaultDeleteAddressSet(ctx, in, r.db)
 }
 func (r *DefaultAddressRepository) StrictUpdateAddress(ctx context.Context, in *Address) (*Address, error) {
@@ -3010,7 +3019,7 @@ func (r *DefaultAddressRepository) PatchAddress(ctx context.Context, in *Address
 	return DefaultPatchAddress(ctx, in, updateMask, r.db)
 }
 func (r *DefaultAddressRepository) ListAddress(ctx context.Context) ([]*Address, error) {
-	return DefaultListAddress(ctx, r.db, nil, nil, nil, nil)
+	return DefaultListAddress(ctx, r.db)
 }
 
 // LanguageRepository is a default repository
@@ -3031,11 +3040,14 @@ type LanguageRepository interface {
 	PatchLanguage(ctx context.Context, in *Language, updateMask *field_mask1.FieldMask) (*Language, error)
 }
 
-func NewLanguageRepository(db *gorm2.DB) (LanguageRepository, error) {
+func NewLanguageRepository(db *gorm1.DB) (LanguageRepository, error) {
 	if db == nil {
 		return nil, errors2.New("db cannot be nil")
 	}
-	return &LanguageRepository{db: db}, nil
+	if err := db.AutoMigrate(&LanguageORM{}).Error; err != nil {
+		return nil, err
+	}
+	return &DefaultLanguageRepository{db: db}, nil
 }
 
 // DefaultLanguageRepository implements LanguageRepository
@@ -3049,10 +3061,10 @@ func (r *DefaultLanguageRepository) CreateLanguage(ctx context.Context, in *Lang
 func (r *DefaultLanguageRepository) ReadLanguage(ctx context.Context, in *Language) (*Language, error) {
 	return DefaultReadLanguage(ctx, in, r.db)
 }
-func (r *DefaultLanguageRepository) DeleteLanguage(ctx context.Context, in *Language) (*Language, error) {
+func (r *DefaultLanguageRepository) DeleteLanguage(ctx context.Context, in *Language) error {
 	return DefaultDeleteLanguage(ctx, in, r.db)
 }
-func (r *DefaultLanguageRepository) DeleteLanguageSet(ctx context.Context, in []*Language) (*Language, error) {
+func (r *DefaultLanguageRepository) DeleteLanguageSet(ctx context.Context, in []*Language) error {
 	return DefaultDeleteLanguageSet(ctx, in, r.db)
 }
 func (r *DefaultLanguageRepository) StrictUpdateLanguage(ctx context.Context, in *Language) (*Language, error) {
@@ -3062,7 +3074,7 @@ func (r *DefaultLanguageRepository) PatchLanguage(ctx context.Context, in *Langu
 	return DefaultPatchLanguage(ctx, in, updateMask, r.db)
 }
 func (r *DefaultLanguageRepository) ListLanguage(ctx context.Context) ([]*Language, error) {
-	return DefaultListLanguage(ctx, r.db, nil, nil, nil, nil)
+	return DefaultListLanguage(ctx, r.db)
 }
 
 // CreditCardRepository is a default repository
@@ -3083,11 +3095,14 @@ type CreditCardRepository interface {
 	PatchCreditCard(ctx context.Context, in *CreditCard, updateMask *field_mask1.FieldMask) (*CreditCard, error)
 }
 
-func NewCreditCardRepository(db *gorm2.DB) (CreditCardRepository, error) {
+func NewCreditCardRepository(db *gorm1.DB) (CreditCardRepository, error) {
 	if db == nil {
 		return nil, errors2.New("db cannot be nil")
 	}
-	return &CreditCardRepository{db: db}, nil
+	if err := db.AutoMigrate(&CreditCardORM{}).Error; err != nil {
+		return nil, err
+	}
+	return &DefaultCreditCardRepository{db: db}, nil
 }
 
 // DefaultCreditCardRepository implements CreditCardRepository
@@ -3101,10 +3116,10 @@ func (r *DefaultCreditCardRepository) CreateCreditCard(ctx context.Context, in *
 func (r *DefaultCreditCardRepository) ReadCreditCard(ctx context.Context, in *CreditCard) (*CreditCard, error) {
 	return DefaultReadCreditCard(ctx, in, r.db)
 }
-func (r *DefaultCreditCardRepository) DeleteCreditCard(ctx context.Context, in *CreditCard) (*CreditCard, error) {
+func (r *DefaultCreditCardRepository) DeleteCreditCard(ctx context.Context, in *CreditCard) error {
 	return DefaultDeleteCreditCard(ctx, in, r.db)
 }
-func (r *DefaultCreditCardRepository) DeleteCreditCardSet(ctx context.Context, in []*CreditCard) (*CreditCard, error) {
+func (r *DefaultCreditCardRepository) DeleteCreditCardSet(ctx context.Context, in []*CreditCard) error {
 	return DefaultDeleteCreditCardSet(ctx, in, r.db)
 }
 func (r *DefaultCreditCardRepository) StrictUpdateCreditCard(ctx context.Context, in *CreditCard) (*CreditCard, error) {
@@ -3114,7 +3129,7 @@ func (r *DefaultCreditCardRepository) PatchCreditCard(ctx context.Context, in *C
 	return DefaultPatchCreditCard(ctx, in, updateMask, r.db)
 }
 func (r *DefaultCreditCardRepository) ListCreditCard(ctx context.Context) ([]*CreditCard, error) {
-	return DefaultListCreditCard(ctx, r.db, nil, nil, nil, nil)
+	return DefaultListCreditCard(ctx, r.db)
 }
 
 // TaskRepository is a default repository
@@ -3125,11 +3140,14 @@ type TaskRepository interface {
 	ListTask(ctx context.Context) ([]*Task, error)
 }
 
-func NewTaskRepository(db *gorm2.DB) (TaskRepository, error) {
+func NewTaskRepository(db *gorm1.DB) (TaskRepository, error) {
 	if db == nil {
 		return nil, errors2.New("db cannot be nil")
 	}
-	return &TaskRepository{db: db}, nil
+	if err := db.AutoMigrate(&TaskORM{}).Error; err != nil {
+		return nil, err
+	}
+	return &DefaultTaskRepository{db: db}, nil
 }
 
 // DefaultTaskRepository implements TaskRepository
@@ -3141,5 +3159,5 @@ func (r *DefaultTaskRepository) CreateTask(ctx context.Context, in *Task) (*Task
 	return DefaultCreateTask(ctx, in, r.db)
 }
 func (r *DefaultTaskRepository) ListTask(ctx context.Context) ([]*Task, error) {
-	return DefaultListTask(ctx, r.db, nil, nil, nil, nil)
+	return DefaultListTask(ctx, r.db)
 }
