@@ -74,6 +74,8 @@ github.com/partitio/atlas-app-toolkit v0.0.0-20180810144038-3237ef051031 h1:GhD3
 github.com/partitio/atlas-app-toolkit v0.0.0-20180810144038-3237ef051031/go.mod h1:DeDerruKrelNyHNhpOsjMzOJb0Qy97CzA5qsloKrZnk=
 github.com/partitio/atlas-app-toolkit v0.0.0-20190328190718-c1fb12986e25 h1:xCVCxkhg8wo3bb/3YpB5ilWk4AdA7XmXKDaljpNkb3M=
 github.com/partitio/atlas-app-toolkit v0.0.0-20190328190718-c1fb12986e25/go.mod h1:tOt0KXDdbborpqi8OPMarrPWkqu2YWX11oiGoLcuWCM=
+github.com/partitio/gogo-protobuf v1.0.1-0.20210521094738-1cd42496b840 h1:WS4sVodC3IUAJW0aRPlF/Pguq17G8qQ8lclczgvYeQo=
+github.com/partitio/gogo-protobuf v1.0.1-0.20210521094738-1cd42496b840/go.mod h1:1MuqE+k87cm7qr5N6wkQI2GABer6XVVC56JpaC+Mlis=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rcrowley/go-metrics v0.0.0-20181016184325-3113b8401b8a h1:9ZKAASQSHhDYGoxY8uLVpewe1GDZ2vu2Tr/vTdVAkFQ=
 github.com/rcrowley/go-metrics v0.0.0-20181016184325-3113b8401b8a/go.mod h1:bCqnVzQkZxMG4s8nGwiZ5l3QUCyqpo9Y+/ZMZ9VjZe4=

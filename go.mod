@@ -23,3 +23,5 @@ require (
 )
 
 go 1.13
+
+replace github.com/gogo/protobuf => github.com/partitio/gogo-protobuf v1.0.1-0.20210521094738-1cd42496b840
